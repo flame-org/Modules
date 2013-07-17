@@ -8,6 +8,7 @@
 namespace Flame\Modules\DI;
 
 use Flame\Modules\IModuleExtension;
+use Flame\Modules\Providers\IConfigProvider;
 use Nette\Configurator;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
@@ -39,6 +40,7 @@ class ModulesExtension extends CompilerExtension
 					$name = $extension->getName();
 				}
 
+				$this->parseProviders($extension, $name);
 				$this->compiler->addExtension($name, $extension);
 			}
 		}
@@ -81,6 +83,35 @@ class ModulesExtension extends CompilerExtension
 		}
 
 		throw new InvalidStateException('Definition of extension must be valid class (string or object). ' . gettype($class) . ' given.');
+	}
+
+	/**
+	 * @param CompilerExtension $extension
+	 * @param $name
+	 */
+	protected function parseProviders(CompilerExtension $extension, $name)
+	{
+		if($extension instanceof IConfigProvider) {
+			$files = $extension->getConfigFiles();
+			if(count($files)) {
+				foreach ($files as $file) {
+					$this->loadConfig($file, $name);
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param $path
+	 * @param null $name
+	 */
+	private function loadConfig($path, $name = null)
+	{
+		$this->compiler->parseServices(
+			$this->getContainerBuilder(),
+			$this->loadFromFile($path),
+			$this->prefix($name)
+		);
 	}
 
 	/**

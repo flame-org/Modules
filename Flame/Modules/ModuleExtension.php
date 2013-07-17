@@ -24,6 +24,15 @@ abstract class ModuleExtension extends CompilerExtension implements IModuleExten
 	}
 
 	/**
+	 * @param $name
+	 * @return string
+	 */
+	public function getConfigPath($name)
+	{
+		return dirname($this->getReflection()->getFileName()) . '/../config/' . (string) $name . '.neon';
+	}
+
+	/**
 	 * @param bool $pretty
 	 * @return string
 	 */

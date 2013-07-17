@@ -6,7 +6,7 @@
  * @date: 17.07.13
  */
 
-namespace Flame\Modules\DI\Provider;
+namespace Flame\Modules\Providers;
 
 
 interface IConfigProvider
