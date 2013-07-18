@@ -5,7 +5,7 @@
  * @author: Jiří Šifalda <sifalda.jiri@gmail.com>
  * @date: 17.07.13
  */
-namespace Flame\Modules;
+namespace Flame\Modules\Extension;
 
 use Nette\Configurator;
 use Nette\DI\Compiler;
