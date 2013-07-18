@@ -12,10 +12,11 @@ use Flame\Modules\Providers\IConfigProvider;
 use Nette\Configurator;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
-use Nette\NotImplementedException;
 use Nette\Object;
+use Nette\Utils\Neon;
 use Nette\Utils\Validators;
 
 class ModulesInstaller extends Object
@@ -34,11 +35,24 @@ class ModulesInstaller extends Object
 
 	/**
 	 * @param $filePath
-	 * @throws \Nette\NotImplementedException
+	 * @return $this
+	 * @throws \Nette\InvalidArgumentException
 	 */
 	public function addConfig($filePath)
 	{
-		throw new NotImplementedException;
+
+		if(!file_exists((string) $filePath)) {
+			throw new InvalidArgumentException('Given config path does not exist');
+		}
+
+		$config = Neon::decode(file_get_contents($filePath));
+		if(count($config) && isset($config['modules']) && count($modules = $config['modules'])) {
+			foreach($modules as $name => $moduleClass) {
+				$this->registerExtension($moduleClass, $name ? $name : null);
+			}
+		}
+
+		return $this;
 	}
 
 	/**
@@ -59,11 +73,11 @@ class ModulesInstaller extends Object
 			throw new InvalidArgumentException('Extension must be name (string) or instance of \Nette\DI\CompilerExtension');
 		}
 
-		if($name === null && !$extension instanceof IModuleExtension) {
-			throw new InvalidStateException('Please set module name, or implement Flame\Modules\IModuleExtension');
-		}
-
 		if($name === null) {
+			if (!$extension instanceof IModuleExtension) {
+				throw new InvalidStateException('Please set module name, or implement Flame\Modules\IModuleExtension');
+			}
+
 			$name = $extension->getName();
 		}
 
