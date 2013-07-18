@@ -7,7 +7,7 @@
  */
 namespace Flame\Modules;
 
-use Flame\Modules\IModuleExtension;
+use Flame\Modules\Extension\IModuleExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Nette\Configurator;
 use Nette\DI\Compiler;
