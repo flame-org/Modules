@@ -10,15 +10,12 @@ namespace Flame\Modules;
 use Flame\Modules\Config\Parser;
 use Flame\Modules\Extension\IModuleExtension;
 use Flame\Modules\Providers\IConfigProvider;
-use Nette\Configurator;
-use Nette\DI\Compiler;
+use Flame\Modules\DI\ConfiguratorHelper;
 use Nette\DI\CompilerExtension;
-use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Object;
 use Nette\Utils\Neon;
-use Nette\Utils\Validators;
 
 class ModulesInstaller extends Object
 {
@@ -26,18 +23,19 @@ class ModulesInstaller extends Object
 	/** @var  Parser */
 	private $parser;
 
-	/** @var  \Nette\Configurator */
-	private $configurator;
+	/** @var  ConfiguratorHelper */
+	private $helper;
 
 	/**
-	 * @param Configurator $configurator
+	 * @param ConfiguratorHelper $helper
 	 * @param Parser $parser
 	 */
-	function __construct(Configurator $configurator, Parser $parser)
+	function __construct(ConfiguratorHelper $helper, Parser $parser)
 	{
-		$this->configurator = $configurator;
+		$this->helper = $helper;
 		$this->parser = $parser;
 	}
+
 
 	/**
 	 * @param $filePath
@@ -87,26 +85,16 @@ class ModulesInstaller extends Object
 			$name = $extension->getName();
 		}
 
-		$this->register($extension, $name);
+		$this->helper->registerExtension($extension, $name);
 		$this->parseProviders($extension);
 
 		if($callback !== null && is_callable($callback)) {
-			call_user_func($callback, $this->configurator, $extension, $name);
+			call_user_func($callback, $this->helper->getConfigurator(), $extension, $name);
 		}
 
 		return $this;
 	}
 
-	/**
-	 * @param CompilerExtension $extension
-	 * @param $name
-	 */
-	protected function register(CompilerExtension $extension, $name)
-	{
-		$this->configurator->onCompile[] = function (Configurator $config, Compiler $compiler) use ($extension, $name) {
-			$compiler->addExtension($name, $extension);
-		};
-	}
 
 	/**
 	 * @param $class
@@ -122,6 +110,9 @@ class ModulesInstaller extends Object
 		throw new InvalidStateException('Definition of extension must be valid class (string). ' . gettype($class) . ' given.');
 	}
 
+	/**
+	 * @param CompilerExtension $extension
+	 */
 	protected function parseProviders(CompilerExtension $extension)
 	{
 		if($extension instanceof IConfigProvider) {
