@@ -7,6 +7,7 @@
  */
 namespace Flame\Modules;
 
+use Flame\Modules\Config\Parser;
 use Flame\Modules\Extension\IModuleExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Nette\Configurator;
@@ -22,15 +23,20 @@ use Nette\Utils\Validators;
 class ModulesInstaller extends Object
 {
 
+	/** @var  Parser */
+	private $parser;
+
 	/** @var  \Nette\Configurator */
 	private $configurator;
 
 	/**
 	 * @param Configurator $configurator
+	 * @param Parser $parser
 	 */
-	function __construct(Configurator $configurator)
+	function __construct(Configurator $configurator, Parser $parser)
 	{
 		$this->configurator = $configurator;
+		$this->parser = $parser;
 	}
 
 	/**
@@ -82,10 +88,7 @@ class ModulesInstaller extends Object
 		}
 
 		$this->register($extension, $name);
-
-		if($extension instanceof IConfigProvider) {
-			$this->parseConfigProvider($extension);
-		}
+		$this->parseProviders($extension);
 
 		if($callback !== null && is_callable($callback)) {
 			call_user_func($callback, $this->configurator, $extension, $name);
@@ -119,16 +122,10 @@ class ModulesInstaller extends Object
 		throw new InvalidStateException('Definition of extension must be valid class (string). ' . gettype($class) . ' given.');
 	}
 
-	/**
-	 * @param IConfigProvider $extension
-	 */
-	protected function parseConfigProvider(IConfigProvider $extension)
+	protected function parseProviders(CompilerExtension $extension)
 	{
-		$files = $extension->getConfigFiles();
-		if(count($files)) {
-			foreach ($files as $file) {
-				$this->configurator->addConfig($file);
-			}
+		if($extension instanceof IConfigProvider) {
+			$this->parser->parseConfigProvider($extension);
 		}
 	}
 
