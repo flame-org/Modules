@@ -49,10 +49,10 @@ class ModulesInstaller extends Object
 			throw new InvalidArgumentException('Given config path does not exist');
 		}
 
-		$config = Neon::decode(file_get_contents($filePath));
+		$config = $this->getConfig($filePath);
 		if(count($config) && isset($config['modules']) && count($modules = $config['modules'])) {
 			foreach($modules as $name => $moduleClass) {
-				$this->registerExtension($moduleClass, $name ? $name : null);
+				$this->registerExtension($moduleClass, (is_string($name)) ? $name : null);
 			}
 		}
 
@@ -118,6 +118,28 @@ class ModulesInstaller extends Object
 		if($extension instanceof IConfigProvider) {
 			$this->parser->parseConfigProvider($extension);
 		}
+	}
+
+	/**
+	 * @param $filePath
+	 * @return array|mixed
+	 */
+	private function getConfig($filePath)
+	{
+		$extension = pathinfo($filePath, PATHINFO_EXTENSION);
+		switch ($extension) {
+			case 'neon':
+				$config = Neon::decode(file_get_contents($filePath));
+				break;
+			case 'php':
+				$config = include_once($filePath);
+				break;
+			default:
+				$config = array();
+				break;
+		}
+
+		return $config;
 	}
 
 }
