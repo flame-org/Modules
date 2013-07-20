@@ -11,6 +11,7 @@ use Flame\Modules\Config\Parser;
 use Flame\Modules\Extension\IModuleExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Flame\Modules\DI\ConfiguratorHelper;
+use Flame\Modules\Providers\IRouterProvider;
 use Nette\DI\CompilerExtension;
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
@@ -25,6 +26,11 @@ class ModulesInstaller extends Object
 
 	/** @var  ConfiguratorHelper */
 	private $helper;
+
+	/** @var array  */
+	private $defaultExtensions = array(
+		'Flame\Modules\DI\ModulesExtension'
+	);
 
 	/**
 	 * @param ConfiguratorHelper $helper
@@ -95,6 +101,19 @@ class ModulesInstaller extends Object
 		return $this;
 	}
 
+	/**
+	 * @return $this
+	 */
+	public function register()
+	{
+		foreach($this->defaultExtensions as $extension) {
+			$this->registerExtension($extension);
+		}
+
+		$this->helper->setRoutesList($this->parser->getDefinedRoutes());
+		return $this;
+	}
+
 
 	/**
 	 * @param $class
@@ -117,6 +136,10 @@ class ModulesInstaller extends Object
 	{
 		if($extension instanceof IConfigProvider) {
 			$this->parser->parseConfigProvider($extension);
+		}
+
+		if($extension instanceof IRouterProvider) {
+			$this->parser->parseRouterProvider($extension);
 		}
 	}
 
