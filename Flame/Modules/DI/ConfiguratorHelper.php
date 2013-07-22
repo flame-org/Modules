@@ -26,20 +26,6 @@ class ConfiguratorHelper
 	}
 
 	/**
-	 * @param array $list
-	 */
-	public function setRoutesList(array $list)
-	{
-		$this->configurator->onCompile[] = function (Configurator $config, Compiler $compiler) use ($list) {
-			$extensions = $compiler->getExtensions();
-			$modulesExtensionName = ModulesExtension::getShortName();
-			if(isset($extensions[$modulesExtensionName])) {
-				$extensions[$modulesExtensionName]->setRouteList($list);
-			}
-		};
-	}
-
-	/**
 	 * @param CompilerExtension $extension
 	 * @param $name
 	 * @return $this

@@ -8,7 +8,6 @@
 namespace Flame\Modules\Config;
 
 use Flame\Modules\Providers\IConfigProvider;
-use Flame\Modules\Providers\IRouterProvider;
 use Nette\Object;
 use Nette\Configurator;
 
@@ -17,9 +16,6 @@ class Parser extends Object
 
 	/** @var  \Nette\Configurator */
 	private $configurator;
-
-	/** @var array  */
-	private $routesDefinition = array();
 
 	/**
 	 * @param Configurator $configurator
@@ -43,21 +39,5 @@ class Parser extends Object
 		}
 
 		return $this;
-	}
-
-	/**
-	 * @param IRouterProvider $extension
-	 */
-	public function parseRouterProvider(IRouterProvider $extension)
-	{
-		$this->routesDefinition = array_merge($this->routesDefinition, $extension->getRoutesDefinition());
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getDefinedRoutes()
-	{
-		return $this->routesDefinition;
 	}
 }

@@ -109,8 +109,6 @@ class ModulesInstaller extends Object
 		foreach($this->defaultExtensions as $extension) {
 			$this->registerExtension($extension);
 		}
-
-		$this->helper->setRoutesList($this->parser->getDefinedRoutes());
 		return $this;
 	}
 
@@ -136,10 +134,6 @@ class ModulesInstaller extends Object
 	{
 		if($extension instanceof IConfigProvider) {
 			$this->parser->parseConfigProvider($extension);
-		}
-
-		if($extension instanceof IRouterProvider) {
-			$this->parser->parseRouterProvider($extension);
 		}
 	}
 

@@ -34,19 +34,9 @@ class RouterFactory
 	{
 		$routeList = new RouteList;
 		if(count($this->routes)) {
-			foreach ($this->routes as $routeDefinition) {
-				if(!isset($routeDefinition['class'])) {
-					throw new InvalidStateException('Route definition must have got defined "class" property.');
-				}
-
-				$route = new ClassType($routeDefinition['class']);
-				if(isset($routeDefinition['args'])) {
-					$route = $route->newInstanceArgs($routeDefinition['args']);
-				}else{
-					$route = $route->newInstance();
-				}
-
-				$routeList[] = $route;
+			foreach ($this->routes as $class => $args) {
+				$route = new ClassType($class);
+				$routeList[] = $route->newInstanceArgs($args);
 			}
 		}
 		return $routeList;
