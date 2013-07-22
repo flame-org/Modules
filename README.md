@@ -4,7 +4,7 @@
 
 Simple registration of Nette modules.
 
-Support of [SOLID MODULAR CONCEPT](http://forum.nette.org/en/1193-extending-extensions-solid-modular-concept)
+Support of [SOLID MODULAR CONCEPT](http://forum.nette.org/en/1193-extending-extensions-solid-modular-concept).
 
 ##Features
 
@@ -41,13 +41,14 @@ return array(
 	)
 );
 ````
-**If you favor NEON, you can use modules.neon configuration`**
+**If you favor NEON, you can use modules.neon configuration.**
 
-####That's all, nothing more!
+####That's all, nothing more! Simple!
 
 ##Bonus?!
-**You can use Flame\Modules\Providers\IConfigProvider for loading additional neon configuration**
-Or implement one of these interface: IRouterProvider & IPresenterMappingProvider
+**You can use Flame\Modules\Providers\IConfigProvider for loading additional neon configuration.**
+
+Or implement one of these interface: IRouterProvider & IPresenterMappingProvider.
 
 ###What next?
-Look at [this implementation of modules on steroids](https://bitbucket.org/enlan/)
+Look at [this implementation of modules on steroids](https://bitbucket.org/enlan/).
