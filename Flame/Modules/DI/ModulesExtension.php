@@ -8,8 +8,11 @@
 namespace Flame\Modules\DI;
 
 use Flame\Modules\Extension\NamedExtension;
+use Flame\Modules\Providers\ILatteMacrosProvider;
 use Flame\Modules\Providers\IRouterProvider;
 use Flame\Modules\Providers\IPresenterMappingProvider;
+use Nette\DI\ServiceDefinition;
+use Nette\Utils\Validators;
 
 class ModulesExtension extends NamedExtension
 {
@@ -21,6 +24,7 @@ class ModulesExtension extends NamedExtension
 	{
 		$builder = $this->getContainerBuilder();
 		$presenterFactory = $builder->getDefinition('nette.presenterFactory');
+		$latte = $builder->getDefinition('nette.latte');
 
 		foreach ($this->compiler->getExtensions() as $extension) {
 			if ($extension instanceof IPresenterMappingProvider) {
@@ -32,6 +36,10 @@ class ModulesExtension extends NamedExtension
 			if ($extension instanceof IRouterProvider) {
 				$this->routes = array_merge($this->routes, $extension->getRoutesDefinition());
 			}
+
+			if($extension instanceof ILatteMacrosProvider) {
+				$this->setupTemplating($latte, $extension->getLatteMacros());
+			}
 		}
 
 		$builder->addDefinition($this->prefix('routerFactory'))
@@ -40,6 +48,27 @@ class ModulesExtension extends NamedExtension
 
 		$builder->getDefinition('router')
 			->setFactory('@' . $this->prefix('routerFactory') . '::createRouter');
+	}
+
+	/**
+	 * @param ServiceDefinition $latte
+	 * @param array $macros
+	 * @return void
+	 */
+	private function setupTemplating(ServiceDefinition $latte, array $macros)
+	{
+		if(count($macros)) {
+			foreach ($macros as $macro) {
+				if (strpos($macro, '::') === FALSE && class_exists($macro)) {
+					$macro .= '::install';
+
+				} else {
+					Validators::assert($macro, 'callable');
+				}
+
+				$latte->addSetup($macro . '(?->compiler)', array('@self'));
+			}
+		}
 	}
 
 }
