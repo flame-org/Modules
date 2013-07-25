@@ -7,7 +7,6 @@
  */
 namespace Flame\Modules;
 
-use Flame\Modules\Config\Parser;
 use Flame\Modules\Extension\INamedExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Flame\Modules\DI\ConfiguratorHelper;
@@ -20,9 +19,6 @@ use Nette\Utils\Neon;
 class ModulesInstaller extends Object
 {
 
-	/** @var  Parser */
-	private $parser;
-
 	/** @var  ConfiguratorHelper */
 	private $helper;
 
@@ -33,14 +29,11 @@ class ModulesInstaller extends Object
 
 	/**
 	 * @param ConfiguratorHelper $helper
-	 * @param Parser $parser
 	 */
-	function __construct(ConfiguratorHelper $helper, Parser $parser)
+	function __construct(ConfiguratorHelper $helper)
 	{
 		$this->helper = $helper;
-		$this->parser = $parser;
 	}
-
 
 	/**
 	 * @param $filePath
@@ -128,11 +121,12 @@ class ModulesInstaller extends Object
 
 	/**
 	 * @param CompilerExtension $extension
+	 * @return void
 	 */
 	protected function parseProviders(CompilerExtension $extension)
 	{
 		if($extension instanceof IConfigProvider) {
-			$this->parser->parseConfigProvider($extension);
+			$this->helper->addConfigs($extension->getConfigFiles());
 		}
 	}
 

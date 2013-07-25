@@ -40,6 +40,21 @@ class ConfiguratorHelper
 	}
 
 	/**
+	 * @param array $configsFiles
+	 * @return $this
+	 */
+	public function addConfigs(array $configsFiles)
+	{
+		if(count($configsFiles)) {
+			foreach ($configsFiles as $file) {
+				$this->configurator->addConfig($file);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
 	 * @return Configurator
 	 */
 	public function getConfigurator()
