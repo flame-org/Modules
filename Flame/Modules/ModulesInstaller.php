@@ -8,10 +8,9 @@
 namespace Flame\Modules;
 
 use Flame\Modules\Config\Parser;
-use Flame\Modules\Extension\IModuleExtension;
+use Flame\Modules\Extension\INamedExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Flame\Modules\DI\ConfiguratorHelper;
-use Flame\Modules\Providers\IRouterProvider;
 use Nette\DI\CompilerExtension;
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
@@ -84,8 +83,8 @@ class ModulesInstaller extends Object
 		}
 
 		if($name === null) {
-			if (!$extension instanceof IModuleExtension) {
-				throw new InvalidStateException('Please set module name, or implement Flame\Modules\IModuleExtension');
+			if (!$extension instanceof INamedExtension) {
+				throw new InvalidStateException('Please set module name, or implement Flame\Modules\INamedExtension');
 			}
 
 			$name = $extension->getName();

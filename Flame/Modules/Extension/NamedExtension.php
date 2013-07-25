@@ -1,6 +1,6 @@
 <?php
 /**
- * Class ModuleExtension
+ * Class NamedExtension
  *
  * @author: Jiří Šifalda <sifalda.jiri@gmail.com>
  * @date: 17.07.13
@@ -12,7 +12,7 @@ use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\Utils\Strings;
 
-abstract class ModuleExtension extends CompilerExtension implements IModuleExtension
+abstract class NamedExtension extends CompilerExtension implements INamedExtension
 {
 
 	/**

@@ -7,11 +7,11 @@
  */
 namespace Flame\Modules\DI;
 
-use Flame\Modules\Extension\ModuleExtension;
+use Flame\Modules\Extension\NamedExtension;
 use Flame\Modules\Providers\IRouterProvider;
 use Flame\Modules\Providers\IPresenterMappingProvider;
 
-class ModulesExtension extends ModuleExtension
+class ModulesExtension extends NamedExtension
 {
 
 	/** @var array  */

@@ -8,7 +8,7 @@
 
 namespace Flame\Modules\Extension;
 
-interface IModuleExtension
+interface INamedExtension
 {
 
 	/**
