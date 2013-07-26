@@ -18,7 +18,7 @@ $configurator->createModulesInstaller()
 	->register();
 return $configurator
 ```
-*Look at [implementation of creating modules installator](https://github.com/flame-org/Framework/commit/a41320cc594122d6962e7a9f32c09553ae8a6ed9#L0R57)*
+*Look at [implementation of creating modules installator](https://github.com/flame-org/Framework/blob/master/Flame/Configurator.php#L46)*
 
 ####extensions.php
 Register extensions very simply
