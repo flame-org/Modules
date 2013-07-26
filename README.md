@@ -14,13 +14,13 @@ In bootstrap.php in conjunction with [Flame/Framework](https://github.com/flame-
 ```php
 $configurator = new \Flame\Configurator;
 $configurator->createModulesInstaller()
-	->addConfig(__DIR__ . '/config/modules.php')
+	->addConfig(__DIR__ . '/config/extensions.php')
 	->register();
 return $configurator
 ```
 *Look at [implementation of creating modules installator](https://github.com/flame-org/Framework/commit/a41320cc594122d6962e7a9f32c09553ae8a6ed9#L0R57)*
 
-####Modules.php
+####extensions.php
 Register extensions very simply
 ````php
 
@@ -41,14 +41,16 @@ return array(
 	)
 );
 ````
-**If you favor NEON, you can use modules.neon configuration.**
+**If you favor NEON, you can use extensions.neon configuration.**
+
+###You can use composer package [Nette Module Installer](https://github.com/flame-org/Nette-Module-Installer) for automatic installation of new extensions
 
 ####That's all, nothing more! Simple!
 
 ##Bonus?!
 **You can use Flame\Modules\Providers\IConfigProvider for loading additional neon configuration.**
 
-Or implement one of these interface: IRouterProvider & IPresenterMappingProvider.
+Or implement one of these interface: IRouterProvider & IPresenterMappingProvider & ILatteMacrosProvider.
 
 ###What next?
 Look at [this implementation of modules on steroids](https://bitbucket.org/enlan/).
