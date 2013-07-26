@@ -43,9 +43,11 @@ return array(
 ````
 **If you favor NEON, you can use extensions.neon configuration.**
 
-###You can use composer package [Nette Module Installer](https://github.com/flame-org/Nette-Module-Installer) for automatic installation of new extensions
+That's all, nothing more! Simple!
 
-####That's all, nothing more! Simple!
+##Killer feature ;-)
+
+###You can use composer package [Nette Module Installer](https://github.com/flame-org/Nette-Module-Installer) for automatic installation of new extensions
 
 ##Bonus?!
 **You can use Flame\Modules\Providers\IConfigProvider for loading additional neon configuration.**
