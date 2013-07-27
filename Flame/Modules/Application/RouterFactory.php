@@ -34,9 +34,13 @@ class RouterFactory
 	{
 		$routeList = new RouteList;
 		if(count($this->routes)) {
-			foreach ($this->routes as $class => $args) {
-				$route = new ClassType($class);
-				$routeList[] = $route->newInstanceArgs($args);
+			foreach ($this->routes as $route) {
+				if(!is_array($route)) {
+					throw new InvalidStateException('Route definition must be array, ' . gettype($route) . ' given');
+				}
+				$class = key($route);
+				$instance = new ClassType($class);
+				$routeList[] = $instance->newInstanceArgs($route[$class]);
 			}
 		}
 		return $routeList;
