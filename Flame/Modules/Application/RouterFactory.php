@@ -38,11 +38,13 @@ class RouterFactory
 				if(!is_array($route)) {
 					throw new InvalidStateException('Route definition must be array, ' . gettype($route) . ' given');
 				}
-				$class = key($route);
+
+				$class = (string) key($route);
 				$instance = new ClassType($class);
 				$routeList[] = $instance->newInstanceArgs($route[$class]);
 			}
 		}
+
 		return $routeList;
 	}
 
