@@ -7,6 +7,7 @@
  */
 namespace Flame\Modules;
 
+use Flame\Modules\Extension\IDomainExtension;
 use Flame\Modules\Extension\INamedExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Flame\Modules\DI\ConfiguratorHelper;
@@ -58,14 +59,13 @@ class ModulesInstaller extends Object
 	}
 
 	/**
-	 * @param \Nette\DI\CompilerExtension|string $extension
+	 * @param $extension
 	 * @param null $name
-	 * @param null $callback
 	 * @return $this
 	 * @throws \Nette\InvalidStateException
 	 * @throws \Nette\InvalidArgumentException
 	 */
-	public function registerExtension($extension, $name = null, $callback  = null)
+	public function registerExtension($extension, $name = null)
 	{
 		if(is_string($extension)) {
 			$extension = $this->invokeExtension($extension);
@@ -75,21 +75,21 @@ class ModulesInstaller extends Object
 			throw new InvalidArgumentException('Extension must be name (string) or instance of \Nette\DI\CompilerExtension');
 		}
 
-		if($name === null) {
-			if (!$extension instanceof INamedExtension) {
-				throw new InvalidStateException('Please set module name, or implement Flame\Modules\INamedExtension');
+		if($extension instanceof IDomainExtension) {
+			$extension->register($this->helper->getConfigurator());
+		}else{
+			if($name === null) {
+				if (!$extension instanceof INamedExtension) {
+					throw new InvalidStateException('Please set module name, or implement Flame\Modules\INamedExtension');
+				}
+
+				$name = $extension->getName();
 			}
 
-			$name = $extension->getName();
+			$this->helper->registerExtension($extension, $name);
 		}
 
-		$this->helper->registerExtension($extension, $name);
 		$this->parseProviders($extension);
-
-		if($callback !== null && is_callable($callback)) {
-			call_user_func($callback, $this->helper->getConfigurator(), $extension, $name);
-		}
-
 		return $this;
 	}
 
@@ -123,7 +123,7 @@ class ModulesInstaller extends Object
 	 * @param CompilerExtension $extension
 	 * @return void
 	 */
-	protected function parseProviders(CompilerExtension $extension)
+	protected function parseProviders(CompilerExtension &$extension)
 	{
 		if($extension instanceof IConfigProvider) {
 			$this->helper->addConfigs($extension->getConfigFiles());
