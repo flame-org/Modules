@@ -42,12 +42,14 @@ class ModulesExtension extends NamedExtension
 			}
 		}
 
-		$builder->addDefinition($this->prefix('routerFactory'))
-			->setClass('Flame\Modules\Application\RouterFactory')
-			->setArguments(array($this->routes));
+		if(count($this->routes)) {
+			$builder->addDefinition($this->prefix('routerFactory'))
+				->setClass('Flame\Modules\Application\RouterFactory')
+				->setArguments(array($this->routes));
 
-		$builder->getDefinition('router')
-			->setFactory('@' . $this->prefix('routerFactory') . '::createRouter');
+			$builder->getDefinition('router')
+				->setFactory('@' . $this->prefix('routerFactory') . '::createRouter');
+		}
 	}
 
 	/**
