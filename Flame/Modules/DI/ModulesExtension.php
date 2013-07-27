@@ -34,7 +34,7 @@ class ModulesExtension extends NamedExtension
 			}
 
 			if ($extension instanceof IRouterProvider) {
-				$this->routes = array_merge($this->routes, $extension->getRoutesDefinition());
+				$this->routes = array_merge($this->routes, (array) $extension->getRoutesDefinition());
 			}
 
 			if($extension instanceof ILatteMacrosProvider) {
