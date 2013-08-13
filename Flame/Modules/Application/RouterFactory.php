@@ -11,41 +11,63 @@ use Nette\Application\Routers\RouteList;
 use Nette\Application\Routers\Route;
 use Nette\InvalidStateException;
 use Nette\Reflection\ClassType;
+use Nette;
 
 class RouterFactory
 {
 
-	/** @var array  */
-	private $routes;
-
 	/**
-	 * @param array $routes
+	 * @throws \Nette\StaticClassException
 	 */
-	public function __construct(array $routes = array())
+	public function __constructor()
 	{
-		$this->routes = $routes;
+		throw new Nette\StaticClassException;
 	}
 
 	/**
-	 * @return array|RouteList
-	 * @throws \Nette\InvalidStateException
+	 * @param Nette\Application\IRouter $router
+	 * @param array $routes
+	 * @throws \Nette\Utils\AssertionException
 	 */
-	public function createRouter()
+	public static function prependTo(Nette\Application\IRouter &$router, array $routes)
 	{
-		$routeList = new RouteList;
-		if(count($this->routes)) {
-			foreach ($this->routes as $route) {
-				if(!is_array($route)) {
-					throw new InvalidStateException('Route definition must be array, ' . gettype($route) . ' given');
-				}
-
-				$class = (string) key($route);
-				$instance = new ClassType($class);
-				$routeList[] = $instance->newInstanceArgs($route[$class]);
-			}
+		if (!$router instanceof RouteList) {
+			throw new Nette\Utils\AssertionException(
+				'If you want to use Flame/Modules then your main router ' .
+				'must be an instance of Nette\Application\Routers\RouteList'
+			);
 		}
 
-		return $routeList;
+		if(count($routes)) {
+
+			$definedRoutes = iterator_to_array($router);
+			$router = new RouteList;
+
+			foreach ($routes as $route) {
+				array_unshift($definedRoutes, static::createRoute($route));
+			}
+
+			if(count($definedRoutes)) {
+				foreach ($definedRoutes as $route) {
+					$router[] = $route;
+				}
+			}
+		}
 	}
 
+	/**
+	 * @param $route
+	 * @return object
+	 * @throws \Nette\InvalidStateException
+	 */
+	private static function createRoute($route)
+	{
+		if(!is_array($route)) {
+			throw new InvalidStateException('Route definition must be array, ' . gettype($route) . ' given');
+		}
+
+		$class = (string) key($route);
+		$instance = new ClassType($class);
+		return $instance->newInstanceArgs($route[$class]);
+	}
 }
