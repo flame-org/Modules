@@ -29,7 +29,7 @@ class RouterFactory
 	 * @param array $routes
 	 * @throws \Nette\Utils\AssertionException
 	 */
-	public static function prependTo(Nette\Application\IRouter &$router, array $routes)
+	public static function appendTo(Nette\Application\IRouter &$router, array $routes)
 	{
 		if (!$router instanceof RouteList) {
 			throw new Nette\Utils\AssertionException(
@@ -39,18 +39,8 @@ class RouterFactory
 		}
 
 		if(count($routes)) {
-
-			$definedRoutes = iterator_to_array($router);
-			$router = new RouteList;
-
 			foreach ($routes as $route) {
-				array_unshift($definedRoutes, static::createRoute($route));
-			}
-
-			if(count($definedRoutes)) {
-				foreach ($definedRoutes as $route) {
-					$router[] = $route;
-				}
+				$router[] = static::createRoute($route);
 			}
 		}
 	}

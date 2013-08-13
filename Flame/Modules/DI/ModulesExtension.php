@@ -44,7 +44,7 @@ class ModulesExtension extends NamedExtension
 
 		if(count($this->routes)) {
 			$builder->getDefinition('router')
-				->addSetup('Flame\Modules\Application\RouterFactory::prependTo($service, ?)', array($this->routes));
+				->addSetup('Flame\Modules\Application\RouterFactory::appendTo($service, ?)', array($this->routes));
 		}
 	}
 
