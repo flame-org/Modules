@@ -19,7 +19,8 @@ class PresenterFactory extends \Nette\Object implements \Nette\Application\IPres
 
 	/** @var array[] of module => splited mask */
 	private $mapping = array(
-		'*' => array('', '*Module\\', '*Presenter')
+		'*' => array('', '*Module\\', '*Presenter'),
+		'Nette' => array('NetteModule\\', '*\\', '*Presenter')
 	);
 
 	/** @var string */
