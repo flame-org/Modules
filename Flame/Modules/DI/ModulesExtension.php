@@ -30,6 +30,9 @@ class ModulesExtension extends NamedExtension
 			->setAutowired(TRUE)
 			->setShared(TRUE);
 
+		if (isset($this->compiler->config["nette"]["application"]["mapping"])) {
+			$presenterFactory->addSetup('setMapping', 					array($this->compiler->config["nette"]["application"]["mapping"]));
+		}
 
 		$latte = $builder->getDefinition('nette.latte');
 
