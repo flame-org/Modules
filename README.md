@@ -1,4 +1,4 @@
-#Steroids Modules
+#Steroids Modules [![Build Status](https://travis-ci.org/flame-org/Modules.png?branch=master)](https://travis-ci.org/flame-org/Modules)
 
 **Nette modules on the Steroids**
 
