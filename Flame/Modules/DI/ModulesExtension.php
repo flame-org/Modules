@@ -32,44 +32,21 @@ class ModulesExtension extends NamedExtension
 
 		foreach ($this->compiler->getExtensions() as $extension) {
 			if ($extension instanceof IPresenterMappingProvider) {
-				if ($mapping = $extension->getPresenterMapping()) {
-					$presenterFactory->addSetup('setMapping', array($mapping));
-				}
+				$this->setupPresenterMapping($presenterFactory, $extension);
 			}
 
 			if ($extension instanceof IRouterProvider) {
-				$this->routes = array_merge($this->routes, (array) $extension->getRoutesDefinition());
+				$this->setupRouter($extension);
 			}
 
 			if($extension instanceof ILatteMacrosProvider) {
-				$this->setupTemplating($latte, $extension->getLatteMacros());
+				$this->setupTemplating($latte, $extension);
 			}
 		}
 
 		if(count($this->routes)) {
 			$builder->getDefinition('router')
 				->addSetup('Flame\Modules\Application\RouterFactory::prependTo($service, ?)', array($this->routes));
-		}
-	}
-
-	/**
-	 * @param ServiceDefinition $latte
-	 * @param array $macros
-	 * @return void
-	 */
-	private function setupTemplating(ServiceDefinition $latte, array $macros)
-	{
-		if(count($macros)) {
-			foreach ($macros as $macro) {
-				if (strpos($macro, '::') === FALSE && class_exists($macro)) {
-					$macro .= '::install';
-
-				} else {
-					Validators::assert($macro, 'callable');
-				}
-
-				$latte->addSetup($macro . '(?->compiler)', array('@self'));
-			}
 		}
 	}
 
@@ -90,5 +67,48 @@ class ModulesExtension extends NamedExtension
 				$presenterFactory->addSetup('setMapping', array($this->compiler->config['nette']['application']['mapping']));
 			}
 		}
+	}
+
+	/**
+	 * @param ServiceDefinition $latte
+	 * @param ILatteMacrosProvider $extension
+	 * @return void
+	 */
+	private function setupTemplating(ServiceDefinition $latte, ILatteMacrosProvider $extension)
+	{
+		if(count($macros = $extension->getLatteMacros())) {
+			foreach ($macros as $macro) {
+				if (strpos($macro, '::') === FALSE && class_exists($macro)) {
+					$macro .= '::install';
+
+				} else {
+					Validators::assert($macro, 'callable');
+				}
+
+				$latte->addSetup($macro . '(?->compiler)', array('@self'));
+			}
+		}
+	}
+
+	/**
+	 * @param ServiceDefinition $presenterFactory
+	 * @param IPresenterMappingProvider $extension
+	 * @return void
+	 */
+	private function setupPresenterMapping(ServiceDefinition $presenterFactory, IPresenterMappingProvider $extension)
+	{
+		$mapping = $extension->getPresenterMapping();
+		if (count($mapping)) {
+			$presenterFactory->addSetup('setMapping', array($mapping));
+		}
+	}
+
+	/**
+	 * @param IRouterProvider $extension
+	 * @return void
+	 */
+	private function setupRouter(IRouterProvider $extension)
+	{
+		$this->routes = array_merge($this->routes, (array) $extension->getRoutesDefinition());
 	}
 }
