@@ -30,6 +30,6 @@
     "psr-0": {
       "Flame": ""
     },
-    "files": ["Flame/compatibility.php"]
+    "files": ["Flame/Modules/compatibility.php"]
   }
 }

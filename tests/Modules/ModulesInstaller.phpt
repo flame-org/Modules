@@ -14,7 +14,7 @@ use Flame\Modules\Extension\NamedExtension;
 use Flame\Modules\ModulesInstaller;
 use Flame\Tester\MockTestCase;
 use Nette;
-use Nette\Configurator;
+use Nette\Config\Configurator;
 use Tester\Assert;
 use Flame\Modules\DI\ConfiguratorHelper;
 
@@ -25,7 +25,7 @@ class ExtensionWithoutCompilerAncestor extends Nette\Object
 
 }
 
-class FakeExtension extends Nette\DI\CompilerExtension
+class FakeExtension extends Nette\Config\CompilerExtension
 {
 
 }

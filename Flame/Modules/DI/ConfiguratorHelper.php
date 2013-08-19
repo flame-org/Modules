@@ -7,15 +7,15 @@
  */
 namespace Flame\Modules\DI;
 
-use Nette\Configurator;
-use Nette\DI\CompilerExtension;
-use Nette\DI\Compiler;
+use Nette\Config\Configurator;
+use Nette\Config\CompilerExtension;
+use Nette\Config\Compiler;
 use Nette\Object;
 
 class ConfiguratorHelper extends Object
 {
 
-	/** @var  \Nette\Configurator */
+	/** @var  \Nette\Config\Configurator */
 	private $configurator;
 
 	/**
