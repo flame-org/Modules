@@ -11,8 +11,9 @@ use Nette\Application\InvalidPresenterException;
  *
  * @author David Grudl
  * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
+ * @author: Jiří Šifalda <sifalda.jiri@gmail.com>
  */
-class PresenterFactory extends \Nette\Object implements \Nette\Application\IPresenterFactory
+class PresenterFactory extends Nette\Object implements Nette\Application\IPresenterFactory
 {
 	/** @var bool */
 	public $caseSensitive = FALSE;
@@ -32,9 +33,9 @@ class PresenterFactory extends \Nette\Object implements \Nette\Application\IPres
 	/** @var Nette\DI\Container */
 	private $container;
 
-
 	/**
-	 * @param  string
+	 * @param $baseDir
+	 * @param Nette\DI\Container $container
 	 */
 	public function __construct($baseDir, Nette\DI\Container $container)
 	{
@@ -42,11 +43,11 @@ class PresenterFactory extends \Nette\Object implements \Nette\Application\IPres
 		$this->container = $container;
 	}
 
-
 	/**
 	 * Creates new presenter instance.
-	 * @param  string  presenter name
-	 * @return IPresenter
+	 *
+	 * @param $name
+	 * @return Nette\Application\IPresenter|UI\Presenter|object
 	 */
 	public function createPresenter($name)
 	{
@@ -73,7 +74,6 @@ class PresenterFactory extends \Nette\Object implements \Nette\Application\IPres
 
 		return $presenter;
 	}
-
 
 	/**
 	 * Generates and checks presenter class name.
@@ -133,10 +133,12 @@ class PresenterFactory extends \Nette\Object implements \Nette\Application\IPres
 		return $class;
 	}
 
-
 	/**
 	 * Sets mapping as pairs [module => mask]
-	 * @return self
+	 *
+	 * @param array $mapping
+	 * @return $this
+	 * @throws \Nette\InvalidStateException
 	 */
 	public function setMapping(array $mapping)
 	{
@@ -148,7 +150,6 @@ class PresenterFactory extends \Nette\Object implements \Nette\Application\IPres
 		}
 		return $this;
 	}
-
 
 	/**
 	 * Formats presenter class name from its name.
@@ -168,11 +169,10 @@ class PresenterFactory extends \Nette\Object implements \Nette\Application\IPres
 		return $mapping[0];
 	}
 
-
 	/**
 	 * Formats presenter name from class name.
 	 * @param  string
-	 * @return string
+	 * @return string|null
 	 */
 	public function unformatPresenterClass($class)
 	{
@@ -184,7 +184,6 @@ class PresenterFactory extends \Nette\Object implements \Nette\Application\IPres
 			}
 		}
 	}
-
 
 	/**
 	 * Formats presenter class file name.
