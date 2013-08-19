@@ -6,7 +6,7 @@ Simple registration of Nette modules & extensions.
 
 Support of [SOLID MODULAR CONCEPT](http://forum.nette.org/en/1193-extending-extensions-solid-modular-concept).
 
-Read more about this package on [blog](http://blog.jsifalda.name/post/detail/15/nette-moduly-a-vlastni-instalator-3)[CZE]
+Read more about this package on [blog](http://blog.jsifalda.name/post/detail/15/nette-moduly-a-vlastni-instalator-3) [CZE]
 
 ##Features
 
@@ -34,10 +34,6 @@ return array(
 
 		'Enlan\CategoryModule\DI\CategoryExtension',
 	    'Enlan\DictionaryModule\DI\DictionaryExtension',
-	    'Enlan\UserModule\DI\UserExtension',
-		'Enlan\LevelModule\DI\LevelExtension',
-		'Enlan\WordModule\DI\WordExtension',
-		'Enlan\EnlanModule\DI\EnlanExtension',
 
 		'Flame\CMS\AngularModule\DI\AngularExtension'
 	)
