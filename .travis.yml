@@ -1,0 +1,8 @@
+language: php
+php:
+  - 5.3.2
+  - 5.4
+before_script:
+  - composer self-update
+  - composer install --no-interaction --quiet --dev
+script: "./libs/bin/tester -j 10 tests/"
