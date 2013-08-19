@@ -16,6 +16,7 @@ use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Object;
 use Nette\Utils\Neon;
+use Nette\Utils\Validators;
 
 class ModulesInstaller extends Object
 {
@@ -126,7 +127,9 @@ class ModulesInstaller extends Object
 	protected function parseProviders(CompilerExtension &$extension)
 	{
 		if($extension instanceof IConfigProvider) {
-			$this->helper->addConfigs($extension->getConfigFiles());
+			$configs = $extension->getConfigFiles();
+			Validators::assert($configs, 'array');
+			$this->helper->addConfigs($configs);
 		}
 	}
 
