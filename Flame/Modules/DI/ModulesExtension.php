@@ -76,7 +76,10 @@ class ModulesExtension extends NamedExtension
 	 */
 	private function setupMacros(ServiceDefinition $latte, ILatteMacrosProvider $extension)
 	{
-		if(count($macros = $extension->getLatteMacros())) {
+		$macros = $extension->getLatteMacros();
+		Validators::assert($macros, 'array');
+
+		if(count($macros)) {
 			foreach ($macros as $macro) {
 				if (strpos($macro, '::') === FALSE && class_exists($macro)) {
 					$macro .= '::install';
@@ -98,6 +101,8 @@ class ModulesExtension extends NamedExtension
 	private function setupPresenterMapping(ServiceDefinition $presenterFactory, IPresenterMappingProvider $extension)
 	{
 		$mapping = $extension->getPresenterMapping();
+		Validators::assert($mapping, 'array');
+
 		if (count($mapping)) {
 			$presenterFactory->addSetup('setMapping', array($mapping));
 		}
@@ -109,6 +114,11 @@ class ModulesExtension extends NamedExtension
 	 */
 	private function setupRouter(IRouterProvider $extension)
 	{
-		$this->routes = array_merge($this->routes, (array) $extension->getRoutesDefinition());
+		$routes = $extension->getRoutesDefinition();
+		Validators::assert($routes, 'array');
+
+		if (count($routes)) {
+			$this->routes = array_merge($this->routes, $routes);
+		}
 	}
 }
