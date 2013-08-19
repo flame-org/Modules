@@ -10,8 +10,9 @@ namespace Flame\Modules\DI;
 use Nette\Configurator;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Compiler;
+use Nette\Object;
 
-class ConfiguratorHelper
+class ConfiguratorHelper extends Object
 {
 
 	/** @var  \Nette\Configurator */
