@@ -2,9 +2,11 @@
 
 **Nette modules on the Steroids**
 
-Simple registration of Nette modules.
+Simple registration of Nette modules & extensions.
 
 Support of [SOLID MODULAR CONCEPT](http://forum.nette.org/en/1193-extending-extensions-solid-modular-concept).
+
+Read more about this package on [blog](http://blog.jsifalda.name/post/detail/15/nette-moduly-a-vlastni-instalator-3)[CZE]
 
 ##Features
 
