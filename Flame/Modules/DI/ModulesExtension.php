@@ -40,7 +40,7 @@ class ModulesExtension extends NamedExtension
 			}
 
 			if($extension instanceof ILatteMacrosProvider) {
-				$this->setupTemplating($latte, $extension);
+				$this->setupMacros($latte, $extension);
 			}
 		}
 
@@ -54,7 +54,7 @@ class ModulesExtension extends NamedExtension
 	 * @param ContainerBuilder $builder
 	 * @return void
 	 */
-	private function setupPresenterFactory(ContainerBuilder &$builder)
+	protected function setupPresenterFactory(ContainerBuilder &$builder)
 	{
 		if(version_compare(Framework::VERSION, '2.1-dev', '<')) {
 			$builder->removeDefinition('nette.presenterFactory');
@@ -74,7 +74,7 @@ class ModulesExtension extends NamedExtension
 	 * @param ILatteMacrosProvider $extension
 	 * @return void
 	 */
-	private function setupTemplating(ServiceDefinition $latte, ILatteMacrosProvider $extension)
+	private function setupMacros(ServiceDefinition $latte, ILatteMacrosProvider $extension)
 	{
 		if(count($macros = $extension->getLatteMacros())) {
 			foreach ($macros as $macro) {
