@@ -9,7 +9,6 @@ namespace Flame\Modules\DI;
 
 use Nette\Config\Configurator;
 use Nette\Config\CompilerExtension;
-use Nette\Config\Compiler;
 use Nette\Object;
 
 class ConfiguratorHelper extends Object
@@ -33,7 +32,7 @@ class ConfiguratorHelper extends Object
 	 */
 	public function registerExtension(CompilerExtension $extension, $name)
 	{
-		$this->configurator->onCompile[] = function (Configurator $config, Compiler $compiler) use ($extension, $name) {
+		$this->configurator->onCompile[] = function ($config, $compiler) use ($extension, $name) {
 			$compiler->addExtension($name, $extension);
 		};
 
