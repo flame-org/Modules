@@ -27,20 +27,22 @@ class ModulesExtension extends NamedExtension
 		$builder = $this->getContainerBuilder();
 		$this->setupPresenterFactory($builder);
 
-		$presenterFactory = $builder->getDefinition('nette.presenterFactory');
-		$latte = $builder->getDefinition('nette.latte');
+		if(count($extensions = $this->compiler->getExtensions())) {
+			$presenterFactory = $builder->getDefinition('nette.presenterFactory');
+			$latte = $builder->getDefinition('nette.latte');
 
-		foreach ($this->compiler->getExtensions() as $extension) {
-			if ($extension instanceof IPresenterMappingProvider) {
-				$this->setupPresenterMapping($presenterFactory, $extension);
-			}
+			foreach ($extensions as $extension) {
+				if ($extension instanceof IPresenterMappingProvider) {
+					$this->setupPresenterMapping($presenterFactory, $extension);
+				}
 
-			if ($extension instanceof IRouterProvider) {
-				$this->setupRouter($extension);
-			}
+				if ($extension instanceof IRouterProvider) {
+					$this->setupRouter($extension);
+				}
 
-			if($extension instanceof ILatteMacrosProvider) {
-				$this->setupMacros($latte, $extension);
+				if($extension instanceof ILatteMacrosProvider) {
+					$this->setupMacros($latte, $extension);
+				}
 			}
 		}
 
