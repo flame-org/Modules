@@ -11,7 +11,9 @@ use Flame\Modules\Extension\NamedExtension;
 use Flame\Modules\Providers\ILatteMacrosProvider;
 use Flame\Modules\Providers\IRouterProvider;
 use Flame\Modules\Providers\IPresenterMappingProvider;
+use Nette\DI\ContainerBuilder;
 use Nette\DI\ServiceDefinition;
+use Nette\Framework;
 use Nette\Utils\Validators;
 
 class ModulesExtension extends NamedExtension
@@ -23,17 +25,9 @@ class ModulesExtension extends NamedExtension
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
+		$this->setupPresenterFactory($builder);
 
-		$builder->removeDefinition("nette.presenterFactory");
-		$presenterFactory = $builder->addDefinition("nette.presenterFactory")
-			->setClass('Flame\Modules\Application\PresenterFactory', array('%appDir%'))
-			->setAutowired(TRUE)
-			->setShared(TRUE);
-
-		if (isset($this->compiler->config["nette"]["application"]["mapping"])) {
-			$presenterFactory->addSetup('setMapping', 					array($this->compiler->config["nette"]["application"]["mapping"]));
-		}
-
+		$presenterFactory = $builder->getDefinition('nette.presenterFactory');
 		$latte = $builder->getDefinition('nette.latte');
 
 		foreach ($this->compiler->getExtensions() as $extension) {
@@ -79,4 +73,22 @@ class ModulesExtension extends NamedExtension
 		}
 	}
 
+	/**
+	 * @param ContainerBuilder $builder
+	 * @return void
+	 */
+	private function setupPresenterFactory(ContainerBuilder &$builder)
+	{
+		if(version_compare(Framework::VERSION, '2.1-dev', '<')) {
+			$builder->removeDefinition('nette.presenterFactory');
+			$presenterFactory = $builder->addDefinition('nette.presenterFactory')
+				->setClass('Flame\Modules\Application\PresenterFactory', array('%appDir%'))
+				->setAutowired(TRUE)
+				->setShared(TRUE);
+
+			if (isset($this->compiler->config['nette']['application']['mapping'])) {
+				$presenterFactory->addSetup('setMapping', array($this->compiler->config['nette']['application']['mapping']));
+			}
+		}
+	}
 }
