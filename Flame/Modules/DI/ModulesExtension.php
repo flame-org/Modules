@@ -23,7 +23,17 @@ class ModulesExtension extends NamedExtension
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
-		$presenterFactory = $builder->getDefinition('nette.presenterFactory');
+
+		$builder->removeDefinition("nette.presenterFactory");
+		$presenterFactory = $builder->addDefinition("nette.presenterFactory")
+			->setClass('Flame\Modules\Application\PresenterFactory', array('%appDir%'))
+			->setAutowired(TRUE)
+			->setShared(TRUE);
+
+		if (isset($this->compiler->config["nette"]["application"]["mapping"])) {
+			$presenterFactory->addSetup('setMapping', 					array($this->compiler->config["nette"]["application"]["mapping"]));
+		}
+
 		$latte = $builder->getDefinition('nette.latte');
 
 		foreach ($this->compiler->getExtensions() as $extension) {
