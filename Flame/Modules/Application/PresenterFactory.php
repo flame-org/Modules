@@ -5,6 +5,7 @@ namespace Flame\Modules\Application;
 use Nette;
 use Nette\Application\UI;
 use Nette\Application\InvalidPresenterException;
+use Flame\Modules\DI\Helpers;
 
 /**
  * Own representation of PresenterFactory from @dev nette version for nette @stable
@@ -59,14 +60,7 @@ class PresenterFactory extends Nette\Object implements Nette\Application\IPresen
 			$presenter = $this->container->createInstance($class);
 		}
 
-		if (method_exists($presenter, 'setContext')) {
-			$this->container->callMethod(array($presenter, 'setContext'));
-		}
-		foreach (array_reverse(get_class_methods($presenter)) as $method) {
-			if (substr($method, 0, 6) === 'inject') {
-				$this->container->callMethod(array($presenter, $method));
-			}
-		}
+		$this->setInjects($presenter);
 
 		if ($presenter instanceof UI\Presenter && $presenter->invalidLinkMode === NULL) {
 			$presenter->invalidLinkMode = $this->container->parameters['debugMode'] ? UI\Presenter::INVALID_LINK_WARNING : UI\Presenter::INVALID_LINK_SILENT;
@@ -196,4 +190,30 @@ class PresenterFactory extends Nette\Object implements Nette\Application\IPresen
 		return $this->baseDir . substr_replace($path, '/presenters', strrpos($path, '/'), 0) . 'Presenter.php';
 	}
 
+	/**
+	 * @param $presenter
+	 * @return void
+	 */
+	protected function setInjects($presenter)
+	{
+		if (method_exists($presenter, 'setContext')) {
+			$this->container->callMethod(array($presenter, 'setContext'));
+		}
+
+		$methods = array_reverse(get_class_methods($presenter));
+		if(count($methods)) {
+			foreach ($methods as $method) {
+				if (substr($method, 0, 6) === 'inject') {
+					$this->container->callMethod(array($presenter, $method));
+				}
+			}
+		}
+
+		$properties = Helpers::getInjectProperties(Nette\Reflection\ClassType::from($presenter));
+		if(count($properties)) {
+			foreach ($properties as $property => $type) {
+				$presenter->$property = $this->container->getByType($type);
+			}
+		}
+	}
 }
