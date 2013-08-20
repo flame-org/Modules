@@ -7,7 +7,7 @@
  */
 namespace Flame\Modules\Extension;
 
-use Nette\Config\Configurator;
+use Nette\Configurator;
 
 interface IDomainExtension
 {

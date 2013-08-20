@@ -1,7 +1,7 @@
 <?php
 
-if (!class_exists('Nette\Config\CompilerExtension')) {
-	class_alias('Nette\DI\CompilerExtension', 'Nette\Config\CompilerExtension');
-	class_alias('Nette\DI\Compiler', 'Nette\Config\Compiler');
-	class_alias('Nette\DI\Helpers', 'Nette\Config\Config\Helpers');
+if (!class_exists('Nette\DI\CompilerExtension')) {
+	class_alias('Nette\Config\CompilerExtension', 'Nette\DI\CompilerExtension');
+	class_alias('Nette\Config\Compiler', 'Nette\DI\Compiler');
+	class_alias('Nette\Config\Helpers', 'Nette\DI\Config\Helpers');
 }

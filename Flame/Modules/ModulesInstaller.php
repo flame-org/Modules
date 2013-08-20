@@ -11,7 +11,7 @@ use Flame\Modules\Extension\IDomainExtension;
 use Flame\Modules\Extension\INamedExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Flame\Modules\DI\ConfiguratorHelper;
-use Nette\Config\CompilerExtension;
+use Nette\DI\CompilerExtension;
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Object;
@@ -73,7 +73,7 @@ class ModulesInstaller extends Object
 		}
 
 		if (!$extension instanceof CompilerExtension) {
-			throw new InvalidArgumentException('Extension must be class name (string) or instance of \Nette\Config\CompilerExtension');
+			throw new InvalidArgumentException('Extension must be class name (string) or instance of \Nette\DI\CompilerExtension');
 		}
 
 		if($extension instanceof IDomainExtension) {

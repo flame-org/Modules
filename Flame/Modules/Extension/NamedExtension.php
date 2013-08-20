@@ -7,8 +7,9 @@
  */
 namespace Flame\Modules\Extension;
 
-use Nette\Config\Compiler;
-use Nette\Config\CompilerExtension;
+use Nette\Configurator;
+use Nette\DI\Compiler;
+use Nette\DI\CompilerExtension;
 use Nette\Utils\Strings;
 
 abstract class NamedExtension extends CompilerExtension implements INamedExtension
