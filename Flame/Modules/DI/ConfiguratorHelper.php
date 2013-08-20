@@ -11,7 +11,7 @@ use Nette\Configurator;
 use Nette\DI\CompilerExtension;
 use Nette\Object;
 
-class ConfiguratorHelper extends Object
+class ConfiguratorHelper extends Object implements IConfiguratorProvider
 {
 
 	/** @var  \Nette\Configurator */
