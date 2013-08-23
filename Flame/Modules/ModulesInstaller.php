@@ -79,14 +79,6 @@ class ModulesInstaller extends Object
 		if($extension instanceof IDomainExtension) {
 			$extension->register($this->helper->getConfigurator());
 		}else{
-			if($name === null) {
-				if (!$extension instanceof INamedExtension) {
-					throw new InvalidStateException('Please set module name, or implement Flame\Modules\INamedExtension');
-				}
-
-				$name = $extension->getName();
-			}
-
 			$this->helper->registerExtension($extension, $name);
 		}
 

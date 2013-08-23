@@ -9,6 +9,8 @@ namespace Flame\Modules\DI;
 
 use Nette\Configurator;
 use Nette\DI\CompilerExtension;
+use Flame\Modules\Extension\INamedExtension;
+use Nette\InvalidStateException;
 use Nette\Object;
 
 class ConfiguratorHelper extends Object implements IConfiguratorProvider
@@ -27,11 +29,20 @@ class ConfiguratorHelper extends Object implements IConfiguratorProvider
 
 	/**
 	 * @param CompilerExtension $extension
-	 * @param $name
+	 * @param null $name
 	 * @return $this
+	 * @throws \Nette\InvalidStateException
 	 */
-	public function registerExtension(CompilerExtension $extension, $name)
+	public function registerExtension(CompilerExtension $extension, $name = null)
 	{
+		if($name === null) {
+			if (!$extension instanceof INamedExtension) {
+				throw new InvalidStateException('Please set module name, or implement Flame\Modules\INamedExtension');
+			}
+
+			$name = $extension->getName();
+		}
+
 		$this->configurator->onCompile[] = function ($config, $compiler) use ($extension, $name) {
 			$compiler->addExtension($name, $extension);
 		};
