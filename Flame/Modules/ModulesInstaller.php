@@ -108,7 +108,7 @@ class ModulesInstaller extends Object
 
 	/**
 	 * @param $class
-	 * @return mixed
+	 * @return null|object
 	 * @throws \Nette\InvalidStateException
 	 */
 	protected function invokeExtension($class)
