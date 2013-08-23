@@ -7,6 +7,8 @@
  */
 namespace Flame\Modules;
 
+use Flame\Modules\DI\IConfigFile;
+use Flame\Modules\DI\ConfigFile;
 use Flame\Modules\Extension\IDomainExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Flame\Modules\DI\ConfiguratorHelper;
@@ -20,7 +22,10 @@ use Nette\Utils\Validators;
 class ModulesInstaller extends Object
 {
 
-	/** @var  ConfiguratorHelper */
+	/** @var \Flame\Modules\DI\IConfigFile  */
+	private $configFile;
+
+	/** @var \Flame\Modules\DI\ConfiguratorHelper  */
 	private $helper;
 
 	/** @var array  */
@@ -30,9 +35,15 @@ class ModulesInstaller extends Object
 
 	/**
 	 * @param ConfiguratorHelper $helper
+	 * @param IConfigFile $configFile
 	 */
-	function __construct(ConfiguratorHelper $helper)
+	function __construct(ConfiguratorHelper $helper, IConfigFile $configFile = null)
 	{
+		if($configFile === null) {
+			$configFile = new ConfigFile;
+		}
+
+		$this->configFile = $configFile;
 		$this->helper = $helper;
 	}
 
@@ -43,13 +54,12 @@ class ModulesInstaller extends Object
 	 */
 	public function addConfig($filePath)
 	{
-
 		if(!file_exists((string) $filePath)) {
 			throw new InvalidArgumentException('Given config path does not exist');
 		}
 
-		$config = $this->getConfig($filePath);
-		if(count($config) && isset($config['modules']) && count($modules = $config['modules'])) {
+		$modules = $this->configFile->loadConfig($filePath)->getConfigSection();
+		if(count($modules)) {
 			foreach($modules as $name => $moduleClass) {
 				$this->registerExtension($moduleClass, (is_string($name)) ? $name : null);
 			}
@@ -131,27 +141,4 @@ class ModulesInstaller extends Object
 			$this->setupConfigProvider($extension);
 		}
 	}
-
-	/**
-	 * @param $filePath
-	 * @return array|mixed
-	 */
-	private function getConfig($filePath)
-	{
-		$extension = pathinfo($filePath, PATHINFO_EXTENSION);
-		switch ($extension) {
-			case 'neon':
-				$config = Neon::decode(file_get_contents($filePath));
-				break;
-			case 'php':
-				$config = include_once($filePath);
-				break;
-			default:
-				$config = array();
-				break;
-		}
-
-		return $config;
-	}
-
 }
