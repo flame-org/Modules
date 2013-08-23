@@ -11,9 +11,11 @@ use Flame\Modules\Extension\NamedExtension;
 use Flame\Modules\Providers\ILatteMacrosProvider;
 use Flame\Modules\Providers\IRouterProvider;
 use Flame\Modules\Providers\IPresenterMappingProvider;
+use Flame\Modules\Providers\ITemplateHelpersProvider;
 use Nette\DI\ContainerBuilder;
 use Nette\DI\ServiceDefinition;
 use Nette\Framework;
+use Nette\InvalidStateException;
 use Nette\Utils\Validators;
 
 class ModulesExtension extends NamedExtension
@@ -30,6 +32,7 @@ class ModulesExtension extends NamedExtension
 		if(count($extensions = $this->compiler->getExtensions())) {
 			$presenterFactory = $builder->getDefinition('nette.presenterFactory');
 			$latte = $builder->getDefinition('nette.latte');
+			$template = $builder->getDefinition('nette.template');
 
 			foreach ($extensions as $extension) {
 				if ($extension instanceof IPresenterMappingProvider) {
@@ -42,6 +45,10 @@ class ModulesExtension extends NamedExtension
 
 				if($extension instanceof ILatteMacrosProvider) {
 					$this->setupMacros($latte, $extension);
+				}
+
+				if($extension instanceof ITemplateHelpersProvider) {
+					$this->setupHelpers($template, $extension);
 				}
 			}
 		}
@@ -91,6 +98,39 @@ class ModulesExtension extends NamedExtension
 				}
 
 				$latte->addSetup($macro . '(?->compiler)', array('@self'));
+			}
+		}
+	}
+
+	/**
+	 * @param ServiceDefinition $template
+	 * @param ITemplateHelpersProvider $extension
+	 * @throws \Nette\InvalidStateException
+	 */
+	private function setupHelpers(ServiceDefinition $template, ITemplateHelpersProvider $extension)
+	{
+		$helpers = $extension->getHelpersConfiguration();
+		Validators::assert($helpers, 'array');
+
+		if(count($helpers)) {
+			$builder = $this->getContainerBuilder();
+			foreach ($helpers as $name => $helper) {
+				if(is_string($helper) && !is_string($name)) {
+					$provider = $builder->addDefinition($this->prefix('helperProvider' . $name))
+						->setClass($helper);
+
+					$template->addSetup('Flame\Modules\Template\Helper::register($service, ?)', $provider);
+				}else{
+					if(!is_string($name)) {
+						throw new InvalidStateException('Template helper\'s name must be specified, "' . $name . '" given!');
+					}
+
+					if(!is_array($helper) && !is_string($helper)) {
+						throw new InvalidStateException('Template helper\'s definition must be array or string, "' . gettype($helper) . '" given');
+					}
+
+					$template->addSetup('registerHelper', array($name, $helper));
+				}
 			}
 		}
 	}
