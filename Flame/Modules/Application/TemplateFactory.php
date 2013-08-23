@@ -1,25 +1,27 @@
 <?php
 /**
- * Class Presenter
+ * Class PresenterTemplateFactory
  *
  * @author: Jiří Šifalda <sifalda.jiri@gmail.com>
  * @date: 23.08.13
  */
-namespace Flame\Modules\Application\UI;
 
-class Presenter extends \Nette\Application\UI\Presenter
+namespace Flame\Modules\Application;
+
+use Nette\Application\UI\Presenter;
+
+trait TemplateFactory
 {
 
 	/**
 	 * @param null $class
 	 * @return \Nette\Templating\ITemplate
 	 */
-	protected function createTemplate($class = null)
+	public function createTemplate($class = null)
 	{
-		$template = $this->context->nette->createTemplate();
-		$template->onPrepareFilters[] = $this->templatePrepareFilters;
-
 		$presenter = $this->getPresenter(FALSE);
+		$template = $presenter->getContext()->nette->createTemplate();
+		$template->onPrepareFilters[] = $this->templatePrepareFilters;
 
 		// default parameters
 		$template->control = $template->_control = $this;
@@ -27,9 +29,9 @@ class Presenter extends \Nette\Application\UI\Presenter
 		if ($presenter instanceof Presenter) {
 			$template->setCacheStorage($presenter->getContext()->getService('nette.templateCacheStorage'));
 			$template->user = $presenter->getUser();
-			$template->netteHttpResponse = $presenter->getHttpResponse();
+			$template->netteHttpResponse = $presenter->getContext()->getByType('Nette\Http\Response');
 			$template->netteCacheStorage = $presenter->getContext()->getByType('Nette\Caching\IStorage');
-			$template->baseUri = $template->baseUrl = rtrim($presenter->getHttpRequest()->getUrl()->getBaseUrl(), '/');
+			$template->baseUri = $template->baseUrl = rtrim($presenter->getContext()->getByType('Nette\Http\Request')->getUrl()->getBaseUrl(), '/');
 			$template->basePath = preg_replace('#https?://[^/]+#A', '', $template->baseUrl);
 
 			// flash message
@@ -44,4 +46,5 @@ class Presenter extends \Nette\Application\UI\Presenter
 
 		return $template;
 	}
+
 }
