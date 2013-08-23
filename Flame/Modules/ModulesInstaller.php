@@ -8,7 +8,6 @@
 namespace Flame\Modules;
 
 use Flame\Modules\Extension\IDomainExtension;
-use Flame\Modules\Extension\INamedExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Flame\Modules\DI\ConfiguratorHelper;
 use Nette\DI\CompilerExtension;
