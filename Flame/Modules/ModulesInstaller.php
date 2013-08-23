@@ -121,15 +121,23 @@ class ModulesInstaller extends Object
 	}
 
 	/**
+	 * @param IConfigProvider $extension
+	 */
+	protected function setupConfigProvider(IConfigProvider &$extension)
+	{
+		$configs = $extension->getConfigFiles();
+		Validators::assert($configs, 'array');
+		$this->helper->addConfigs($configs);
+	}
+
+	/**
 	 * @param CompilerExtension $extension
 	 * @return void
 	 */
 	protected function parseProviders(CompilerExtension &$extension)
 	{
 		if($extension instanceof IConfigProvider) {
-			$configs = $extension->getConfigFiles();
-			Validators::assert($configs, 'array');
-			$this->helper->addConfigs($configs);
+			$this->setupConfigProvider($extension);
 		}
 	}
 
