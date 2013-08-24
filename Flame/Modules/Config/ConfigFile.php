@@ -5,7 +5,7 @@
  * @author: Jiří Šifalda <sifalda.jiri@gmail.com>
  * @date: 23.08.13
  */
-namespace Flame\Modules\DI;
+namespace Flame\Modules\Config;
 
 use Nette\InvalidStateException;
 use Nette\Object;

@@ -6,7 +6,7 @@
  * @date: 23.08.13
  */
 
-namespace Flame\Modules\DI;
+namespace Flame\Modules\Config;
 
 
 interface IConfigFile

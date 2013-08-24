@@ -7,8 +7,8 @@
  */
 namespace Flame\Modules;
 
-use Flame\Modules\DI\IConfigFile;
-use Flame\Modules\DI\ConfigFile;
+use Flame\Modules\Config\IConfigFile;
+use Flame\Modules\Config\ConfigFile;
 use Flame\Modules\Extension\IDomainExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Flame\Modules\DI\ConfiguratorHelper;
@@ -22,7 +22,7 @@ use Nette\Utils\Validators;
 class ModulesInstaller extends Object
 {
 
-	/** @var \Flame\Modules\DI\IConfigFile  */
+	/** @var \Flame\Modules\Config\IConfigFile  */
 	private $configFile;
 
 	/** @var \Flame\Modules\DI\ConfiguratorHelper  */
