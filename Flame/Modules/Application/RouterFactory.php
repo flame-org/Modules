@@ -39,9 +39,9 @@ class RouterFactory
 		}
 
 		if(count($routes)) {
-
 			$definedRoutes = iterator_to_array($router);
 			$router = new RouteList;
+			$routes = array_reverse($routes);
 
 			foreach ($routes as $route) {
 				array_unshift($definedRoutes, static::createRoute($route));
