@@ -8,6 +8,7 @@
 namespace Flame\Modules\DI;
 
 use Flame\Modules\Extension\NamedExtension;
+use Flame\Modules\Providers\IErrorPresenterProvider;
 use Flame\Modules\Providers\ILatteMacrosProvider;
 use Flame\Modules\Providers\IRouterProvider;
 use Flame\Modules\Providers\IPresenterMappingProvider;
@@ -33,6 +34,7 @@ class ModulesExtension extends NamedExtension
 			$presenterFactory = $builder->getDefinition('nette.presenterFactory');
 			$latte = $builder->getDefinition('nette.latte');
 			$template = $builder->getDefinition('nette.template');
+			$application = $builder->getDefinition('application');
 
 			foreach ($extensions as $extension) {
 				if ($extension instanceof IPresenterMappingProvider) {
@@ -49,6 +51,10 @@ class ModulesExtension extends NamedExtension
 
 				if($extension instanceof ITemplateHelpersProvider) {
 					$this->setupHelpers($template, $extension);
+				}
+
+				if($extension instanceof IErrorPresenterProvider){
+					$this->setupErrorPresenter($application, $extension);
 				}
 			}
 		}
@@ -162,5 +168,17 @@ class ModulesExtension extends NamedExtension
 		if (count($routes)) {
 			$this->routes = array_merge($this->routes, $routes);
 		}
+	}
+
+	/**
+	 * @param ServiceDefinition $application
+	 * @param IErrorPresenterProvider $extension
+	 */
+	private function setupErrorPresenter(ServiceDefinition $application, IErrorPresenterProvider $extension)
+	{
+		$presenterName = $extension->getErrorPresenterName();
+		Validators::assert($presenterName, 'string');
+
+		$application->addSetup('$errorPresenter', $presenterName);
 	}
 }
