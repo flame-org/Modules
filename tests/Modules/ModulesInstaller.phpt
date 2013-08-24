@@ -14,6 +14,7 @@ use Flame\Modules\Extension\NamedExtension;
 use Flame\Modules\ModulesInstaller;
 use Flame\Tester\MockTestCase;
 use Nette;
+use Flame\Modules\Config\ConfigFile;
 use Nette\Configurator;
 use Tester\Assert;
 use Flame\Modules\DI\ConfiguratorHelper;
@@ -51,29 +52,17 @@ class ModulesInstallerTest extends MockTestCase
 	/** @var  \Mockista\MockInterface */
 	private $configuratorHelperMock;
 
+	/** @var  \Mockista\MockInterface */
+	private $fileConfigMock;
+
     public function setUp()
     {
         parent::setUp();
 
+	    $this->fileConfigMock = $this->mockista->create(ConfigFile::getReflection()->getName());
 	    $this->configuratorHelperMock = $this->mockista->create(ConfiguratorHelper::getReflection()->getName());
-	    $this->installer = new ModulesInstaller($this->configuratorHelperMock);
+	    $this->installer = new ModulesInstaller($this->configuratorHelperMock, $this->fileConfigMock);
     }
-    
-    public function testRegister()
-    {
-	    $this->configuratorHelperMock->expects('registerExtension')
-		    ->with(new ModulesExtension, ModulesExtension::getShortName())
-		    ->once();
-	    Assert::type(ModulesInstaller::getReflection()->getName(), $this->installer->register());
-    }
-
-	public function testRegisterExtension()
-	{
-		$this->configuratorHelperMock->expects('registerExtension')
-			->with(new ModulesExtension, ModulesExtension::getShortName())
-			->once();
-		Assert::type(ModulesInstaller::getReflection()->getName(), $this->installer->registerExtension('Flame\Modules\DI\ModulesExtension'));
-	}
 
 	public function testRegisterExtensionWithName()
 	{
@@ -88,13 +77,6 @@ class ModulesInstallerTest extends MockTestCase
 		Assert::throws(function () {
 			$this->installer->registerExtension(new ExtensionWithoutCompilerAncestor);
 		}, '\Nette\InvalidArgumentException');
-	}
-
-	public function testRegisterExtensionWithoutDefinedName()
-	{
-		Assert::throws(function () {
-			$this->installer->registerExtension(new FakeExtension());
-		}, '\Nette\InvalidStateException');
 	}
 
 	public function testRegisterExtensionDomainInterface()
