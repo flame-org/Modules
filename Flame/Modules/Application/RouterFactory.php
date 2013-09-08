@@ -7,6 +7,8 @@
  */
 namespace Flame\Modules\Application;
 
+use Flame\Modules\Application\Routers\IRouteMock;
+use Flame\Modules\Application\Routers\RouteMock;
 use Nette\Application\Routers\RouteList;
 use Nette\Application\Routers\Route;
 use Nette\InvalidStateException;
@@ -62,12 +64,15 @@ class RouterFactory
 	 */
 	private static function createRoute($route)
 	{
-		if(!is_array($route)) {
-			throw new InvalidStateException('Route definition must be array, ' . gettype($route) . ' given');
+		if(is_array($route) && count($route) >= 1) {
+			$class = key($route);
+			$route = new RouteMock($class, $route[$class]);
 		}
 
-		$class = (string) key($route);
-		$instance = new ClassType($class);
-		return $instance->newInstanceArgs($route[$class]);
+		if($route instanceof IRouteMock) {
+			return $route->getInstance();
+		}
+
+		throw new InvalidStateException('Route definition must be array or instance of Flame\Modules\Application\Routers\IRouteMock, ' . gettype($route) . ' given');
 	}
 }
