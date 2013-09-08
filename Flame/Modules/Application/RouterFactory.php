@@ -70,7 +70,7 @@ class RouterFactory
 		}
 
 		if($route instanceof IRouteMock) {
-			return $route->getInstance();
+			return $route->getRouter();
 		}
 
 		throw new InvalidStateException('Route definition must be array or instance of Flame\Modules\Application\Routers\IRouteMock, ' . gettype($route) . ' given');

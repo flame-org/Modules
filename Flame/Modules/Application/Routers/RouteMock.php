@@ -38,7 +38,7 @@ class RouteMock extends Object implements IRouteMock
 	 * @return IRouter
 	 * @throws \Nette\InvalidStateException
 	 */
-	public function getInstance()
+	public function getRouter()
 	{
 		if($this->router === null) {
 			$this->router = $this->createInstance();

@@ -15,5 +15,5 @@ interface IRouteMock
 	/**
 	 * @return \Nette\Application\IRouter
 	 */
-	public function getInstance();
+	public function getRouter();
 }

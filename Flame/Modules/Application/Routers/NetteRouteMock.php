@@ -28,8 +28,8 @@ class NetteRouteMock extends Object implements IRouteMock
 	/**
 	 * @return \Nette\Application\IRouter
 	 */
-	public function getInstance()
+	public function getRouter()
 	{
-		return $this->factory->getInstance();
+		return $this->factory->getRouter();
 	}
 }
