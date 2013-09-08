@@ -7,6 +7,8 @@
  */
 namespace Flame\Modules\Application\Routers;
 
+use Nette\Application\IRouter;
+use Nette\InvalidStateException;
 use Nette\Object;
 use Nette\Reflection\ClassType;
 
@@ -30,12 +32,19 @@ class RouteMock extends Object implements IRouteMock
 	}
 
 	/**
-	 * @return object
+	 * @return IRouter
+	 * @throws \Nette\InvalidStateException
 	 */
 	public function getInstance()
 	{
 		$route = new ClassType($this->class);
-		return $route->newInstanceArgs($this->args);
+		$route = $route->newInstanceArgs($this->args);
+
+		if($route instanceof IRouter) {
+			return $route;
+		}
+
+		throw new InvalidStateException('Class "' . $this->class . '" is not instance of Nette\Application\IRouter');
 	}
 
 }
