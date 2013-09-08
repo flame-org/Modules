@@ -21,6 +21,9 @@ class RouteMock extends Object implements IRouteMock
 	/** @var array  */
 	public $args;
 
+	/** @var  IRouter */
+	private $router;
+
 	/**
 	 * @param string $class
 	 * @param array $args
@@ -37,14 +40,24 @@ class RouteMock extends Object implements IRouteMock
 	 */
 	public function getInstance()
 	{
-		$route = new ClassType($this->class);
-		$route = $route->newInstanceArgs($this->args);
+		if($this->router === null) {
+			$this->router = $this->createInstance();
+		}
 
-		if($route instanceof IRouter) {
-			return $route;
+		if($this->router instanceof IRouter) {
+			return $this->router;
 		}
 
 		throw new InvalidStateException('Class "' . $this->class . '" is not instance of Nette\Application\IRouter');
+	}
+
+	/**
+	 * @return object
+	 */
+	protected function createInstance()
+	{
+		$route = new ClassType($this->class);
+		return $route->newInstanceArgs($this->args);
 	}
 
 }
