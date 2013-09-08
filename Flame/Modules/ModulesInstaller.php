@@ -8,7 +8,6 @@
 namespace Flame\Modules;
 
 use Flame\Modules\Config\IConfigFile;
-use Flame\Modules\Config\ConfigFile;
 use Flame\Modules\Extension\IDomainExtension;
 use Flame\Modules\Providers\IConfigProvider;
 use Flame\Modules\DI\ConfiguratorHelper;
@@ -37,12 +36,8 @@ class ModulesInstaller extends Object
 	 * @param ConfiguratorHelper $helper
 	 * @param IConfigFile $configFile
 	 */
-	function __construct(ConfiguratorHelper $helper, IConfigFile $configFile = null)
+	function __construct(ConfiguratorHelper $helper, IConfigFile $configFile)
 	{
-		if($configFile === null) {
-			$configFile = new ConfigFile;
-		}
-
 		$this->configFile = $configFile;
 		$this->helper = $helper;
 	}
