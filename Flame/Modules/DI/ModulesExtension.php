@@ -13,11 +13,14 @@ use Flame\Modules\Providers\ILatteMacrosProvider;
 use Flame\Modules\Providers\IRouterProvider;
 use Flame\Modules\Providers\IPresenterMappingProvider;
 use Flame\Modules\Providers\ITemplateHelpersProvider;
+use Flame\Modules\Providers\ITracyBarPanelsProvider;
+use Flame\Modules\Providers\ITracyPanelsProvider;
 use Nette\DI\ContainerBuilder;
 use Nette\DI\ServiceDefinition;
 use Nette\Framework;
 use Nette\InvalidStateException;
 use Nette\Utils\Validators;
+use Nette;
 
 class ModulesExtension extends NamedExtension
 {
@@ -25,6 +28,9 @@ class ModulesExtension extends NamedExtension
 	/** @var array  */
 	private $routes = array();
 
+	/**
+	 * @return void
+	 */
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
@@ -62,6 +68,39 @@ class ModulesExtension extends NamedExtension
 		if(count($this->routes)) {
 			$builder->getDefinition('router')
 				->addSetup('Flame\Modules\Application\RouterFactory::prependTo($service, ?)', array($this->routes));
+		}
+	}
+
+	/**
+	 * @param Nette\PhpGenerator\ClassType $class
+	 * @return void
+	 */
+	public function afterCompile(Nette\PhpGenerator\ClassType $class)
+	{
+		$container = $this->getContainerBuilder();
+
+		if ($container->parameters['debugMode']) {
+			$initialize = $class->methods['initialize'];
+
+			foreach ($this->compiler->getExtensions() as $extension) {
+				if ($extension instanceof ITracyBarPanelsProvider) {
+					foreach ($extension->getTracyBarPanels() as $item) {
+						$initialize->addBody($container->formatPhp(
+							'Nette\Diagnostics\Debugger::getBar()->addPanel(?);',
+							Nette\DI\Compiler::filterArguments(array(is_string($item) ? new Nette\DI\Statement($item) : $item))
+						));
+					}
+				}
+
+				if ($extension instanceof ITracyPanelsProvider) {
+					foreach ($extension->getTracyPanels() as $item) {
+						$initialize->addBody($container->formatPhp(
+							'Nette\Diagnostics\Debugger::getBlueScreen()->addPanel(?);',
+							Nette\DI\Compiler::filterArguments(array($item))
+						));
+					}
+				}
+			}
 		}
 	}
 
