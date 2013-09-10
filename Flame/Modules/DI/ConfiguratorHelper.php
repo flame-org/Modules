@@ -56,10 +56,8 @@ class ConfiguratorHelper extends Object implements IConfiguratorProvider
 	 */
 	public function addConfigs(array $configsFiles)
 	{
-		if(count($configsFiles)) {
-			foreach ($configsFiles as $file) {
-				$this->configurator->addConfig($file);
-			}
+		foreach ($configsFiles as $file) {
+			$this->configurator->addConfig($file);
 		}
 
 		return $this;
