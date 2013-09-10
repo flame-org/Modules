@@ -15,11 +15,6 @@ use Flame\Modules\Providers\IPresenterMappingProvider;
 use Flame\Modules\Providers\ITemplateHelpersProvider;
 use Flame\Modules\Providers\ITracyBarPanelsProvider;
 use Flame\Modules\Providers\ITracyPanelsProvider;
-use Nette\DI\ContainerBuilder;
-use Nette\DI\ServiceDefinition;
-use Nette\Framework;
-use Nette\InvalidStateException;
-use Nette\Utils\Validators;
 use Nette;
 
 class ModulesExtension extends NamedExtension
@@ -105,12 +100,12 @@ class ModulesExtension extends NamedExtension
 	}
 
 	/**
-	 * @param ContainerBuilder $builder
+	 * @param Nette\DI\ContainerBuilder $builder
 	 * @return void
 	 */
-	protected function setupPresenterFactory(ContainerBuilder &$builder)
+	protected function setupPresenterFactory(Nette\DI\ContainerBuilder &$builder)
 	{
-		if(version_compare(Framework::VERSION, '2.1-dev', '<')) {
+		if(version_compare(Nette\Framework::VERSION, '2.1-dev', '<')) {
 			$builder->removeDefinition('nette.presenterFactory');
 			$presenterFactory = $builder->addDefinition('nette.presenterFactory')
 				->setClass('Flame\Modules\Application\PresenterFactory', array('%appDir%'))
@@ -124,14 +119,14 @@ class ModulesExtension extends NamedExtension
 	}
 
 	/**
-	 * @param ServiceDefinition $latte
+	 * @param Nette\DI\ServiceDefinition $latte
 	 * @param ILatteMacrosProvider $extension
 	 * @return void
 	 */
-	private function setupMacros(ServiceDefinition $latte, ILatteMacrosProvider $extension)
+	private function setupMacros(Nette\DI\ServiceDefinition $latte, ILatteMacrosProvider $extension)
 	{
 		$macros = $extension->getLatteMacros();
-		Validators::assert($macros, 'array');
+		Nette\Utils\Validators::assert($macros, 'array');
 
 		if(count($macros)) {
 			foreach ($macros as $macro) {
@@ -139,7 +134,7 @@ class ModulesExtension extends NamedExtension
 					$macro .= '::install';
 
 				} else {
-					Validators::assert($macro, 'callable');
+					Nette\Utils\Validators::assert($macro, 'callable');
 				}
 
 				$latte->addSetup($macro . '(?->compiler)', array('@self'));
@@ -148,14 +143,14 @@ class ModulesExtension extends NamedExtension
 	}
 
 	/**
-	 * @param ServiceDefinition $template
+	 * @param Nette\DI\ServiceDefinition $template
 	 * @param ITemplateHelpersProvider $extension
 	 * @throws \Nette\InvalidStateException
 	 */
-	private function setupHelpers(ServiceDefinition $template, ITemplateHelpersProvider $extension)
+	private function setupHelpers(Nette\DI\ServiceDefinition $template, ITemplateHelpersProvider $extension)
 	{
 		$helpers = $extension->getHelpersConfiguration();
-		Validators::assert($helpers, 'array');
+		Nette\Utils\Validators::assert($helpers, 'array');
 
 		if(count($helpers)) {
 			$builder = $this->getContainerBuilder();
@@ -167,11 +162,11 @@ class ModulesExtension extends NamedExtension
 					$template->addSetup('Flame\Modules\Template\Helper::register($service, ?)', $provider);
 				}else{
 					if(!is_string($name)) {
-						throw new InvalidStateException('Template helper\'s name must be specified, "' . $name . '" given!');
+						throw new Nette\InvalidStateException('Template helper\'s name must be specified, "' . $name . '" given!');
 					}
 
 					if(!is_array($helper) && !is_string($helper)) {
-						throw new InvalidStateException('Template helper\'s definition must be array or string, "' . gettype($helper) . '" given');
+						throw new Nette\InvalidStateException('Template helper\'s definition must be array or string, "' . gettype($helper) . '" given');
 					}
 
 					$template->addSetup('registerHelper', array($name, $helper));
@@ -181,14 +176,14 @@ class ModulesExtension extends NamedExtension
 	}
 
 	/**
-	 * @param ServiceDefinition $presenterFactory
+	 * @param Nette\DI\ServiceDefinition $presenterFactory
 	 * @param IPresenterMappingProvider $extension
 	 * @return void
 	 */
-	private function setupPresenterMapping(ServiceDefinition $presenterFactory, IPresenterMappingProvider $extension)
+	private function setupPresenterMapping(Nette\DI\ServiceDefinition $presenterFactory, IPresenterMappingProvider $extension)
 	{
 		$mapping = $extension->getPresenterMapping();
-		Validators::assert($mapping, 'array');
+		Nette\Utils\Validators::assert($mapping, 'array');
 
 		if (count($mapping)) {
 			$presenterFactory->addSetup('setMapping', array($mapping));
@@ -202,7 +197,7 @@ class ModulesExtension extends NamedExtension
 	private function setupRouter(IRouterProvider $extension)
 	{
 		$routes = $extension->getRoutesDefinition();
-		Validators::assert($routes, 'array');
+		Nette\Utils\Validators::assert($routes, 'array');
 
 		if (count($routes)) {
 			$this->routes = array_merge($this->routes, $routes);
@@ -210,13 +205,13 @@ class ModulesExtension extends NamedExtension
 	}
 
 	/**
-	 * @param ServiceDefinition $application
+	 * @param Nette\DI\ServiceDefinition $application
 	 * @param IErrorPresenterProvider $extension
 	 */
-	private function setupErrorPresenter(ServiceDefinition $application, IErrorPresenterProvider $extension)
+	private function setupErrorPresenter(Nette\DI\ServiceDefinition $application, IErrorPresenterProvider $extension)
 	{
 		$presenterName = $extension->getErrorPresenterName();
-		Validators::assert($presenterName, 'string');
+		Nette\Utils\Validators::assert($presenterName, 'string');
 
 		$application->addSetup('$errorPresenter', $presenterName);
 	}
