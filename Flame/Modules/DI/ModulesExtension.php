@@ -30,34 +30,34 @@ class ModulesExtension extends NamedExtension
 		$builder = $this->getContainerBuilder();
 		$this->setupPresenterFactory($builder);
 
-		if(count($extensions = $this->compiler->getExtensions())) {
-			$presenterFactory = $builder->getDefinition('nette.presenterFactory');
-			$latte = $builder->getDefinition('nette.latte');
-			$template = $builder->getDefinition('nette.template');
-			$application = $builder->getDefinition('application');
+		$presenterFactory = $builder->getDefinition('nette.presenterFactory');
+		$latte = $builder->getDefinition('nette.latte');
+		$template = $builder->getDefinition('nette.template');
+		$application = $builder->getDefinition('application');
 
-			foreach ($extensions as $extension) {
-				if ($extension instanceof IPresenterMappingProvider) {
-					$this->setupPresenterMapping($presenterFactory, $extension);
-				}
+		$extensions = $this->compiler->getExtensions();
+		foreach ($extensions as $extension) {
+			if ($extension instanceof IPresenterMappingProvider) {
+				$this->setupPresenterMapping($presenterFactory, $extension);
+			}
 
-				if ($extension instanceof IRouterProvider) {
-					$this->setupRouter($extension);
-				}
+			if ($extension instanceof IRouterProvider) {
+				$this->setupRouter($extension);
+			}
 
-				if($extension instanceof ILatteMacrosProvider) {
-					$this->setupMacros($latte, $extension);
-				}
+			if($extension instanceof ILatteMacrosProvider) {
+				$this->setupMacros($latte, $extension);
+			}
 
-				if($extension instanceof ITemplateHelpersProvider) {
-					$this->setupHelpers($template, $extension);
-				}
+			if($extension instanceof ITemplateHelpersProvider) {
+				$this->setupHelpers($template, $extension);
+			}
 
-				if($extension instanceof IErrorPresenterProvider){
-					$this->setupErrorPresenter($application, $extension);
-				}
+			if($extension instanceof IErrorPresenterProvider){
+				$this->setupErrorPresenter($application, $extension);
 			}
 		}
+
 
 		if(count($this->routes)) {
 			$builder->getDefinition('router')
