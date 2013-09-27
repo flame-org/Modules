@@ -22,5 +22,5 @@ interface IRouterProvider
 	 *      )))
 	 * );
 	 */
-	function getRoutesDefinition();
+	public function getRoutesDefinition();
 }
