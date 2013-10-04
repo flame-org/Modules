@@ -20,9 +20,6 @@ use Nette;
 class ModulesExtension extends NamedExtension
 {
 
-	/** @var array  */
-	private $routes = array();
-
 	/**
 	 * @return void
 	 */
@@ -35,6 +32,7 @@ class ModulesExtension extends NamedExtension
 		$latte = $builder->getDefinition('nette.latte');
 		$template = $builder->getDefinition('nette.template');
 		$application = $builder->getDefinition('application');
+		$router = $builder->getDefinition('router');
 
 		$extensions = $this->compiler->getExtensions();
 		foreach ($extensions as $extension) {
@@ -43,7 +41,7 @@ class ModulesExtension extends NamedExtension
 			}
 
 			if ($extension instanceof IRouterProvider) {
-				$this->setupRouter($extension);
+				$this->setupRouter($router, $extension);
 			}
 
 			if($extension instanceof ILatteMacrosProvider) {
@@ -57,12 +55,6 @@ class ModulesExtension extends NamedExtension
 			if($extension instanceof IErrorPresenterProvider){
 				$this->setupErrorPresenter($application, $extension);
 			}
-		}
-
-
-		if(count($this->routes)) {
-			$builder->getDefinition('router')
-				->addSetup('Flame\Modules\Application\RouterFactory::prependTo($service, ?)', array($this->routes));
 		}
 	}
 
@@ -194,13 +186,13 @@ class ModulesExtension extends NamedExtension
 	 * @param IRouterProvider $extension
 	 * @return void
 	 */
-	private function setupRouter(IRouterProvider $extension)
+	private function setupRouter(Nette\DI\ServiceDefinition $router, IRouterProvider $extension)
 	{
 		$routes = $extension->getRoutesDefinition();
 		Nette\Utils\Validators::assert($routes, 'array');
 
 		if (count($routes)) {
-			$this->routes = array_merge($this->routes, $routes);
+			$router->addSetup('Flame\Modules\Application\RouterFactory::prependTo($service, ?)', array($routes));
 		}
 	}
 
