@@ -115,7 +115,7 @@ class ModulesExtension extends NamedExtension
 	 * @param ILatteMacrosProvider $extension
 	 * @return void
 	 */
-	private function setupMacros(Nette\DI\ServiceDefinition $latte, ILatteMacrosProvider $extension)
+	private function setupMacros(Nette\DI\ServiceDefinition &$latte, ILatteMacrosProvider &$extension)
 	{
 		$macros = $extension->getLatteMacros();
 		Nette\Utils\Validators::assert($macros, 'array');
@@ -139,7 +139,7 @@ class ModulesExtension extends NamedExtension
 	 * @param ITemplateHelpersProvider $extension
 	 * @throws \Nette\InvalidStateException
 	 */
-	private function setupHelpers(Nette\DI\ServiceDefinition $template, ITemplateHelpersProvider $extension)
+	private function setupHelpers(Nette\DI\ServiceDefinition &$template, ITemplateHelpersProvider &$extension)
 	{
 		$helpers = $extension->getHelpersConfiguration();
 		Nette\Utils\Validators::assert($helpers, 'array');
@@ -172,7 +172,7 @@ class ModulesExtension extends NamedExtension
 	 * @param IPresenterMappingProvider $extension
 	 * @return void
 	 */
-	private function setupPresenterMapping(Nette\DI\ServiceDefinition $presenterFactory, IPresenterMappingProvider $extension)
+	private function setupPresenterMapping(Nette\DI\ServiceDefinition &$presenterFactory, IPresenterMappingProvider &$extension)
 	{
 		$mapping = $extension->getPresenterMapping();
 		Nette\Utils\Validators::assert($mapping, 'array');
@@ -183,10 +183,10 @@ class ModulesExtension extends NamedExtension
 	}
 
 	/**
+	 * @param Nette\DI\ServiceDefinition $router
 	 * @param IRouterProvider $extension
-	 * @return void
 	 */
-	private function setupRouter(Nette\DI\ServiceDefinition $router, IRouterProvider $extension)
+	private function setupRouter(Nette\DI\ServiceDefinition &$router, IRouterProvider &$extension)
 	{
 		$routes = $extension->getRoutesDefinition();
 		Nette\Utils\Validators::assert($routes, 'array');
@@ -200,7 +200,7 @@ class ModulesExtension extends NamedExtension
 	 * @param Nette\DI\ServiceDefinition $application
 	 * @param IErrorPresenterProvider $extension
 	 */
-	private function setupErrorPresenter(Nette\DI\ServiceDefinition $application, IErrorPresenterProvider $extension)
+	private function setupErrorPresenter(Nette\DI\ServiceDefinition &$application, IErrorPresenterProvider &$extension)
 	{
 		$presenterName = $extension->getErrorPresenterName();
 		Nette\Utils\Validators::assert($presenterName, 'string');
