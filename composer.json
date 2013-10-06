@@ -30,7 +30,6 @@
   "autoload": {
     "psr-0": {
       "Flame": ""
-    },
-    "files": ["Flame/Modules/compatibility.php"]
+    }
   }
 }
