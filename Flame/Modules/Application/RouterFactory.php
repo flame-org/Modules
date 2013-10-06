@@ -12,7 +12,6 @@ use Flame\Modules\Application\Routers\RouteMock;
 use Nette\Application\Routers\RouteList;
 use Nette\Application\Routers\Route;
 use Nette\InvalidStateException;
-use Nette\Reflection\ClassType;
 use Nette;
 
 class RouterFactory
@@ -41,17 +40,14 @@ class RouterFactory
 		}
 
 		if(count($routes)) {
-			$definedRoutes = iterator_to_array($router);
+			$definedRoutes = array_merge($routes, iterator_to_array($router));
 			$router = new RouteList;
-			$routes = array_reverse($routes);
 
-			foreach ($routes as $route) {
-				array_unshift($definedRoutes, static::createRoute($route));
-			}
-
-			if(count($definedRoutes)) {
-				foreach ($definedRoutes as $route) {
+			foreach ($definedRoutes as $route) {
+				if($route instanceof Nette\Application\IRouter) {
 					$router[] = $route;
+				}else{
+					$router[] = static::createRoute($route);
 				}
 			}
 		}
