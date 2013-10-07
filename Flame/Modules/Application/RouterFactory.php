@@ -40,7 +40,7 @@ class RouterFactory
 		}
 
 		if(count($routes)) {
-			$definedRoutes = array_merge($routes, iterator_to_array($router));
+			$definedRoutes = array_merge(iterator_to_array($router), $routes);
 			$router = new RouteList;
 
 			foreach ($definedRoutes as $route) {
