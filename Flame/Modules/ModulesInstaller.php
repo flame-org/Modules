@@ -50,7 +50,7 @@ class ModulesInstaller extends Object
 	public function addConfig($filePath)
 	{
 		if(!file_exists((string) $filePath)) {
-			throw new InvalidArgumentException('Given config path does not exist');
+			throw new InvalidArgumentException('Given config path "' . $filePath . '" does not exist');
 		}
 
 		$modules = $this->configFile->loadConfig($filePath)->getConfigSection();
