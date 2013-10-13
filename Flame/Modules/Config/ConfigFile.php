@@ -66,11 +66,16 @@ class ConfigFile extends Object implements IConfigFile
 
 	/**
 	 * @return array
+	 * @throws \Nette\InvalidStateException
 	 */
 	public function getConfigSection()
 	{
 		$config = $this->getConfig();
-		return (isset($config['modules'])) ? $config['modules'] : array();
+		if(isset($config['modules'])) {
+			return $config['modules'];
+		}
+
+		throw new InvalidStateException('Missing section "modules" in configuration file.');
 	}
 
 	/**
