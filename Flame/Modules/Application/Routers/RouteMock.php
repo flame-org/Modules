@@ -53,9 +53,14 @@ class RouteMock extends Object implements IRouteMock
 
 	/**
 	 * @return object
+	 * @throws \Nette\InvalidStateException
 	 */
 	protected function createInstance()
 	{
+		if(!class_exists($this->class)) {
+			throw new InvalidStateException('Route class "' . $this->class . '" not found!');
+		}
+
 		$route = new ClassType($this->class);
 		return $route->newInstanceArgs($this->args);
 	}
