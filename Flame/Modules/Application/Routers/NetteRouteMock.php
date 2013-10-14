@@ -7,6 +7,7 @@
  */
 namespace Flame\Modules\Application\Routers;
 
+use Nette\Application\Routers\Route;
 use Nette\Object;
 
 class NetteRouteMock extends Object implements IRouteMock
@@ -22,7 +23,7 @@ class NetteRouteMock extends Object implements IRouteMock
 	 */
 	public function __construct($mask, $metadata = array(), $flags = 0)
 	{
-		$this->factory = new RouteMock('Nette\Application\Routers\Route', array($mask, $metadata, $flags));
+		$this->factory = new RouteMock(Route::getReflection()->getName(), array($mask, $metadata, $flags));
 	}
 
 	/**

@@ -7,6 +7,7 @@
  */
 namespace Flame\Modules\Application\Routers;
 
+use Nette\Application\Routers\RouteList;
 use Nette\InvalidArgumentException;
 use Nette\Object;
 use Nette\OutOfRangeException;
@@ -25,7 +26,7 @@ class NetteRouteListMock extends Object implements \ArrayAccess, \Countable, \It
 	 */
 	function __construct($module = null)
 	{
-		$this->factory = new RouteMock('Nette\Application\Routers\RouteList', array($module));
+		$this->factory = new RouteMock(RouteList::getReflection()->getName(), array($module));
 	}
 
 	/**
