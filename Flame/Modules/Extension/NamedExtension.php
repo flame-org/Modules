@@ -15,6 +15,9 @@ use Nette\Utils\Strings;
 abstract class NamedExtension extends CompilerExtension implements INamedExtension
 {
 
+	/** @var  string */
+	public static $shortName;
+
 	/**
 	 * @return string
 	 */
@@ -33,21 +36,17 @@ abstract class NamedExtension extends CompilerExtension implements INamedExtensi
 	}
 
 	/**
-	 * @param bool $pretty
 	 * @return string
 	 */
-	public static function getShortName($pretty = true)
+	public static function getShortName()
 	{
-		$name = self::getReflection()->getShortName();
-		if($pretty === true) {
-			if(Strings::contains($name, 'Extension')) {
-				$name = str_replace('Extension', '', $name);
-			}
-
-			$name = Strings::lower($name);
+		if(static::$shortName === null) {
+			$name = self::getReflection()->getShortName();
+			$name = str_replace('Extension', '', $name);
+			static::$shortName = Strings::lower($name);
 		}
 
-		return $name;
+		return static::$shortName;
 	}
 
 }
