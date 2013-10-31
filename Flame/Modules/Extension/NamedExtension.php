@@ -10,14 +10,9 @@ namespace Flame\Modules\Extension;
 use Nette\Configurator;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
-use Nette\Utils\Strings;
 
 abstract class NamedExtension extends CompilerExtension implements INamedExtension
 {
-
-	/** @var  string */
-	public static $shortName;
-
 	/**
 	 * @return string
 	 */
@@ -40,13 +35,9 @@ abstract class NamedExtension extends CompilerExtension implements INamedExtensi
 	 */
 	public static function getShortName()
 	{
-		if(static::$shortName === null) {
-			$name = self::getReflection()->getShortName();
-			$name = str_replace('Extension', '', $name);
-			static::$shortName = Strings::lower($name);
-		}
-
-		return static::$shortName;
+		$name = static::getReflection()->getShortName();
+		$name = str_replace('Extension', '', $name);
+		return lcfirst($name);
 	}
 
 }
