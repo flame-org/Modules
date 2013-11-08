@@ -25,8 +25,8 @@ class ModulesExtension extends NamedExtension
 	 */
 	public function loadConfiguration()
 	{
+		$this->setupPresenterFactory();
 		$builder = $this->getContainerBuilder();
-		$this->setupPresenterFactory($builder);
 
 		$presenterFactory = $builder->getDefinition('nette.presenterFactory');
 		$latte = $builder->getDefinition('nette.latte');
@@ -92,12 +92,12 @@ class ModulesExtension extends NamedExtension
 	}
 
 	/**
-	 * @param Nette\DI\ContainerBuilder $builder
 	 * @return void
 	 */
-	protected function setupPresenterFactory(Nette\DI\ContainerBuilder &$builder)
+	protected function setupPresenterFactory()
 	{
 		if(version_compare(Nette\Framework::VERSION, '2.1-dev', '<')) {
+			$builder = $this->getContainerBuilder();
 			$builder->removeDefinition('nette.presenterFactory');
 			$presenterFactory = $builder->addDefinition('nette.presenterFactory')
 				->setClass('Flame\Modules\Application\PresenterFactory', array('%appDir%'))
