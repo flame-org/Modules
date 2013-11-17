@@ -197,7 +197,7 @@ class ModulesExtension extends NamedExtension
 	private function setupRouter(Nette\DI\ServiceDefinition &$router, IRouterProvider &$extension)
 	{
 		$routes = $extension->getRoutesDefinition();
-		if(!is_array($router)) {
+		if(!is_array($routes)) {
 			throw new Nette\InvalidStateException('Routes definition must be in array.');
 		}
 
