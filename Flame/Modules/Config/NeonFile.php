@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
+ */
 namespace Flame\Modules\Config;
 
 use Nette\Caching\Cache;
@@ -8,29 +10,17 @@ use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Utils\Neon;
 
-/**
- *
- * @copyright Copyright (c) 2013 Ledvinka Vít
- * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
- *
- */
 class NeonFile implements IConfigFile {
 
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $path;
 
-
-	/**
-	 * @var string
-	 */
+	/**@var string */
 	private $section;
 
-
+	/** @var \Nette\Caching\Cache */
 	private $cache;
-
 
 	/**
 	 * @param string $path
@@ -49,7 +39,6 @@ class NeonFile implements IConfigFile {
 		$this->path = $path;
 		$this->section = $section;
 	}
-
 
 	/**
 	 * @return array
@@ -73,7 +62,6 @@ class NeonFile implements IConfigFile {
 
 		return $result;
 	}
-
 
 	/**
 	 * @return array

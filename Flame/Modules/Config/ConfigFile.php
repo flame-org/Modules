@@ -1,17 +1,12 @@
 <?php
-
+/**
+ * Bridge for BACK COMPATIBILITY with old implements!
+ * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
+ */
 namespace Flame\Modules\Config;
 
 use Nette\NotSupportedException;
 
-/**
- *
- * Bridge for BACK COMPATIBILITY with old implements!
- *
- * @copyright Copyright (c) 2013 Ledvinka Vít
- * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
- *
- */
 class ConfigFile extends \Nette\Object implements IConfigFile
 {
 
@@ -20,7 +15,6 @@ class ConfigFile extends \Nette\Object implements IConfigFile
 	 * @var array
 	 */
 	private $paths = array();
-
 
 	/**
 	 * @param $path
@@ -33,7 +27,6 @@ class ConfigFile extends \Nette\Object implements IConfigFile
 		return $this;
 	}
 
-
 	/**
 	 * @return array
 	 */
@@ -41,7 +34,6 @@ class ConfigFile extends \Nette\Object implements IConfigFile
 	{
 		return $this->paths;
 	}
-
 
 	/**
 	 * @return array|void
@@ -52,7 +44,6 @@ class ConfigFile extends \Nette\Object implements IConfigFile
 		throw new NotSupportedException('Method has been removed, new implements already exists.');
 	}
 
-
 	/**
 	 * @throws \Nette\NotSupportedException
 	 */
@@ -60,7 +51,6 @@ class ConfigFile extends \Nette\Object implements IConfigFile
 	{
 		throw new NotSupportedException('Method has been removed, new implements already exists.');
 	}
-
 
 	/**
 	 * @throws \Nette\NotSupportedException

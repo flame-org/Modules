@@ -1,21 +1,13 @@
 <?php
-
+/**
+ * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
+ */
 namespace Flame\Modules\Config;
 
-/**
- *
- * @copyright Copyright (c) 2013 Ledvinka Vít
- * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
- *
- */
 class ArrayConfig implements IConfigFile {
 
-
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $config;
-
 
 	/**
 	 * @param array $array
@@ -24,7 +16,6 @@ class ArrayConfig implements IConfigFile {
 	{
 		$this->config = $array;
 	}
-
 
 	/**
 	 * @return array

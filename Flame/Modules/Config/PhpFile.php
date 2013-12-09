@@ -1,23 +1,15 @@
 <?php
-
+/**
+ * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
+ */
 namespace Flame\Modules\Config;
 
 use Nette\InvalidArgumentException;
 
-/**
- *
- * @copyright Copyright (c) 2013 Ledvinka Vít
- * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
- *
- */
 class PhpFile implements IConfigFile {
 
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $path;
-
 
 	/**
 	 * @param string $path
@@ -30,7 +22,6 @@ class PhpFile implements IConfigFile {
 
 		$this->path = $path;
 	}
-
 
 	/**
 	 * @return array
