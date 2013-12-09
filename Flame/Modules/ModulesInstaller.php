@@ -48,8 +48,9 @@ class ModulesInstaller extends Object
 		if ($configFile instanceof ConfigFile) {
 			foreach ($configFile->getPaths() as $path)
 				$this->addConfig($path);
-		} else
+		} else if ($configFile !== null) {
 			$this->addConfig($configFile);
+		}
 	}
 
 	/**
