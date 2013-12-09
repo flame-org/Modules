@@ -1,40 +1,20 @@
 <?php
 /**
- * Class ConfigFile
- *
- * @author: Jiří Šifalda <sifalda.jiri@gmail.com>
- * @date: 23.08.13
+ * Bridge for BACK COMPATIBILITY with old implements!
+ * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
  */
 namespace Flame\Modules\Config;
 
-use Nette\InvalidStateException;
-use Nette\Object;
-use Nette\Utils\Neon;
+use Nette\NotSupportedException;
 
-class ConfigFile extends Object implements IConfigFile
+class ConfigFile extends \Nette\Object implements IConfigFile
 {
 
-	const TYPE_NEON = 'neon';
-	const TYPE_PHP = 'php';
-
-	/** @var array  */
-	private $config = array();
-
-	/** @var  array */
-	private $supportedTypes;
-
-	function __construct()
-	{
-		$this->supportedTypes = array(self::TYPE_NEON, self::TYPE_PHP);
-	}
-
 	/**
-	 * @return array
+	 * List of config files
+	 * @var array
 	 */
-	public function getConfig()
-	{
-		return $this->config;
-	}
+	private $paths = array();
 
 	/**
 	 * @param $path
@@ -43,57 +23,41 @@ class ConfigFile extends Object implements IConfigFile
 	 */
 	public function loadConfig($path)
 	{
-		$type = $this->getType($path);
-		if(!in_array($type, $this->supportedTypes)) {
-			throw new InvalidStateException(
-				'Unsupported file extension. Allowed are ' . implode(', ', $this->supportedTypes));
-		}
-
-		switch ($type) {
-			case self::TYPE_NEON:
-				$this->config = Neon::decode(file_get_contents($path));
-				break;
-			case self::TYPE_PHP:
-				$this->config = include($path);
-				break;
-			default:
-				$this->config = array();
-				break;
-		}
-
+		$this->paths[] = $path;
 		return $this;
 	}
 
 	/**
 	 * @return array
-	 * @throws \Nette\InvalidStateException
+	 */
+	public function getPaths()
+	{
+		return $this->paths;
+	}
+
+	/**
+	 * @return array|void
+	 * @throws \Nette\NotSupportedException
+	 */
+	public function getConfig()
+	{
+		throw new NotSupportedException('Method has been removed, new implements already exists.');
+	}
+
+	/**
+	 * @throws \Nette\NotSupportedException
 	 */
 	public function getConfigSection()
 	{
-		$config = $this->getConfig();
-		if(isset($config['modules'])) {
-			return $config['modules'];
-		}
-
-		throw new InvalidStateException('Missing section "modules" in configuration file.');
+		throw new NotSupportedException('Method has been removed, new implements already exists.');
 	}
 
 	/**
-	 * Return list of file extension types
-	 *
-	 * @return array
+	 * @throws \Nette\NotSupportedException
 	 */
 	public function getSupportedTypes()
 	{
-		return $this->supportedTypes;
+		throw new NotSupportedException('Method has been removed, new implements already exists.');
 	}
 
-	/**
-	 * @param $filePath
-	 * @return mixed
-	 */
-	protected  function getType($filePath)
-	{
-		return pathinfo($filePath, PATHINFO_EXTENSION);
-	}
 }

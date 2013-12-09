@@ -7,6 +7,7 @@
  */
 namespace Flame\Modules;
 
+use Flame\Modules\Config\ConfigFile;
 use Flame\Modules\Config\IConfigFile;
 use Flame\Modules\Extension\IDomainExtension;
 use Flame\Modules\Providers\IConfigProvider;
@@ -21,9 +22,6 @@ use Nette\Utils\Validators;
 class ModulesInstaller extends Object
 {
 
-	/** @var \Flame\Modules\Config\IConfigFile  */
-	private $configFile;
-
 	/** @var \Flame\Modules\DI\ConfiguratorHelper  */
 	private $helper;
 
@@ -32,32 +30,63 @@ class ModulesInstaller extends Object
 		'Flame\Modules\DI\ModulesExtension'
 	);
 
+	/** @var array */
+	private $configFileReaders = array(
+		'php'	=> 'Flame\Modules\Config\PhpFile',
+		'neon'	=> 'Flame\Modules\Config\NeonFile'
+	);
+
 	/**
 	 * @param ConfiguratorHelper $helper
 	 * @param IConfigFile $configFile
 	 */
-	function __construct(ConfiguratorHelper $helper, IConfigFile $configFile)
+	function __construct(ConfiguratorHelper $helper, IConfigFile $configFile = NULL)
 	{
-		$this->configFile = $configFile;
 		$this->helper = $helper;
+
+		// Support for back compatibility
+		if ($configFile instanceof ConfigFile) {
+			foreach ($configFile->getPaths() as $path)
+				$this->addConfig($path);
+		} else
+			$this->addConfig($configFile);
 	}
 
 	/**
-	 * @param $filePath
+	 * @param IConfigFile|array|string $config
 	 * @return $this
 	 * @throws \Nette\InvalidArgumentException
 	 */
-	public function addConfig($filePath)
+	public function addConfig($config)
 	{
-		if(!file_exists((string) $filePath)) {
-			throw new InvalidArgumentException('Given config path "' . $filePath . '" does not exist');
+		if (!$config instanceof IConfigFile) {
+			if (is_array($config)) {
+				$config = new \Flame\Modules\Config\ArrayConfig($config);
+			}
+			elseif (is_string($config)) {
+
+				if (!file_exists($config))
+					throw new InvalidArgumentException('Given config path "' . $config . '" does not exists.');
+
+				$type = $this->getType($config);
+				if (isset($this->configFileReaders[$type])) {
+					$class = $this->configFileReaders[$type];
+					$config = new $class($config);
+				} else
+					throw new InvalidArgumentException('Unsupported config type "' . $type . '".');
+
+			}
+			else
+				throw new InvalidArgumentException('Config must be instance of IConfigFile
+						OR path to the config file OR associative array of modules.');
 		}
 
-		$modules = $this->configFile->loadConfig($filePath)->getConfigSection();
-		if(count($modules)) {
-			foreach($modules as $name => $moduleClass) {
-				$this->registerExtension($moduleClass, (is_string($name)) ? $name : null);
-			}
+		$modules = $config->getConfig();
+		if (!is_array($modules))
+			throw new InvalidArgumentException('Config must return array.');
+
+		foreach($modules as $name => $moduleClass) {
+			$this->registerExtension($moduleClass, (is_string($name)) ? $name : null);
 		}
 
 		return $this;
@@ -90,6 +119,7 @@ class ModulesInstaller extends Object
 		return $this;
 	}
 
+
 	/**
 	 * @return $this
 	 */
@@ -116,6 +146,7 @@ class ModulesInstaller extends Object
 		throw new InvalidStateException('Definition of extension must be valid class (string). ' . gettype($class) . ' given.');
 	}
 
+
 	/**
 	 * @param IConfigProvider $extension
 	 */
@@ -125,6 +156,7 @@ class ModulesInstaller extends Object
 		Validators::assert($configs, 'array');
 		$this->helper->addConfigs($configs);
 	}
+
 
 	/**
 	 * @param CompilerExtension $extension
@@ -136,4 +168,16 @@ class ModulesInstaller extends Object
 			$this->setupConfigProvider($extension);
 		}
 	}
+
+
+	/**
+	 * @param string $filePath
+	 * @return string
+	 */
+	protected  function getType($filePath)
+	{
+		return pathinfo($filePath, PATHINFO_EXTENSION);
+	}
+
+
 }
