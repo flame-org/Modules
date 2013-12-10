@@ -8,10 +8,11 @@ use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
+use Nette\Object;
 use Nette\Utils\Neon;
 
-class NeonConfigFile implements IConfigFile {
-
+class NeonConfigFile extends Object implements IConfigFile
+{
 
 	/** @var string */
 	private $path;
@@ -28,7 +29,8 @@ class NeonConfigFile implements IConfigFile {
 	 * @param string|NULL $section
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct($path, $cacheDir = NULL, $section = 'modules') {
+	public function __construct($path, $cacheDir = NULL, $section = 'modules')
+	{
 		if (!file_exists($path)) {
 			throw new InvalidArgumentException('Given config path "' . $path . '" does not exists.');
 		}
@@ -38,7 +40,7 @@ class NeonConfigFile implements IConfigFile {
 		}
 
 		$this->path = $path;
-		$this->section = $section;
+		$this->section = (string) $section;
 	}
 
 	/**
