@@ -31,8 +31,8 @@ class ModulesInstaller extends Object
 
 	/** @var array */
 	private $configFileReaders = array(
-		'php'	=> 'Flame\Modules\Config\PhpFile',
-		'neon'	=> 'Flame\Modules\Config\NeonFile'
+		'php'	=> 'Flame\Modules\Config\PhpConfigFile',
+		'neon'	=> 'Flame\Modules\Config\NeonConfigFile'
 	);
 
 	/**

@@ -9,7 +9,7 @@ use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Object;
 
-class PhpFile extends Object implements IConfigFile
+class PhpConfigFile extends Object implements IConfigFile
 {
 
 	/** @var string */

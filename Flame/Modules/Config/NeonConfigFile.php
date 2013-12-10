@@ -10,7 +10,7 @@ use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Utils\Neon;
 
-class NeonFile implements IConfigFile {
+class NeonConfigFile implements IConfigFile {
 
 
 	/** @var string */
