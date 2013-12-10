@@ -29,8 +29,9 @@ class NeonFile implements IConfigFile {
 	 * @throws InvalidArgumentException
 	 */
 	public function __construct($path, $cacheDir = NULL, $section = 'modules') {
-		if (!file_exists($path))
+		if (!file_exists($path)) {
 			throw new InvalidArgumentException('Given config path "' . $path . '" does not exists.');
+		}
 
 		if ($cacheDir !== NULL) {
 			$this->cache = new Cache(new FileStorage($cacheDir), __CLASS__);
@@ -71,8 +72,9 @@ class NeonFile implements IConfigFile {
 	{
 		$config = Neon::decode(file_get_contents($this->path));
 
-		if (!isset($config[$this->section]))
+		if (!isset($config[$this->section])) {
 			throw new InvalidStateException('Missing section ' . $this->section . ' in configuration file.');
+		}
 
 		return $config[$this->section];
 	}

@@ -7,8 +7,10 @@ namespace Flame\Modules\Config;
 
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
+use Nette\Object;
 
-class PhpFile implements IConfigFile {
+class PhpFile extends Object implements IConfigFile
+{
 
 	/** @var string */
 	private $path;
@@ -39,6 +41,4 @@ class PhpFile implements IConfigFile {
 
 		throw new InvalidStateException('Missing section "modules" in configuration file.');
 	}
-
-
 }

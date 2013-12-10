@@ -4,7 +4,10 @@
  */
 namespace Flame\Modules\Config;
 
-class ArrayConfig implements IConfigFile {
+use Nette\Object;
+
+class ArrayConfig extends Object implements IConfigFile
+{
 
 	/** @var array */
 	private $config;

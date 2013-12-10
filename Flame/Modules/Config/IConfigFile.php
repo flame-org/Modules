@@ -8,10 +8,8 @@
 
 namespace Flame\Modules\Config;
 
-
 interface IConfigFile
 {
-
 
 	/**
 	 * Get loaded config content
@@ -19,6 +17,4 @@ interface IConfigFile
 	 * @return array
 	 */
 	public function getConfig();
-
-
 }

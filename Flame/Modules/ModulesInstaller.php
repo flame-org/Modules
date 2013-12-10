@@ -7,6 +7,7 @@
  */
 namespace Flame\Modules;
 
+use Flame\Modules\Config\ArrayConfig;
 use Flame\Modules\Config\IConfigFile;
 use Flame\Modules\Extension\IDomainExtension;
 use Flame\Modules\Providers\IConfigProvider;
@@ -51,29 +52,31 @@ class ModulesInstaller extends Object
 	{
 		if (!$config instanceof IConfigFile) {
 			if (is_array($config)) {
-				$config = new \Flame\Modules\Config\ArrayConfig($config);
-			}
-			elseif (is_string($config)) {
+				$config = new ArrayConfig($config);
+			} elseif (is_string($config)) {
 
-				if (!file_exists($config))
+				if (!file_exists($config)) {
 					throw new InvalidArgumentException('Given config path "' . $config . '" does not exists.');
+				}
 
-				$type = $this->getType($config);
+				$type = $this->getConfigType($config);
 				if (isset($this->configFileReaders[$type])) {
 					$class = $this->configFileReaders[$type];
 					$config = new $class($config);
-				} else
+				} else {
 					throw new InvalidArgumentException('Unsupported config type "' . $type . '".');
+				}
 
-			}
-			else
+			} else {
 				throw new InvalidArgumentException('Config must be instance of IConfigFile
 						OR path to the config file OR associative array of modules.');
+			}
 		}
 
 		$modules = $config->getConfig();
-		if (!is_array($modules))
+		if (!is_array($modules)) {
 			throw new InvalidArgumentException('Config must return array.');
+		}
 
 		foreach($modules as $name => $moduleClass) {
 			$this->registerExtension($moduleClass, (is_string($name)) ? $name : null);
@@ -110,7 +113,6 @@ class ModulesInstaller extends Object
 		return $this;
 	}
 
-
 	/**
 	 * @return $this
 	 */
@@ -121,7 +123,6 @@ class ModulesInstaller extends Object
 		}
 		return $this;
 	}
-
 
 	/**
 	 * @param string $class
@@ -137,7 +138,6 @@ class ModulesInstaller extends Object
 		throw new InvalidStateException('Definition of extension must be valid class name.');
 	}
 
-
 	/**
 	 * @param IConfigProvider $extension
 	 */
@@ -147,7 +147,6 @@ class ModulesInstaller extends Object
 		Validators::assert($configs, 'array');
 		$this->helper->addConfigs($configs);
 	}
-
 
 	/**
 	 * @param CompilerExtension $extension
@@ -160,15 +159,12 @@ class ModulesInstaller extends Object
 		}
 	}
 
-
 	/**
 	 * @param string $filePath
 	 * @return string
 	 */
-	protected  function getType($filePath)
+	protected  function getConfigType($filePath)
 	{
 		return pathinfo($filePath, PATHINFO_EXTENSION);
 	}
-
-
 }
