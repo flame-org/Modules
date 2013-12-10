@@ -40,10 +40,15 @@ class PhpConfigFile extends Object implements IConfigFile
 	public function getConfig()
 	{
 		$config = include($this->path);
-		if(isset($config[$this->section])) {
-			return $config[$this->section];
+		if($this->section !== null) {
+			if(isset($config[$this->section])) {
+				return $config[$this->section];
+			}
+
+			throw new InvalidStateException('Missing section "' . $this->section . '" in configuration file.');
 		}
 
-		throw new InvalidStateException('Missing section "' . $this->section . '" in configuration file.');
+
+		return $config;
 	}
 }
