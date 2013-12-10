@@ -1,10 +1,12 @@
 <?php
 /**
  * @author Ledvinka Vít, frosty22 <ledvinka.vit@gmail.com>
+ * @author Jiří Šifalda <sifalda.jiri@gmail.com>
  */
 namespace Flame\Modules\Config;
 
 use Nette\InvalidArgumentException;
+use Nette\InvalidStateException;
 
 class PhpFile implements IConfigFile {
 
@@ -17,18 +19,25 @@ class PhpFile implements IConfigFile {
 	 */
 	public function __construct($path)
 	{
-		if (!file_exists($path))
+		if (!file_exists($path)) {
 			throw new InvalidArgumentException('Given config path "' . $path . '" does not exists.');
+		}
 
 		$this->path = $path;
 	}
 
 	/**
 	 * @return array
+	 * @throws \Nette\InvalidStateException
 	 */
 	public function getConfig()
 	{
-		return include($this->path);
+		$config = include($this->path);
+		if(isset($config['modules'])) {
+			return $config['modules'];
+		}
+
+		throw new InvalidStateException('Missing section "modules" in configuration file.');
 	}
 
 
