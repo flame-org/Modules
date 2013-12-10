@@ -7,7 +7,6 @@
  */
 namespace Flame\Modules;
 
-use Flame\Modules\Config\ConfigFile;
 use Flame\Modules\Config\IConfigFile;
 use Flame\Modules\Extension\IDomainExtension;
 use Flame\Modules\Providers\IConfigProvider;
@@ -16,7 +15,6 @@ use Nette\DI\CompilerExtension;
 use Nette\InvalidArgumentException;
 use Nette\InvalidStateException;
 use Nette\Object;
-use Nette\Utils\Neon;
 use Nette\Utils\Validators;
 
 class ModulesInstaller extends Object
@@ -38,19 +36,10 @@ class ModulesInstaller extends Object
 
 	/**
 	 * @param ConfiguratorHelper $helper
-	 * @param IConfigFile $configFile
 	 */
-	function __construct(ConfiguratorHelper $helper, IConfigFile $configFile = NULL)
+	function __construct(ConfiguratorHelper $helper)
 	{
 		$this->helper = $helper;
-
-		// Support for back compatibility
-		if ($configFile instanceof ConfigFile) {
-			foreach ($configFile->getPaths() as $path)
-				$this->addConfig($path);
-		} else if ($configFile !== null) {
-			$this->addConfig($configFile);
-		}
 	}
 
 	/**
@@ -102,6 +91,7 @@ class ModulesInstaller extends Object
 	 */
 	public function registerExtension($extension, $name = null)
 	{
+
 		if(is_string($extension)) {
 			$extension = $this->invokeExtension($extension);
 		}
