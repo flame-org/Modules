@@ -97,7 +97,7 @@ class ModulesInstaller extends Object
 		}
 
 		if (!$extension instanceof CompilerExtension) {
-			throw new InvalidArgumentException('Extension must be class name (string) or instance of \Nette\DI\CompilerExtension');
+			throw new InvalidArgumentException('Extension must be class name (string) or instance of Nette\DI\CompilerExtension, ' . gettype($extension) . ' given.');
 		}
 
 		if($extension instanceof IDomainExtension) {
