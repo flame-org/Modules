@@ -15,17 +15,22 @@ class PhpConfigFile extends Object implements IConfigFile
 	/** @var string */
 	private $path;
 
+	/** @var string */
+	private $section;
+
 	/**
 	 * @param string $path
+	 * @param string $section
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct($path)
+	public function __construct($path, $section = 'modules')
 	{
 		if (!file_exists($path)) {
 			throw new InvalidArgumentException('Given config path "' . $path . '" does not exists.');
 		}
 
 		$this->path = $path;
+		$this->section = (string) $section;
 	}
 
 	/**
@@ -35,10 +40,10 @@ class PhpConfigFile extends Object implements IConfigFile
 	public function getConfig()
 	{
 		$config = include($this->path);
-		if(isset($config['modules'])) {
-			return $config['modules'];
+		if(isset($config[$this->section])) {
+			return $config[$this->section];
 		}
 
-		throw new InvalidStateException('Missing section "modules" in configuration file.');
+		throw new InvalidStateException('Missing section "' . $this->section . '" in configuration file.');
 	}
 }
