@@ -30,7 +30,7 @@ class PhpConfigFile extends Object implements IConfigFile
 		}
 
 		$this->path = $path;
-		$this->section = (string) $section;
+		$this->section = $section;
 	}
 
 	/**
