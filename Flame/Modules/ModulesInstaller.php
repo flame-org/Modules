@@ -124,17 +124,17 @@ class ModulesInstaller extends Object
 
 
 	/**
-	 * @param $class
-	 * @return null|object
+	 * @param string $class
+	 * @return object
 	 * @throws \Nette\InvalidStateException
 	 */
 	protected function invokeExtension($class)
 	{
-		if(is_string($class)){
+		if(class_exists($class)){
 			return new $class;
 		}
 
-		throw new InvalidStateException('Definition of extension must be valid class (string). ' . gettype($class) . ' given.');
+		throw new InvalidStateException('Definition of extension must be valid class name.');
 	}
 
 
