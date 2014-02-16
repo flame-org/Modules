@@ -20,7 +20,7 @@ trait TemplateFactory
 	public function createTemplate($class = null)
 	{
 		$presenter = $this->getPresenter(FALSE);
-		$template = $presenter->getContext()->nette->createTemplate();
+		$template = $presenter->getContext()->createServiceNette__Template();
 		$template->onPrepareFilters[] = $this->templatePrepareFilters;
 
 		// default parameters
