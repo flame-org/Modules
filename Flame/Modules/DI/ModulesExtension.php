@@ -25,7 +25,6 @@ class ModulesExtension extends NamedExtension
 	 */
 	public function loadConfiguration()
 	{
-		$this->setupPresenterFactory();
 		$builder = $this->getContainerBuilder();
 
 		$presenterFactory = $builder->getDefinition('nette.presenterFactory');
@@ -87,25 +86,6 @@ class ModulesExtension extends NamedExtension
 						));
 					}
 				}
-			}
-		}
-	}
-
-	/**
-	 * @return void
-	 */
-	protected function setupPresenterFactory()
-	{
-		if(version_compare(Nette\Framework::VERSION, '2.1-dev', '<')) {
-			$builder = $this->getContainerBuilder();
-			$builder->removeDefinition('nette.presenterFactory');
-			$presenterFactory = $builder->addDefinition('nette.presenterFactory')
-				->setClass('Flame\Modules\Application\PresenterFactory', array('%appDir%'))
-				->setAutowired(TRUE)
-				->setShared(TRUE);
-
-			if (isset($this->compiler->config['nette']['application']['mapping'])) {
-				$presenterFactory->addSetup('setMapping', array($this->compiler->config['nette']['application']['mapping']));
 			}
 		}
 	}
