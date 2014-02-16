@@ -156,7 +156,7 @@ class ModulesExtension extends NamedExtension
 					$provider = $builder->addDefinition($this->prefix('helperProvider' . $name))
 						->setClass($helper);
 
-					$template->addSetup('Flame\Modules\Template\Helper::register($service, ?)', $provider);
+					$template->addSetup('Flame\Modules\Template\Helper::register($service, ?)', array($provider));
 				}else{
 					if(!is_string($name)) {
 						throw new Nette\InvalidStateException('Template helper\'s name must be specified, "' . $name . '" given!');
@@ -218,6 +218,6 @@ class ModulesExtension extends NamedExtension
 			throw new Nette\InvalidStateException('Presenter name must be string.');
 		}
 
-		$application->addSetup('$errorPresenter', $presenterName);
+		$application->addSetup('$errorPresenter', array($presenterName));
 	}
 }
