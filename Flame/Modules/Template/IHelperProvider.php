@@ -9,7 +9,7 @@
 namespace Flame\Modules\Template;
 
 
-use Nette\Templating\Template;
+use Latte\Template;
 
 interface IHelperProvider
 {

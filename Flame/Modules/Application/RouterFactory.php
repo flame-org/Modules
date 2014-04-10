@@ -10,7 +10,6 @@ namespace Flame\Modules\Application;
 use Flame\Modules\Application\Routers\IRouteMock;
 use Flame\Modules\Application\Routers\RouteMock;
 use Nette\Application\Routers\RouteList;
-use Nette\Application\Routers\Route;
 use Nette\InvalidStateException;
 use Nette;
 
