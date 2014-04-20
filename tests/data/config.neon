@@ -7,3 +7,4 @@ extensions:
 	- ErrorPresenterExtension
 	- PresenterMappingExtension
 	- RouterProviderExtension
+	- LatteMacrosProviderExtension
