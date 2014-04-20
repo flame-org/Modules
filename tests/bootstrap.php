@@ -5,7 +5,9 @@ require __DIR__ . '/data/ErrorPresenterExtension.php';
 require __DIR__ . '/data/PresenterMappingExtension.php';
 require __DIR__ . '/data/RouterProviderExtension.php';
 require __DIR__ . '/data/LatteMacrosProviderExtension.php';
+require __DIR__ . '/data/TemplateHelpersProviderExtension.php';
 require __DIR__ . '/data/TestMacro.php';
+require __DIR__ . '/data/TestHelper.php';
 
 
 if (!class_exists('Tester\Assert')) {

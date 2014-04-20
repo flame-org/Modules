@@ -8,3 +8,4 @@ extensions:
 	- PresenterMappingExtension
 	- RouterProviderExtension
 	- LatteMacrosProviderExtension
+	- TemplateHelpersProviderExtension
