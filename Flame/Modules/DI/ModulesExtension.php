@@ -112,7 +112,7 @@ class ModulesExtension extends NamedExtension
 					}
 				}
 
-				$latte->addSetup($macro . '(?->compiler)', array('@self'));
+				$latte->addSetup($macro . '(?->getCompiler())', array('@self'));
 			}
 		}
 	}
