@@ -29,7 +29,6 @@ class ModulesExtension extends NamedExtension
 
 		$presenterFactory = $builder->getDefinition('nette.presenterFactory');
 		$latte = $builder->getDefinition('nette.latte');
-		$template = $builder->getDefinition('nette.template');
 		$application = $builder->getDefinition('application');
 		$router = $builder->getDefinition('router');
 
@@ -48,7 +47,7 @@ class ModulesExtension extends NamedExtension
 			}
 
 			if($extension instanceof ITemplateHelpersProvider) {
-				$this->setupHelpers($template, $extension);
+				$this->setupHelpers($latte, $extension);
 			}
 
 			if($extension instanceof IErrorPresenterProvider){
@@ -118,11 +117,11 @@ class ModulesExtension extends NamedExtension
 	}
 
 	/**
-	 * @param Nette\DI\ServiceDefinition $template
+	 * @param Nette\DI\ServiceDefinition $latte
 	 * @param ITemplateHelpersProvider $extension
 	 * @throws \Nette\InvalidStateException
 	 */
-	private function setupHelpers(Nette\DI\ServiceDefinition &$template, ITemplateHelpersProvider &$extension)
+	private function setupHelpers(Nette\DI\ServiceDefinition &$latte, ITemplateHelpersProvider &$extension)
 	{
 		$helpers = $extension->getHelpersConfiguration();
 		if (!is_array($helpers)) {
@@ -136,7 +135,7 @@ class ModulesExtension extends NamedExtension
 					$provider = $builder->addDefinition($this->prefix('helperProvider' . $name))
 						->setClass($helper);
 
-					$template->addSetup('Flame\Modules\Template\Helper::register($service, ?)', array($provider));
+					$latte->addSetup('Flame\Modules\Template\Helper::register($service, ?)', array($provider));
 				}else{
 					if(!is_string($name)) {
 						throw new Nette\InvalidStateException('Template helper\'s name must be specified, "' . $name . '" given!');
@@ -146,7 +145,7 @@ class ModulesExtension extends NamedExtension
 						throw new Nette\InvalidStateException('Template helper\'s definition must be array or string, "' . gettype($helper) . '" given');
 					}
 
-					$template->addSetup('registerHelper', array($name, $helper));
+					$latte->addSetup('addFilter', array($name, $helper));
 				}
 			}
 		}

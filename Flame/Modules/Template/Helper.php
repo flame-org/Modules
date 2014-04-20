@@ -7,26 +7,26 @@
  */
 namespace Flame\Modules\Template;
 
+use Latte\Engine;
 use Nette\InvalidStateException;
 use Nette\Object;
-use Nette\Templating\Template;
 
 class Helper extends Object
 {
 
 	/**
-	 * @param Template $template
+	 * @param Engine $engine
 	 * @param $helper
 	 * @throws \Nette\InvalidStateException
 	 * @return void
 	 */
-	public static function register(Template $template, $helper)
+	public static function register(Engine $engine, $helper)
 	{
 		if(!$helper instanceof IHelperProvider) {
 			throw new InvalidStateException('Helper provider must be instance of "Flame\Modules\Template\IHelperProvider"');
 		}
 
-		$helper->register($template);
+		$helper->register($engine);
 	}
 
 }
