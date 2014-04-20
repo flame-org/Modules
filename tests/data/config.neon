@@ -6,3 +6,4 @@ extensions:
 	- Flame\Modules\DI\ModulesExtension
 	- ErrorPresenterExtension
 	- PresenterMappingExtension
+	- RouterProviderExtension
