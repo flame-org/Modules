@@ -16,7 +16,10 @@
 
   "require": {
     "php": ">=5.3.2",
-    "nette/nette": "~2.2"
+    "latte/latte": "~2.2",
+    "nette/utils": "~2.2",
+    "nette/di": "~2.2",
+    "nette/application": "~2.2"
   },
 
   "require-dev": {
