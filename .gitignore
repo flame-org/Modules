@@ -1,2 +1,4 @@
 libs
 composer.lock
+*.expected
+*.actual
