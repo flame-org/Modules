@@ -1,11 +1,11 @@
 <?php
 
-namespace Flame\Tests\Modules;
+namespace Flame\Tests\Modules\Providers;
 
 use Flame\Tester\TestCase;
 use Tester\Assert;
 
-require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../../bootstrap.php';
 
 /**
  * @author Ondřej Záruba

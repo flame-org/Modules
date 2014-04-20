@@ -1,17 +1,11 @@
 <?php
-/**
- * Class ErrorPresenterProviderTest
- *
- * @author: Jiří Šifalda <sifalda.jiri@gmail.com>
- * @date: 25.07.13
- */
 
-namespace modules\Tests;
+namespace Flame\Tests\Modules\Providers;
 
 use Flame\Tester\TestCase;
 use Tester\Assert;
 
-require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../../bootstrap.php';
 
 /**
  * @author Ondřej Záruba
