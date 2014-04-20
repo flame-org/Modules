@@ -7,7 +7,6 @@
  */
 namespace Flame\Modules\DI;
 
-use Flame\Modules\Extension\NamedExtension;
 use Flame\Modules\Providers\IErrorPresenterProvider;
 use Flame\Modules\Providers\ILatteMacrosProvider;
 use Flame\Modules\Providers\IRouterProvider;
@@ -17,7 +16,7 @@ use Flame\Modules\Providers\ITracyBarPanelsProvider;
 use Flame\Modules\Providers\ITracyPanelsProvider;
 use Nette;
 
-class ModulesExtension extends NamedExtension
+class ModulesExtension extends Nette\DI\CompilerExtension
 {
 
 	/**
