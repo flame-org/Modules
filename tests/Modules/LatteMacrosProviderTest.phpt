@@ -2,7 +2,7 @@
 
 namespace Flame\Tests\Modules;
 
-use Flame\Tester\MockTestCase;
+use Flame\Tester\TestCase;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
@@ -10,23 +10,13 @@ require_once __DIR__ . '/../bootstrap.php';
 /**
  * @author Ondřej Záruba
  */
-class LatteMacrosProviderTest extends MockTestCase
+class LatteMacrosProviderTest extends TestCase
 {
-	private $controlMock;
-
-	protected function setUp()
-	{
-		parent::setUp();
-		$this->controlMock = $this->mockista->create('Nette\Application\UI\Control', array(
-			'getPresenter' => function () {return false;}
-		));
-	}
-
 	public function testLatteMacrosProvider()
 	{
-		/** @var \Nette\Bridges\ApplicationLatte\Template $template */
-		$template= $this->getContext()->getByType('Nette\Application\UI\ITemplateFactory')->createTemplate($this->controlMock);
-		$compiler = $template->getLatte()->getCompiler();
+		/** @var \Latte\Engine $engine */
+		$engine = $this->getContext()->getByType('Nette\Bridges\Framework\ILatteFactory')->create();
+		$compiler = $engine->getCompiler();
 		$reflectionProperty = new \ReflectionProperty($compiler, 'macros');
 		$reflectionProperty->setAccessible(true);
 		$macros = $reflectionProperty->getValue($compiler);
