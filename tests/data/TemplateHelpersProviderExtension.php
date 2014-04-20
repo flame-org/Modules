@@ -21,7 +21,8 @@ class TemplateHelpersProviderExtension extends \Nette\DI\CompilerExtension imple
 	{
 		return array(
 			'flamehelper' => array(new TestHelper(), 'process'),
-			'flamehelper2' => array($this->prefix('@testHelper'), 'process')
+			'flamehelper2' => array($this->prefix('@testHelper'), 'process'),
+			'TestHelper2'
 		);
 	}
 }

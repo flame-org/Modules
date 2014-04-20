@@ -8,6 +8,7 @@ require __DIR__ . '/data/LatteMacrosProviderExtension.php';
 require __DIR__ . '/data/TemplateHelpersProviderExtension.php';
 require __DIR__ . '/data/TestMacro.php';
 require __DIR__ . '/data/TestHelper.php';
+require __DIR__ . '/data/TestHelper2.php';
 
 
 if (!class_exists('Tester\Assert')) {

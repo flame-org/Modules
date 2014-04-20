@@ -23,6 +23,9 @@ class TemplateHelpersProviderTest extends TestCase
 		Assert::true(array_key_exists('flamehelper2', $helpers));
 		Assert::type('TestHelper', $helpers['flamehelper2'][0]);
 		Assert::same('process', $helpers['flamehelper2'][1]);
+		Assert::true(array_key_exists('flamehelpertype2', $helpers));
+		Assert::type('TestHelper2', $helpers['flamehelpertype2'][0]);
+		Assert::same('process', $helpers['flamehelpertype2'][1]);
 	}
 }
 
