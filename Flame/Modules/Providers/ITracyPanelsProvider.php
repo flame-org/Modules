@@ -14,7 +14,7 @@ interface ITracyPanelsProvider
 	/**
 	 * Returns array of panel renderer callbacks
 	 *
-	 * @see http://doc.nette.org/cs/configuring#toc-debugger
+	 * @see http://doc.nette.org/en/2.1/configuring#toc-debugger
 	 * @return array
 	 */
 	function getTracyPanels();
