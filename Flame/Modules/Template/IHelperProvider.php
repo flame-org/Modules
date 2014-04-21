@@ -8,8 +8,7 @@
 
 namespace Flame\Modules\Template;
 
-
-use Nette\Templating\Template;
+use Latte\Engine;
 
 interface IHelperProvider
 {
@@ -17,8 +16,8 @@ interface IHelperProvider
 	/**
 	 * Provide custom helper registration
 	 *
-	 * @param Template $template
+	 * @param Engine $engine
 	 * @return void
 	 */
-	public function register(Template $template);
+	public function register(Engine $engine);
 }
