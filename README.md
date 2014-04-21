@@ -11,46 +11,30 @@ Read more about this package on [blog](http://blog.jsifalda.name/post/detail/15/
 ##Features
 
 ###Simple configuration
-####Bootstrap
-In bootstrap.php in conjunction with [Flame/Framework](https://github.com/flame-org/Framework/)
-```php
-$configurator = new \Flame\Configurator;
-$configurator->createModulesInstaller()
-	->addConfig(__DIR__ . '/config/extensions.php')
-	->register();
-return $configurator
+####config.neon
+In config.neon register extension **Flame\Modules\DI\ModulesExtension**
+```yml
+extensions:
+	- Flame\Modules\DI\ModulesExtension
 ```
-*Look at [implementation of creating modules installator](https://github.com/flame-org/Framework/blob/master/Flame/Configurator.php#L46)*
 
-####extensions.php
+####Add your extensions
 Register extensions very simply
-````php
-
-return array(
-	'modules' => array(
-		'REST' => 'Flame\Rest\DI\RestExtension',
-		'doctrine' => 'Flame\Doctrine\DI\OrmExtension',
-		'events' => 'Kdyby\Events\DI\EventsExtension',
-
-		'Enlan\CategoryModule\DI\CategoryExtension',
-	    'Enlan\DictionaryModule\DI\DictionaryExtension',
-
-		'Flame\CMS\AngularModule\DI\AngularExtension'
-	)
-);
-````
-**If you favor NEON, you can use extensions.neon configuration.**
+```yml
+extensions:
+	- Flame\Modules\DI\ModulesExtension
+	- Booking\AppModule\DI\AppExtension
+	rest: Flame\Rest\DI\RestExtension
+	doctrine: Flame\Doctrine\DI\OrmExtension
+	events: Kdyby\Events\DI\EventsExtension
+```
 
 That's all, nothing more! Simple!
-
-##Killer feature ;-)
-
-###You can use composer package [Nette Module Installer](https://github.com/flame-org/Nette-Module-Installer) for automatic installation of new extensions
 
 ##Bonus?!
 **You can use Flame\Modules\Providers\IConfigProvider for loading additional neon configuration.**
 
-Or implement one of these interface: IRouterProvider & IPresenterMappingProvider & ILatteMacrosProvider.
+Or implement one of these interface: IRouterProvider & IPresenterMappingProvider & ILatteMacrosProvider [and more...](https://github.com/flame-org/Modules/tree/master/Flame/Modules/Providers)
 
 ###What next?
 Look at [this implementation of modules on steroids](https://bitbucket.org/enlan/).
