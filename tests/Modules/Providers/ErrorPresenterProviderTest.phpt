@@ -15,7 +15,7 @@ class ErrorPresenterProviderTest extends TestCase
 	public function testErrorPresenter()
 	{
 		/** @var \Nette\Application\Application $application */
-		$application = $this->getContext()->getByType('Nette\Application\Application');
+		$application = $this->getContext()->getService('application');
 		Assert::same('Flame:Module:Error', $application->errorPresenter);
 	}
 }

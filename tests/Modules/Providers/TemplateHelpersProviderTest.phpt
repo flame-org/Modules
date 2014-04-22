@@ -3,6 +3,7 @@
 namespace Flame\Tests\Modules\Providers;
 
 use Flame\Tester\TestCase;
+use Nette\DI\MissingServiceException;
 use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
@@ -15,7 +16,13 @@ class TemplateHelpersProviderTest extends TestCase
 	public function testTemplateHelper()
 	{
 		/** @var \Latte\Engine $engine */
-		$engine = $this->getContext()->getByType('Nette\Bridges\Framework\ILatteFactory')->create();
+		try {
+			$service = $this->getContext()->getService('nette.latteFactory');
+		} catch (MissingServiceException $e) {
+			$service = $this->getContext()->getService('nette.latte');
+		}
+		/** @var \Latte\Engine $engine */
+		$engine = $service->create();
 		$helpers = $engine->getFilters();
 		Assert::true(array_key_exists('flamehelper', $helpers));
 		Assert::type('TestHelper', $helpers['flamehelper'][0]);

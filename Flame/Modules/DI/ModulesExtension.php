@@ -27,7 +27,11 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		$presenterFactory = $builder->getDefinition('nette.presenterFactory');
-		$latte = $builder->getDefinition('nette.latte');
+		try {
+			$latte = $builder->getDefinition('nette.latteFactory');
+		} catch (Nette\DI\MissingServiceException $e) {
+			$latte = $builder->getDefinition('nette.latte');
+		}
 		$application = $builder->getDefinition('application');
 		$router = $builder->getDefinition('router');
 

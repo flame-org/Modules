@@ -15,7 +15,7 @@ class PresenterMappingProviderTest extends TestCase
 	public function testMappingProvider()
 	{
 		/** @var \Nette\Application\PresenterFactory $application */
-		$presenterFactory = $this->getContext()->getByType('Nette\Application\PresenterFactory');
+		$presenterFactory = $this->getContext()->getService('nette.presenterFactory');
 		$reflectionProperty = new \ReflectionProperty($presenterFactory, 'mapping');
 		$reflectionProperty->setAccessible(true);
 		$mappings = $reflectionProperty->getValue($presenterFactory);
