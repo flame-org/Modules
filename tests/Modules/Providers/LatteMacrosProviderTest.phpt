@@ -15,7 +15,7 @@ class LatteMacrosProviderTest extends TestCase
 	public function testLatteMacrosProvider()
 	{
 		/** @var \Latte\Engine $engine */
-		$engine = $this->getContext()->getByType('Nette\Bridges\Framework\ILatteFactory')->create();
+		$engine = $this->getContext()->getService('nette.latte')->create();
 		$compiler = $engine->getCompiler();
 		$reflectionProperty = new \ReflectionProperty($compiler, 'macros');
 		$reflectionProperty->setAccessible(true);

@@ -15,7 +15,7 @@ class RouterProviderTest extends TestCase
 	public function testRouterProvider()
 	{
 		/** @var \Nette\Application\Application $application */
-		$application = $this->getContext()->getByType('Nette\Application\Application');
+		$application = $this->getContext()->getService('application');
 		$routeList = $application->getRouter();
 		Assert::same('test', $routeList[0]->getMask());
 		Assert::same('test2', $routeList[1]->getMask());

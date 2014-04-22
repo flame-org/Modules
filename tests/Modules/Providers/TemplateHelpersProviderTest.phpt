@@ -15,7 +15,7 @@ class TemplateHelpersProviderTest extends TestCase
 	public function testTemplateHelper()
 	{
 		/** @var \Latte\Engine $engine */
-		$engine = $this->getContext()->getByType('Nette\Bridges\Framework\ILatteFactory')->create();
+		$engine = $this->getContext()->getService('nette.latte')->create();
 		$helpers = $engine->getFilters();
 		Assert::true(array_key_exists('flamehelper', $helpers));
 		Assert::type('TestHelper', $helpers['flamehelper'][0]);
