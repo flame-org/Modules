@@ -9,24 +9,21 @@ namespace Flame\Modules\Application\Routers;
 
 use Nette\Application\Routers\RouteList;
 use Nette\InvalidArgumentException;
-use Nette\Object;
 use Nette\OutOfRangeException;
+use Nette;
 
-class NetteRouteListMock extends Object implements \ArrayAccess, \Countable, \IteratorAggregate, IRouteMock
+class NetteRouteListMock extends RouteMock implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 
 	/** @var array  */
 	public $list = array();
-
-	/** @var \Flame\Modules\Application\Routers\RouteMock  */
-	public $factory;
 
 	/**
 	 * @param null $module
 	 */
 	function __construct($module = null)
 	{
-		$this->factory = new RouteMock(RouteList::getReflection()->getName(), array($module));
+		parent::__construct(RouteList::getReflection()->getName(), array($module));
 	}
 
 	/**
@@ -35,7 +32,7 @@ class NetteRouteListMock extends Object implements \ArrayAccess, \Countable, \It
 	public function getRouter()
 	{
 		/** @var \Nette\Application\Routers\RouteList $routeList */
-		$routeList = $this->factory->getRouter();
+		$routeList = parent::getRouter();
 
 		foreach($this->list as $route) {
 			if($route instanceof IRouteMock) {
@@ -127,4 +124,5 @@ class NetteRouteListMock extends Object implements \ArrayAccess, \Countable, \It
 		}
 		array_splice($this->list, (int) $index, 1);
 	}
+
 }

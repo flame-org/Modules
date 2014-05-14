@@ -8,13 +8,10 @@
 namespace Flame\Modules\Application\Routers;
 
 use Nette\Application\Routers\Route;
-use Nette\Object;
+use Nette;
 
-class NetteRouteMock extends Object implements IRouteMock
+class NetteRouteMock extends RouteMock
 {
-
-	/** @var \Flame\Modules\Application\Routers\RouteMock  */
-	public $factory;
 
 	/**
 	 * @param  string  URL mask, e.g. '<presenter>/<action>/<id \d{1,3}>'
@@ -23,14 +20,7 @@ class NetteRouteMock extends Object implements IRouteMock
 	 */
 	public function __construct($mask, $metadata = array(), $flags = 0)
 	{
-		$this->factory = new RouteMock(Route::getReflection()->getName(), array($mask, $metadata, $flags));
+		parent::__construct(Route::getReflection()->getName(), array($mask, $metadata, $flags));
 	}
 
-	/**
-	 * @return \Nette\Application\IRouter
-	 */
-	public function getRouter()
-	{
-		return $this->factory->getRouter();
-	}
 }

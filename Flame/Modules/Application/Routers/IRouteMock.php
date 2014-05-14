@@ -8,7 +8,6 @@
 
 namespace Flame\Modules\Application\Routers;
 
-
 interface IRouteMock
 {
 

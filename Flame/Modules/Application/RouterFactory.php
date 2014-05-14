@@ -10,7 +10,6 @@ namespace Flame\Modules\Application;
 use Flame\Modules\Application\Routers\IRouteMock;
 use Flame\Modules\Application\Routers\RouteMock;
 use Nette\Application\Routers\RouteList;
-use Nette\Application\Routers\Route;
 use Nette\InvalidStateException;
 use Nette;
 
@@ -44,7 +43,7 @@ class RouterFactory
 			$router = new RouteList;
 
 			foreach ($definedRoutes as $route) {
-				if($route instanceof Nette\Application\IRouter) {
+				if($route instanceof Nette\Application\IRouter && !$route instanceof IRouteMock) {
 					$router[] = $route;
 				}else{
 					$router[] = static::createRoute($route);

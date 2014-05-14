@@ -8,11 +8,13 @@
 namespace Flame\Modules\Application\Routers;
 
 use Nette\Application\IRouter;
+use Nette\Application\Request;
 use Nette\InvalidStateException;
 use Nette\Object;
 use Nette\Reflection\ClassType;
+use Nette;
 
-class RouteMock extends Object implements IRouteMock
+class RouteMock extends Object implements IRouteMock, IRouter
 {
 
 	/** @var string  */
@@ -65,4 +67,23 @@ class RouteMock extends Object implements IRouteMock
 		return $route->newInstanceArgs($this->args);
 	}
 
+	/**
+	 * Maps HTTP request to a Request object.
+	 *
+	 * @return Request|NULL
+	 */
+	function match(Nette\Http\IRequest $httpRequest)
+	{
+		return $this->getRouter()->match($httpRequest);
+	}
+
+	/**
+	 * Constructs absolute URL from Request object.
+	 *
+	 * @return string|NULL
+	 */
+	function constructUrl(Request $appRequest, Nette\Http\Url $refUrl)
+	{
+		return $this->getRouter()->constructUrl($appRequest, $refUrl);
+	}
 }
