@@ -9,6 +9,7 @@ namespace Flame\Modules\DI;
 
 use Flame\Modules\Providers\IErrorPresenterProvider;
 use Flame\Modules\Providers\ILatteMacrosProvider;
+use Flame\Modules\Providers\IParametersProvider;
 use Flame\Modules\Providers\IRouterProvider;
 use Flame\Modules\Providers\IPresenterMappingProvider;
 use Flame\Modules\Providers\ITemplateHelpersProvider;
@@ -37,6 +38,10 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 
 		$extensions = $this->compiler->getExtensions();
 		foreach ($extensions as $extension) {
+			if ($extension instanceof IParametersProvider) {
+				$this->setupParameters($builder, $extension);
+			}
+
 			if ($extension instanceof IPresenterMappingProvider) {
 				$this->setupPresenterMapping($presenterFactory, $extension);
 			}
@@ -89,6 +94,23 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * @param Nette\DI\ContainerBuilder $builder
+	 * @param IParametersProvider $extension
+	 * @throws \Nette\InvalidStateException
+	 */
+	private function setupParameters(Nette\DI\ContainerBuilder &$builder, IParametersProvider &$extension)
+	{
+		$parameters = $extension->getParameters();
+		if (!is_array($parameters)) {
+			throw new Nette\InvalidStateException('Definition of parameters must be in array');
+		}
+
+		if (count($parameters)) {
+			$builder->parameters = Nette\DI\Config\Helpers::merge($builder->parameters, $builder->expand($parameters));
 		}
 	}
 
