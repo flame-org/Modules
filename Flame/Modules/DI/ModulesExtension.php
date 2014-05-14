@@ -110,7 +110,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		}
 
 		if (count($parameters)) {
-			$builder->parameters = Nette\DI\Config\Helpers::merge($builder->parameters, $builder->expand($parameters));
+			$builder->parameters = Nette\DI\Config\Helpers::merge($builder->expand($parameters), $builder->parameters);
 		}
 	}
 
