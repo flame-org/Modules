@@ -7,6 +7,8 @@
  */
 namespace Flame\Modules\DI;
 
+use Flame\Modules\Application\Routers\NetteRouteListMock;
+use Flame\Modules\Application\Routers\NetteRouteMock;
 use Flame\Modules\Providers\IErrorPresenterProvider;
 use Flame\Modules\Providers\ILatteMacrosProvider;
 use Flame\Modules\Providers\IParametersProvider;
@@ -206,8 +208,33 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		}
 
 		if (count($routes)) {
+			foreach ($routes as &$service) {
+				if ($service instanceof Nette\Application\Routers\Route) {
+					$service = $this->createRouteMock($service);
+				}elseif ($service instanceof Nette\Application\Routers\RouteList) {
+					$mock = new NetteRouteListMock($service->getModule());
+					foreach($service as $route) {
+						$mock[] = $this->createRouteMock($route);
+					}
+
+					$service = $mock;
+				}
+
+				// In the future use this instead of RouterFactory
+				//$router->addSetup('offsetSet', array(NULL, $service));
+			}
+
 			$router->addSetup('Flame\Modules\Application\RouterFactory::prependTo($service, ?)', array($routes));
 		}
+	}
+
+	/**
+	 * @param Nette\Application\Routers\Route $route
+	 * @return NetteRouteMock
+	 */
+	private function createRouteMock(Nette\Application\Routers\Route $route)
+	{
+		return new NetteRouteMock($route->getMask(), $route->getDefaults(), $route->getFlags());
 	}
 
 	/**
