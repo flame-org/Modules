@@ -218,7 +218,6 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 					foreach($service as $route) {
 						$mock[] = $this->createNetteRouteMock($route);
 					}
-
 					$service = $mock;
 				}elseif (is_array($service) && count($service) >= 1) {
 					$class = key($service);

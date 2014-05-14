@@ -43,7 +43,6 @@ class RouterFactory
 			$router = new RouteList;
 
 			foreach ($definedRoutes as $route) {
-
 				if($route instanceof Nette\Application\IRouter && !$route instanceof IRouteMock) {
 					$router[] = $route;
 				}elseif($route instanceof IRouteMock) {
