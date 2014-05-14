@@ -8,7 +8,6 @@
 namespace Flame\Modules\Application;
 
 use Flame\Modules\Application\Routers\IRouteMock;
-use Flame\Modules\Application\Routers\RouteMock;
 use Nette\Application\Routers\RouteList;
 use Nette\InvalidStateException;
 use Nette;
@@ -27,6 +26,7 @@ class RouterFactory
 	/**
 	 * @param Nette\Application\IRouter $router
 	 * @param array $routes
+	 * @throws \Nette\InvalidStateException
 	 * @throws \Nette\Utils\AssertionException
 	 */
 	public static function prependTo(Nette\Application\IRouter &$router, array $routes)
@@ -43,31 +43,15 @@ class RouterFactory
 			$router = new RouteList;
 
 			foreach ($definedRoutes as $route) {
+
 				if($route instanceof Nette\Application\IRouter && !$route instanceof IRouteMock) {
 					$router[] = $route;
+				}elseif($route instanceof IRouteMock) {
+					$router[] = $route->getRouter();
 				}else{
-					$router[] = static::createRoute($route);
+					throw new InvalidStateException('Route definition must be array or instance of Flame\Modules\Application\Routers\IRouteMock, ' . gettype($route) . ' given');
 				}
 			}
 		}
-	}
-
-	/**
-	 * @param $route
-	 * @return object
-	 * @throws \Nette\InvalidStateException
-	 */
-	private static function createRoute($route)
-	{
-		if(is_array($route) && count($route) >= 1) {
-			$class = key($route);
-			$route = new RouteMock($class, $route[$class]);
-		}
-
-		if($route instanceof IRouteMock) {
-			return $route->getRouter();
-		}
-
-		throw new InvalidStateException('Route definition must be array or instance of Flame\Modules\Application\Routers\IRouteMock, ' . gettype($route) . ' given');
 	}
 }

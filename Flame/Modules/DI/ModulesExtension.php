@@ -7,8 +7,10 @@
  */
 namespace Flame\Modules\DI;
 
+use Flame\Modules\Application\Routers\IRouteMock;
 use Flame\Modules\Application\Routers\NetteRouteListMock;
 use Flame\Modules\Application\Routers\NetteRouteMock;
+use Flame\Modules\Application\Routers\RouteMock;
 use Flame\Modules\Providers\IErrorPresenterProvider;
 use Flame\Modules\Providers\ILatteMacrosProvider;
 use Flame\Modules\Providers\IParametersProvider;
@@ -210,14 +212,23 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		if (count($routes)) {
 			foreach ($routes as &$service) {
 				if ($service instanceof Nette\Application\Routers\Route) {
-					$service = $this->createRouteMock($service);
+					$service = $this->createNetteRouteMock($service);
 				}elseif ($service instanceof Nette\Application\Routers\RouteList) {
 					$mock = new NetteRouteListMock($service->getModule());
 					foreach($service as $route) {
-						$mock[] = $this->createRouteMock($route);
+						$mock[] = $this->createNetteRouteMock($route);
 					}
 
 					$service = $mock;
+				}elseif (is_array($service) && count($service) >= 1) {
+					$class = key($service);
+					$service = new RouteMock($class, $service[$class]);
+				}elseif(is_string($service)) {
+					$service = new RouteMock($service);
+				}
+
+				if(!$service instanceof IRouteMock){
+					throw new Nette\InvalidStateException('Unsupported Route type "' . gettype($service) . '" given, try create Nette\Application\Routers\Route object.');
 				}
 
 				// In the future use this instead of RouterFactory
@@ -232,7 +243,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 	 * @param Nette\Application\Routers\Route $route
 	 * @return NetteRouteMock
 	 */
-	private function createRouteMock(Nette\Application\Routers\Route $route)
+	private function createNetteRouteMock(Nette\Application\Routers\Route $route)
 	{
 		return new NetteRouteMock($route->getMask(), $route->getDefaults(), $route->getFlags());
 	}
