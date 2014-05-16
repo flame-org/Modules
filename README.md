@@ -53,6 +53,26 @@ class AppExtension extends CompilerExtension implements Flame\Modules\Providers\
 }
 ```
 
+###IPresenterMappingProvider
+```php
+class AppExtension extends CompilerExtension implements Flame\Modules\Providers\IPresenterMappingProvider
+{
+
+	/**
+    	 * Returns array of ClassNameMask => PresenterNameMask
+    	 *
+    	 * @example return array('*' => 'Booking\*Module\Presenters\*Presenter');
+    	 * @return array
+    	 */
+    	public function getPresenterMapping()
+    	{
+    		return array(
+    			'*' => 'App\*Module\Presenters\*Presenter'
+    		);
+    	}
+}
+```
+
 ###IParametersProvider
 ```php
 class AppExtension extends CompilerExtension implements Flame\Modules\Providers\IParametersProvider
