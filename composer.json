@@ -21,7 +21,8 @@
 
   "require-dev": {
     "flame/tester": "dev-master",
-    "janmarek/mockista": "dev-master"
+    "janmarek/mockista": "dev-master",
+    "flame/tiny-rest": "*"
   },
 
   "config": {
