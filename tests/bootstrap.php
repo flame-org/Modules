@@ -31,9 +31,12 @@ function run(\Tester\TestCase $testCase) {
 }
 
 function getContainer() {
-	$configurator = new \Nette\Configurator();
-	$configurator->setTempDirectory(__DIR__ . '/temp')
-		->addConfig(__DIR__ . '/data/config.neon');
 
-	return $configurator->createContainer();
+	$configurator = new \Nette\Configurator();
+	$dir = __DIR__ . '/temp/' . \Nette\Utils\Random::generate(5);
+	mkdir($dir);
+	$configurator->setTempDirectory($dir)
+		->addConfig(__DIR__ . '/data/config.neon');
+	$container = $configurator->createContainer();
+	return $container;
 }
