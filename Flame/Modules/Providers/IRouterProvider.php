@@ -14,7 +14,7 @@ interface IRouterProvider
 	 * Returns array of ServiceDefinition,
 	 * that will be appended to setup of router service
 	 *
-	 * @example return array(new NetteRouteMock('<presenter>/<action>[/<id>]', 'Homepage:default'));
+	 * @example return array(new Route('<presenter>/<action>[/<id>]', 'Homepage:default'));
 	 * @return array
 	 */
 	public function getRoutesDefinition();
