@@ -18,7 +18,7 @@ extensions:
 Register extensions very simply
 ```yml
 extensions:
-	- Flame\Modules\DI\ModulesExtension # Do not forger to it!
+	- Flame\Modules\DI\ModulesExtension # Do not forget to it!
 	- App\AppModule\DI\AppExtension
 	rest: Flame\Rest\DI\RestExtension
 	events: Kdyby\Events\DI\EventsExtension
