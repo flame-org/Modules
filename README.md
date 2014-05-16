@@ -1,6 +1,6 @@
 #Nette Modules on the Steroids [![Build Status](https://travis-ci.org/flame-org/Modules.png?branch=master)](https://travis-ci.org/flame-org/Modules)
 
-**Simple registration of Nette modules & extensions.**
+**Simple registration and management of Nette modules & extensions.**
 
 Base on [SOLID MODULAR CONCEPT](http://forum.nette.org/en/1193-extending-extensions-solid-modular-concept).
 
