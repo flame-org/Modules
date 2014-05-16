@@ -28,7 +28,7 @@ extensions:
 That's all, nothing more! Simple!
 
 ##Examples
-###IRouterProvider
+###[IRouterProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/IRouterProvider.php)
 ```php
 class AppExtension extends CompilerExtension implements Flame\Modules\Providers\IRouterProvider
 {
@@ -53,7 +53,7 @@ class AppExtension extends CompilerExtension implements Flame\Modules\Providers\
 }
 ```
 
-###IPresenterMappingProvider
+###[IPresenterMappingProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/IPresenterMappingProvider.php)
 ```php
 class AppExtension extends CompilerExtension implements Flame\Modules\Providers\IPresenterMappingProvider
 {
@@ -73,7 +73,7 @@ class AppExtension extends CompilerExtension implements Flame\Modules\Providers\
 }
 ```
 
-###IParametersProvider
+###[IParametersProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/IParametersProvider.php)
 ```php
 class AppExtension extends CompilerExtension implements Flame\Modules\Providers\IParametersProvider
 {
@@ -98,7 +98,7 @@ class AppExtension extends CompilerExtension implements Flame\Modules\Providers\
 ```
 
 
-###ITemplateHelpersProvider
+###[ITemplateHelpersProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/ITemplateHelpersProvider.php)
 ```php
 class HelperExtension extends CompilerExtension implements Flame\Modules\Providers\ITemplateHelpersProvider
 {
@@ -117,7 +117,7 @@ class HelperExtension extends CompilerExtension implements Flame\Modules\Provide
 }
 ```
 
-###ILatteMacrosProvider
+###[ILatteMacrosProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/ILatteMacrosProvider.php)
 ```php
 
 class MacroExtension extends CompilerExtension implements Flame\Modules\ProvidersILatteMacrosProvider
@@ -137,7 +137,9 @@ class MacroExtension extends CompilerExtension implements Flame\Modules\Provider
 }
 ```
 
-and more: **IErrorPresenterProvider, ITracyBarPanelsProvider, ITracyPanelsProvider**
+and more: **[IErrorPresenterProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/IErrorPresenterProvider.php),
+[ITracyBarPanelsProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/ITracyPanelsProvider.php),
+[ITracyPanelsProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/ITracyBarPanelsProvider.php)**
 
 ###What next?
 Look into the [tests/integration](https://github.com/flame-org/Modules/tree/master/tests/integration) for examples of usage.
