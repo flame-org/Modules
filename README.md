@@ -1,4 +1,4 @@
-#Nette Modules on theSteroids [![Build Status](https://travis-ci.org/flame-org/Modules.png?branch=master)](https://travis-ci.org/flame-org/Modules)
+#Nette Modules on the Steroids [![Build Status](https://travis-ci.org/flame-org/Modules.png?branch=master)](https://travis-ci.org/flame-org/Modules)
 
 **Simple registration of Nette modules & extensions.**
 
@@ -119,4 +119,5 @@ class MacroExtension extends CompilerExtension implements Flame\Modules\Provider
 
 ###What next?
 Look into the [tests/integration](https://github.com/flame-org/Modules/tree/master/tests/integration) for examples of usage.
+
 Read more about this package on [blog](http://blog.jsifalda.name/post/detail/15/nette-moduly-a-vlastni-instalator-3) [CZE]
