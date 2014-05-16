@@ -19,6 +19,10 @@ a.active {
     color: #18bc9c;
 }
 
+a.dark {
+    color: #273d52;
+}
+
 h1,
 h2,
 h3,
