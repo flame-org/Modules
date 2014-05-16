@@ -120,7 +120,7 @@ class HelperExtension extends CompilerExtension implements Flame\Modules\Provide
 ###[ILatteMacrosProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/ILatteMacrosProvider.php)
 ```php
 
-class MacroExtension extends CompilerExtension implements Flame\Modules\ProvidersILatteMacrosProvider
+class MacroExtension extends CompilerExtension implements Flame\Modules\Providers\ILatteMacrosProvider
 {
 
 	/**
