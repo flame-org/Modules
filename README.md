@@ -1,12 +1,8 @@
-#Steroids Modules [![Build Status](https://travis-ci.org/flame-org/Modules.png?branch=master)](https://travis-ci.org/flame-org/Modules)
+#Nette Modules on theSteroids [![Build Status](https://travis-ci.org/flame-org/Modules.png?branch=master)](https://travis-ci.org/flame-org/Modules)
 
-**Nette modules on the Steroids**
+**Simple registration of Nette modules & extensions.**
 
-Simple registration of Nette modules & extensions.
-
-Support of [SOLID MODULAR CONCEPT](http://forum.nette.org/en/1193-extending-extensions-solid-modular-concept).
-
-Read more about this package on [blog](http://blog.jsifalda.name/post/detail/15/nette-moduly-a-vlastni-instalator-3) [CZE]
+Base on [SOLID MODULAR CONCEPT](http://forum.nette.org/en/1193-extending-extensions-solid-modular-concept).
 
 ##Features
 
@@ -22,12 +18,11 @@ extensions:
 Register extensions very simply
 ```yml
 extensions:
-	- Flame\Modules\DI\ModulesExtension
+	- Flame\Modules\DI\ModulesExtension # Do not forger to it!
 	- App\AppModule\DI\AppExtension
-	- App\HelperModule\DI\HelperExtension
 	rest: Flame\Rest\DI\RestExtension
-	doctrine: Flame\Doctrine\DI\OrmExtension
 	events: Kdyby\Events\DI\EventsExtension
+	# ...
 ```
 
 That's all, nothing more! Simple!
@@ -124,3 +119,4 @@ class MacroExtension extends CompilerExtension implements Flame\Modules\Provider
 
 ###What next?
 Look into the [tests/integration](https://github.com/flame-org/Modules/tree/master/tests/integration) for examples of usage.
+Read more about this package on [blog](http://blog.jsifalda.name/post/detail/15/nette-moduly-a-vlastni-instalator-3) [CZE]
