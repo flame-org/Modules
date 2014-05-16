@@ -137,8 +137,24 @@ class MacroExtension extends CompilerExtension implements Flame\Modules\Provider
 }
 ```
 
-and more: **[IErrorPresenterProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/IErrorPresenterProvider.php),
-[ITracyBarPanelsProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/ITracyPanelsProvider.php),
+###[IErrorPresenterProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/IErrorPresenterProvider.php)
+```php
+class ErrorExtension extends CompilerExtension implements Flame\Modules\Providers\IErrorPresenterProvider
+{
+
+	/**
+	 * Return name of error presenter
+	 *
+	 * @return string
+	 */
+	public function getErrorPresenterName()
+	{
+		return 'Error:CustomError';
+	}
+}
+```
+
+and more: **[ITracyBarPanelsProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/ITracyPanelsProvider.php),
 [ITracyPanelsProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/ITracyBarPanelsProvider.php)**
 
 ###What next?

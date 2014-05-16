@@ -14,9 +14,6 @@ php:
 
 
 nette:
-	application:
-		errorPresenter: Error
-
 	session:
 		expiration: 14 days
 
@@ -27,3 +24,4 @@ extensions:
 	- Flame\Rest\DI\RestExtension
 	- App\MacroModule\DI\MacroExtension
 	- App\HelperModule\DI\HelperExtension
+	- App\ErrorModule\DI\ErrorExtension
