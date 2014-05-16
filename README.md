@@ -137,6 +137,8 @@ class MacroExtension extends CompilerExtension implements Flame\Modules\Provider
 }
 ```
 
+and more: **IErrorPresenterProvider, ITracyBarPanelsProvider, ITracyPanelsProvider**
+
 ###What next?
 Look into the [tests/integration](https://github.com/flame-org/Modules/tree/master/tests/integration) for examples of usage.
 
