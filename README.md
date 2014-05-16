@@ -2,7 +2,7 @@
 
 **Simple registration and management of Nette modules & extensions.**
 
-Read more on [project homepage](http://flame-org.github.io/Modules/)
+Read more on [project homepage](http://flame-org.github.io/Modules/).
 
 ##Features
 
@@ -160,6 +160,6 @@ and more: **[ITracyBarPanelsProvider](https://github.com/flame-org/Modules/blob/
 ###What next?
 Look into the [tests/integration](https://github.com/flame-org/Modules/tree/master/tests/integration) for examples of usage.
 
-Read more about this package on [blog](http://blog.jsifalda.name/post/detail/15/nette-moduly-a-vlastni-instalator-3) [CZE]
+Read more about this package on [blog](http://blog.jsifalda.name/post/detail/15/nette-moduly-a-vlastni-instalator-3) [CZE].
 
 Based on [SOLID MODULAR CONCEPT](http://forum.nette.org/en/1193-extending-extensions-solid-modular-concept).
