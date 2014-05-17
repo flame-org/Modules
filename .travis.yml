@@ -4,4 +4,4 @@ php:
 before_script:
   - composer self-update
   - composer install --no-interaction --dev
-script: "./libs/bin/tester -j 10 tests/"
+script: "./libs/bin/tester tests/ && ./libs/bin/tester demo/tests/"

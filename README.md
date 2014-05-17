@@ -158,7 +158,7 @@ and more: **[ITracyBarPanelsProvider](https://github.com/flame-org/Modules/blob/
 [ITracyPanelsProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/ITracyBarPanelsProvider.php)**
 
 ###What next?
-Look into the [tests/integration](https://github.com/flame-org/Modules/tree/master/tests/integration) for examples of usage.
+Look into the [demo folder](https://github.com/flame-org/Modules/tree/master/tests/integration) for working demo application.
 
 Read more about this package on [blog](http://blog.jsifalda.name/post/detail/15/nette-moduly-a-vlastni-instalator-3) [CZE].
 

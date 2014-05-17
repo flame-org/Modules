@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../../libs/autoload.php';
+require __DIR__ . '/../../libs/autoload.php';
 
 $configurator = new Nette\Configurator;
 

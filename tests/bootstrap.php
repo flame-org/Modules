@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../libs/autoload.php';
+require __DIR__ . '/../libs/autoload.php';
 require __DIR__ . '/data/ErrorPresenterExtension.php';
 require __DIR__ . '/data/PresenterMappingExtension.php';
 require __DIR__ . '/data/RouterProviderExtension.php';
