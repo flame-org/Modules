@@ -14,6 +14,7 @@ interface IPresenterMappingProvider
 
 	/**
 	 * Returns array of ClassNameMask => PresenterNameMask
+	 *
 	 * @example return array('*' => 'Booking\*Module\Presenters\*Presenter');
 	 * @return array
 	 */

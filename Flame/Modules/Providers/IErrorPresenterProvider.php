@@ -13,6 +13,7 @@ interface IErrorPresenterProvider
 	/**
 	 * Return name of error presenter
 	 *
+	 * @example https://gist.github.com/jsifalda/cd32009e6c5c956b5a10
 	 * @return string
 	 */
 	public function getErrorPresenterName();

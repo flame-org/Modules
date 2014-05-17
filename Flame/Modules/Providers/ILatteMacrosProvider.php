@@ -13,6 +13,7 @@ interface ILatteMacrosProvider
 	/**
 	 * Get array of latte macros classes
 	 *
+	 * @example https://gist.github.com/jsifalda/8e781e6fc3a04038f44a
 	 * @return array
 	 */
 	public function getLatteMacros();
