@@ -4,6 +4,7 @@
   "description": "Nette modules on the Steroids",
   "keywords": ["framework", "nette", "simple", "flame", "jsifalda", "tools", "modules"],
   "homepage": "https://github.com/flame-org/Modules",
+  "license": "LGPL-3.0",
 
   "authors": [
     {
