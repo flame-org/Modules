@@ -196,12 +196,47 @@
         </div>
     </section>
 
-    <section id="contact">
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Installation</h2>
+                    <hr class="star-primary">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h3>Recommended way</h3>
+                    <p>Use <a href="https://getcomposer.org" target="_blank">Composer</a> to install Flame/Modules.</p>
+                    <p>In your <strong>composer.json</strong> you must have the following lines:</p>
+                    <div>
+                        <script src="https://gist.github.com/jsifalda/3d299d6f78992e8b5439.js"></script>
+                    </div>
+                    <p><i>Specify version of flame/modules if you want.</i></p>
+
+                    <p>Update composer dependencies (run command: <strong>composer update</strong>)</p>
+                    <p>Register extension <strong>Flame\Modules\DI\ModulesExtension</strong> in your config.neon file:</p>
+                    <div>
+                        <script src="https://gist.github.com/jsifalda/8cadff1aae6f20c659bb.js"></script>
+                    </div>
+                    <p><strong>That's all.</strong> Siple, don't you think?</p>
+
+                    <h4>Add your modules</h4>
+                    <p>Now, you can add your custom modules: (eg.)</p>
+                    <div>
+                        <script src="https://gist.github.com/jsifalda/3b2dec60d58616dd700d.js"></script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="success">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2>Contact Me</h2>
-                    <hr class="star-primary">
+                    <hr class="star-light">
                 </div>
             </div>
             <div class="row">
@@ -211,7 +246,7 @@
                 </div>
 
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <a href="mailto:sifalda.jiri@gmail.com" class="btn btn-lg btn-outline" style="background: #273d52">
+                    <a href="mailto:sifalda.jiri@gmail.com" class="btn btn-lg btn-outline">
                         <i class="fa fa-location-arrow"></i> sifalda.jiri@gmail.com
                     </a>
                 </div>
