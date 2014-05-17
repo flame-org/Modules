@@ -25,3 +25,4 @@ extensions:
 	- App\MacroModule\DI\MacroExtension
 	- App\HelperModule\DI\HelperExtension
 	- App\ErrorModule\DI\ErrorExtension
+	- App\TracyModule\DI\TracyExtension
