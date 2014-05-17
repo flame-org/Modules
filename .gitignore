@@ -1,4 +1,5 @@
 libs
 composer.lock
+coverage.dat
 *.expected
 *.actual
