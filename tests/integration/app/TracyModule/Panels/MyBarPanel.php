@@ -16,7 +16,7 @@ class MyBarPanel implements IBarPanel
 	 */
 	function getTab()
 	{
-		return '<div>aaa</div>';
+		return '<div>html</div>';
 	}
 
 	/**
@@ -26,6 +26,6 @@ class MyBarPanel implements IBarPanel
 	 */
 	function getPanel()
 	{
-		return '<div>bbb</div>';
+		return '<div>html</div>';
 	}
 }

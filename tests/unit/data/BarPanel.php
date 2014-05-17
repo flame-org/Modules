@@ -13,7 +13,7 @@ class BarPanel implements \Tracy\IBarPanel
 	 */
 	function getTab()
 	{
-		return '<div>aaa</div>';
+		return '<div>html</div>';
 	}
 
 	/**
@@ -23,6 +23,6 @@ class BarPanel implements \Tracy\IBarPanel
 	 */
 	function getPanel()
 	{
-		return '<div>bbb</div>';
+		return '<div>html</div>';
 	}
 }

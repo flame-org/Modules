@@ -9,7 +9,7 @@ class MyBlueScreenPanel
 
 	public static function test()
 	{
-		echo 'aa';
+		echo 'Your super intelligent debug panel';
 	}
 
 } 
