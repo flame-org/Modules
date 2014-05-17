@@ -76,7 +76,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 	{
 		$container = $this->getContainerBuilder();
 
-		if ($container->parameters['debugMode']) {
+		if ($container->parameters['debugMode'] && isset($class->methods['initialize'])) {
 			$initialize = $class->methods['initialize'];
 
 			foreach ($this->compiler->getExtensions() as $extension) {
