@@ -9,3 +9,5 @@ extensions:
 	- RouterProviderExtension
 	- LatteMacrosProviderExtension
 	- TemplateHelpersProviderExtension
+	- TracyBarProviderExtension
+	- TracyBlueScreenProviderExtension

@@ -6,7 +6,11 @@ require __DIR__ . '/data/PresenterMappingExtension.php';
 require __DIR__ . '/data/RouterProviderExtension.php';
 require __DIR__ . '/data/LatteMacrosProviderExtension.php';
 require __DIR__ . '/data/TemplateHelpersProviderExtension.php';
+require __DIR__ . '/data/TracyBlueScreenProviderExtension.php';
+require __DIR__ . '/data/TracyBarProviderExtension.php';
 require __DIR__ . '/data/TestMacro.php';
+require __DIR__ . '/data/BarPanel.php';
+require __DIR__ . '/data/BlueScreenPanel.php';
 require __DIR__ . '/data/TestHelper.php';
 require __DIR__ . '/data/TestHelper2.php';
 
