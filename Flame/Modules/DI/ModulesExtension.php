@@ -140,7 +140,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 					}
 				}
 
-				$latte->addSetup($macro . '(?->getCompiler())', array('@self'));
+				$latte->addSetup('?->onCompile[] = function($engine) { ' . $macro . '($engine->getCompiler()); }', array('@self'));
 			}
 		}
 	}
