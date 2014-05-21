@@ -22,12 +22,7 @@ class LatteMacrosProviderTest extends TestCase
 		}
 		/** @var \Latte\Engine $engine */
 		$engine = $service->create();
-		$compiler = $engine->getCompiler();
-		$reflectionProperty = new \ReflectionProperty($compiler, 'macros');
-		$reflectionProperty->setAccessible(true);
-		$macros = $reflectionProperty->getValue($compiler);
-		$reflectionProperty->setAccessible(false);
-		Assert::true(array_key_exists('FlameTestMacro', $macros));
+		Assert::true(count($engine->onCompile) >= 1);
 	}
 }
 
