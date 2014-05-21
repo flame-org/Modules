@@ -1,5 +1,6 @@
 libs
 composer.lock
 coverage.dat
+temp
 *.expected
 *.actual

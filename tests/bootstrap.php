@@ -38,7 +38,7 @@ function getContainer() {
 
 	$configurator = new \Nette\Configurator();
 	$dir = __DIR__ . '/temp/' . \Nette\Utils\Random::generate(5);
-	mkdir($dir);
+	mkdir($dir, 0777, true);
 	$configurator->setTempDirectory($dir)
 		->addConfig(__DIR__ . '/data/config.neon');
 	$container = $configurator->createContainer();
