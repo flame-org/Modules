@@ -8,6 +8,7 @@ use Flame\Modules\Providers\IParametersProvider;
 use Flame\Modules\Providers\IPresenterMappingProvider;
 use Flame\Modules\Providers\IRouterProvider;
 use Nette\Application\Routers\Route;
+use Nette\Application\Routers\RouteList;
 use Nette\DI\CompilerExtension;
 
 class AppExtension extends CompilerExtension implements IRouterProvider, IParametersProvider, IPresenterMappingProvider
@@ -21,13 +22,17 @@ class AppExtension extends CompilerExtension implements IRouterProvider, IParame
 	 */
 	public function getRoutesDefinition()
 	{
+		$app = new RouteList('App');
+
+		$app[] = new Route('<module>/<presenter>/<action>[/<id>]', array(
+			'module' => 'App',
+			'Presenter' => 'Home',
+			'action' => 'default',
+			'id' => null
+		));
+
 		return array(
-			new Route('<module>/<presenter>/<action>[/<id>]', array(
-				'module' => 'App',
-				'Presenter' => 'Home',
-				'action' => 'default',
-				'id' => null
-			)),
+			$app,
 			new Route('/', 'App:Home:default', Route::ONE_WAY)
 		);
 	}

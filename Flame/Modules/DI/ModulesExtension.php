@@ -211,18 +211,19 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 
 		if (count($routes)) {
 			foreach ($routes as &$service) {
-				if ($service instanceof Nette\Application\Routers\Route) {
-					$service = $this->createNetteRouteMock($service);
-				}elseif ($service instanceof Nette\Application\Routers\RouteList) {
-					$mock = new NetteRouteListMock($service->getModule());
-					foreach($service as $route) {
-						$mock[] = $this->createNetteRouteMock($route);
-					}
-					$service = $mock;
+
+				if ($service instanceof Nette\Application\Routers\Route
+					|| $service instanceof Nette\Application\Routers\RouteList) {
+
+					$service = $this->createRouteMock($service);
+
 				}elseif (is_array($service) && count($service) >= 1) {
+
 					$class = key($service);
 					$service = new RouteMock($class, $service[$class]);
+
 				}elseif(is_string($service)) {
+
 					$service = new RouteMock($service);
 				}
 
@@ -239,12 +240,29 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 	}
 
 	/**
-	 * @param Nette\Application\Routers\Route $route
-	 * @return NetteRouteMock
+	 * @param mixed $route
+	 * @return array|NetteRouteListMock|NetteRouteMock
+	 * @throws \Nette\InvalidStateException
 	 */
-	private function createNetteRouteMock(Nette\Application\Routers\Route $route)
+	private function createRouteMock($route)
 	{
-		return new NetteRouteMock($route->getMask(), $route->getDefaults(), $route->getFlags());
+
+		if ($route instanceof Nette\Application\Routers\Route) {
+
+			return new NetteRouteMock($route->getMask(), $route->getDefaults(), $route->getFlags());
+
+		}elseif ($route instanceof Nette\Application\Routers\RouteList) {
+
+			$mock = new NetteRouteListMock($route->getModule());
+
+			foreach($route as $item) {
+				$mock[] = $this->createRouteMock($item);
+			}
+
+			return $mock;
+		}
+
+		throw new Nette\InvalidStateException('Unsupported route type given.');
 	}
 
 	/**
