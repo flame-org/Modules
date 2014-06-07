@@ -24,10 +24,11 @@ class AppExtension extends CompilerExtension implements IRouterProvider, IParame
 		return array(
 			new Route('<module>/<presenter>/<action>[/<id>]', array(
 				'module' => 'App',
-				'Presenter' => 'Homepage',
+				'Presenter' => 'Home',
 				'action' => 'default',
 				'id' => null
-			))
+			)),
+			new Route('/', 'App:Home:default', Route::ONE_WAY)
 		);
 	}
 
