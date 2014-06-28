@@ -252,8 +252,8 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 			return new NetteRouteMock($route->getMask(), $route->getDefaults(), $route->getFlags());
 
 		}elseif ($route instanceof Nette\Application\Routers\RouteList) {
-
-			$mock = new NetteRouteListMock($route->getModule());
+			$module = trim($route->getModule(), ':');
+			$mock = new NetteRouteListMock($module);
 
 			foreach($route as $item) {
 				$mock[] = $this->createRouteMock($item);
