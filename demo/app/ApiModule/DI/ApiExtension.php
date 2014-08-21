@@ -22,7 +22,7 @@ class ApiExtension extends CompilerExtension implements IRouterProvider, IPresen
 	 */
 	public function getRoutesDefinition()
 	{
-		new Route('Flame\Rest\Application\Routers\RestRoute', array('Api'));
+		return new Route('Flame\Rest\Application\Routers\RestRoute', array('Api'));
 	}
 
 	/**

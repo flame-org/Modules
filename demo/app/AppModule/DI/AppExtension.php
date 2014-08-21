@@ -43,7 +43,7 @@ class AppExtension extends CompilerExtension implements IRouterProvider, IParame
 			'id' => null
 		));
 
-		$routeList[] new Route('/', 'App:Home:default', Route::ONE_WAY);
+		$routeList[] = new Route('/', 'App:Home:default', Route::ONE_WAY);
 		
 		return $routeList;
 	}
