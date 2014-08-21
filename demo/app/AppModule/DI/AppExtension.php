@@ -22,23 +22,14 @@ class AppExtension extends CompilerExtension implements IRouterProvider, IParame
 	 */
 	public function getRoutesDefinition()
 	{
-		$app = new RouteList('App');
-
-		$app[] = new Route('app/<presenter>/<action>[/<id>]', array(
-			'module' => 'App',
-			'Presenter' => 'Home',
-			'action' => 'default',
-			'id' => null
-		));
-
 		return array(
-			$app,
 			new Route('<module>/<presenter>/<action>[/<id>]', array(
 				'module' => 'App',
 				'Presenter' => 'Home',
 				'action' => 'default',
 				'id' => null
 			)),
+
 			new Route('/', 'App:Home:default', Route::ONE_WAY)
 		);
 	}
