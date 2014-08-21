@@ -7,9 +7,6 @@
  */
 namespace Flame\Modules\DI;
 
-use Flame\Modules\Application\Routers\NetteRouteListMock;
-use Flame\Modules\Application\Routers\NetteRouteMock;
-use Flame\Modules\Application\Routers\RouteMock;
 use Flame\Modules\Providers\IErrorPresenterProvider;
 use Flame\Modules\Providers\ILatteMacrosProvider;
 use Flame\Modules\Providers\IParametersProvider;
@@ -19,6 +16,7 @@ use Flame\Modules\Providers\ITemplateHelpersProvider;
 use Flame\Modules\Providers\ITracyBarPanelsProvider;
 use Flame\Modules\Providers\ITracyPanelsProvider;
 use Nette;
+use Nette\DI\ServiceDefinition;
 use Nette\Utils\Validators;
 
 
@@ -150,57 +148,33 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 
 	private function setupRouter(IRouterProvider $extension)
 	{
-		$routes = $extension->getRoutesDefinition();
-		Validators::assert($routes, 'array', 'routes');
-
 		$builder = $this->getContainerBuilder();
 		$router = $builder->getDefinition('router');
 
-		if (count($routes)) {
-			foreach ($routes as &$service) {
-				if ($service instanceof Nette\Application\Routers\Route
-					|| $service instanceof Nette\Application\Routers\RouteList) {
-					$service = $this->createRouteMock($service);
-
-				} elseif (is_array($service) && count($service) >= 1) {
-					$class = key($service);
-					$service = new RouteMock($class, $service[$class]);
-
-				} elseif (is_string($service)) {
-					$service = new RouteMock($service);
-				}
-
-				Validators::assert($service, 'Flame\Modules\Application\Routers\IRouteMock');
-
-				// In the future use this instead of RouterFactory
-				//$router->addSetup('offsetSet', array(NULL, $service));
-			}
-
-			$router->addSetup('Flame\Modules\Application\RouterFactory::prependTo($service, ?)', [$routes]);
-		}
+		/** @var Nette\DI\CompilerExtension $extension */
+		$name = $this->addRouteService($extension->getReflection()->name);
+		$router->addSetup('offsetSet', [NULL, $name]);
 	}
 
 	/**
-	 * @param mixed $route
-	 * @return array|NetteRouteListMock|NetteRouteMock
+	 * @param string $class
+	 * @return string
 	 */
-	private function createRouteMock($route)
+	private function addRouteService($class)
 	{
-		Validators::assert($route, 'Nette\Application\Routers\Route|Nette\Application\Routers\RouteList');
+		$builder = $this->getContainerBuilder();
 
-		if ($route instanceof Nette\Application\Routers\Route) {
-			return new NetteRouteMock($route->getMask(), $route->getDefaults(), $route->getFlags());
+		$builder->addDefinition($this->prefix('routeService.' . md5($class)))
+			->setClass($class)
+			->setAutowired(FALSE)
+			->setInject(TRUE);
 
-		} else {
-			$module = trim($route->getModule(), ':');
-			$mock = new NetteRouteListMock($module);
+		$builder->addDefinition('routerServiceFactory.' . md5($class))
+			->setFactory($this->prefix('@routeService.' . md5($class)) . '::getRoutesDefinition')
+			->setAutowired(FALSE)
+			->setInject(TRUE);
 
-			foreach ($route as $item) {
-				$mock[] = $this->createRouteMock($item);
-			}
-
-			return $mock;
-		}
+		return '@routerServiceFactory.' . md5($class);
 	}
 
 	private function setupErrorPresenter(IErrorPresenterProvider $extension)
@@ -215,7 +189,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 
 
 	/**
-	 * @return Nette\DI\ServiceDefinition
+	 * @return ServiceDefinition
 	 */
 	private function getLatteFactory()
 	{
