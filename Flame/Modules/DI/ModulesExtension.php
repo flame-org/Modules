@@ -166,13 +166,11 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 
 		$builder->addDefinition($this->prefix('routeService.' . md5($class)))
 			->setClass($class)
-			->setAutowired(FALSE)
 			->setInject(TRUE);
 
 		$builder->addDefinition('routerServiceFactory.' . md5($class))
 			->setFactory($this->prefix('@routeService.' . md5($class)) . '::getRoutesDefinition')
-			->setAutowired(FALSE)
-			->setInject(TRUE);
+			->setAutowired(FALSE);
 
 		return '@routerServiceFactory.' . md5($class);
 	}
