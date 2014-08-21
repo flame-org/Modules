@@ -18,10 +18,13 @@ class AppExtension extends CompilerExtension implements IRouterProvider, IParame
 	 * Returns array of ServiceDefinition,
 	 * that will be appended to setup of router service
 	 *
-	 * @example return array(new NetteRouteMock('<presenter>/<action>[/<id>]', 'Homepage:default'));
+	 * @example https://github.com/nette/sandbox/blob/master/app/router/RouterFactory.php - createRouter()
+	 * @return \Nette\Application\IRouter
 	 */
 	public function getRoutesDefinition()
 	{
+		$routeList = new RouteList
+
 		$app = new RouteList('App');
 
 		$app[] = new Route('app/<presenter>/<action>[/<id>]', array(
@@ -31,16 +34,18 @@ class AppExtension extends CompilerExtension implements IRouterProvider, IParame
 			'id' => null
 		));
 
-		return array(
-			$app,
-			new Route('<module>/<presenter>/<action>[/<id>]', array(
-				'module' => 'App',
-				'Presenter' => 'Home',
-				'action' => 'default',
-				'id' => null
-			)),
-			new Route('/', 'App:Home:default', Route::ONE_WAY)
-		);
+		$routeList[] = $app;
+
+		$routeList[] = new Route('<module>/<presenter>/<action>[/<id>]', array(
+			'module' => 'App',
+			'Presenter' => 'Home',
+			'action' => 'default',
+			'id' => null
+		));
+
+		$routeList[] new Route('/', 'App:Home:default', Route::ONE_WAY);
+		
+		return $routeList;
 	}
 
 	/**
