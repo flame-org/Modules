@@ -36,18 +36,17 @@ class AppExtension extends CompilerExtension implements Flame\Modules\Providers\
 	/**
 	 * Returns array of ServiceDefinition,
 	 * that will be appended to setup of router service
-	 *
-	 * @example return array(new NetteRouteMock('<presenter>/<action>[/<id>]', 'Homepage:default'));
+	 * 
+ 	 * @example https://github.com/nette/sandbox/blob/master/app/router/RouterFactory.php - createRouter()
+	 * @return \Nette\Application\IRouter
 	 */
 	public function getRoutesDefinition()
 	{
-		return array(
-			new Nette\Application\Routers\Route('<module>/<presenter>/<action>[/<id>]', array(
-				'module' => 'App',
-				'Presenter' => 'Homepage',
-				'action' => 'default',
-				'id' => null
-			))
+		return new Nette\Application\Routers\Route('<module>/<presenter>/<action>[/<id>]', array(
+			'module' => 'App',
+			'Presenter' => 'Homepage',
+			'action' => 'default',
+			'id' => null
 		);
 	}
 }
