@@ -22,6 +22,8 @@ use Nette\Utils\Validators;
 
 class ModulesExtension extends Nette\DI\CompilerExtension
 {
+	const TAG_ROUTER = 'flame.modules.router';
+
 
 	public function loadConfiguration()
 	{
@@ -50,6 +52,8 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 				$this->setupErrorPresenter($extension);
 			}
 		}
+
+		$this->addRouters();
 	}
 
 	public function afterCompile(Nette\PhpGenerator\ClassType $class)
@@ -195,6 +199,24 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		return $builder->hasDefinition('nette.latteFactory')
 			? $builder->getDefinition('nette.latteFactory')
 			: $builder->getDefinition('nette.latte');
+	}
+
+	/**
+	 * Loads all services tagged as router
+	 * and adds them to router service
+	 */
+	private function addRouters()
+	{
+		$builder = $this->getContainerBuilder();
+
+		$router = $builder->getDefinition('router');
+		foreach (array_keys($builder->findByTag(self::TAG_ROUTER)) as $serviceName) {
+			$builder->getDefinition($serviceName)
+				->setAutowired(FALSE);
+
+			$factory = new Nette\DI\Statement(['@' . $serviceName, 'createRouter']);
+			$router->addSetup('offsetSet', [NULL, $factory]);
+		}
 	}
 
 }
