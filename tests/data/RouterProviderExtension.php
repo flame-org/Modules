@@ -1,5 +1,6 @@
 <?php
 
+use Flame\Modules\DI\ModulesExtension;
 use Nette\Application\Routers\RouteList;
 
 
@@ -8,6 +9,15 @@ use Nette\Application\Routers\RouteList;
  */
 class RouterProviderExtension extends \Nette\DI\CompilerExtension implements \Flame\Modules\Providers\IRouterProvider
 {
+
+	public function loadConfiguration()
+	{
+		$builder = $this->getContainerBuilder();
+		$builder->addDefinition('service.routerFactory')
+			->setClass('Modules\RouterFactory')
+			->addTag(ModulesExtension::TAG_ROUTER);
+	}
+
 
 	/**
 	 * @return \Nette\Application\IRouter

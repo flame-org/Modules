@@ -14,10 +14,13 @@ require_once __DIR__ . '/../../bootstrap.php';
  */
 class RouterProviderTest extends TestCase
 {
+
 	public function testRouterProvider()
 	{
+		/** @var RouteList[] $router */
 		$router = $this->getContext()->getService('router');
-		/** @var RouteList $routeList */
+
+		// 1. extension provider
 		$routeList = $router[0];
 		$routeList = $routeList->getIterator();
 
@@ -32,7 +35,15 @@ class RouterProviderTest extends TestCase
 		Assert::type('Nette\Application\Routers\Route', $route);
 		Assert::same('test2', $route->getMask());
 		Assert::same('FlameModule:FlamePresenter', $route->getTargetPresenter());
+
+		// 2. tagged service
+		$routeList = $router[1];
+
+		$baseRoute = $routeList[0];
+		Assert::type('Nette\Application\Routers\Route', $baseRoute);
+		Assert::same('<presenter>/<action>[/<id>]', $baseRoute->getMask());
 	}
+
 }
 
 \run(new RouterProviderTest(getContainer()));

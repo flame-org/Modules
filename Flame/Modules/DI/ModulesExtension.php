@@ -209,8 +209,10 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 
+
 		$router = $builder->getDefinition('router');
 		foreach (array_keys($builder->findByTag(self::TAG_ROUTER)) as $serviceName) {
+
 			$builder->getDefinition($serviceName)
 				->setAutowired(FALSE);
 

@@ -1,5 +1,4 @@
 extensions:
-	- Flame\Modules\DI\ModulesExtension
 	- ErrorPresenterExtension
 	- PresenterMappingExtension
 	- RouterProviderExtension
@@ -7,3 +6,4 @@ extensions:
 	- TemplateHelpersProviderExtension
 	- TracyBarProviderExtension
 	- TracyBlueScreenProviderExtension
+	- Flame\Modules\DI\ModulesExtension
