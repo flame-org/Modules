@@ -23,18 +23,7 @@ class AppExtension extends CompilerExtension implements IRouterProvider, IParame
 	 */
 	public function getRoutesDefinition()
 	{
-		$routeList = new RouteList
-
-		$app = new RouteList('App');
-
-		$app[] = new Route('app/<presenter>/<action>[/<id>]', array(
-			'module' => 'App',
-			'Presenter' => 'Home',
-			'action' => 'default',
-			'id' => null
-		));
-
-		$routeList[] = $app;
+		$routeList = new RouteList;
 
 		$routeList[] = new Route('<module>/<presenter>/<action>[/<id>]', array(
 			'module' => 'App',
@@ -44,7 +33,7 @@ class AppExtension extends CompilerExtension implements IRouterProvider, IParame
 		));
 
 		$routeList[] = new Route('/', 'App:Home:default', Route::ONE_WAY);
-		
+
 		return $routeList;
 	}
 
