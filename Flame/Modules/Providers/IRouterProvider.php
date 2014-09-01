@@ -14,8 +14,8 @@ interface IRouterProvider
 	 * Returns array of ServiceDefinition,
 	 * that will be appended to setup of router service
 	 *
-	 * @example https://github.com/nette/sandbox/blob/master/app/router/RouterFactory.php - createRouter()
-	 * @return \Nette\Application\IRouter
+	 * @example return array(new Route('<presenter>/<action>[/<id>]', 'Homepage:default'));
+	 * @return array
 	 */
 	public function getRoutesDefinition();
 }
