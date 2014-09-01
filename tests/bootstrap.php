@@ -32,7 +32,8 @@ function getContainer($debugMode = FALSE) {
 	$configurator->setDebugMode($debugMode);
 	$configurator->addConfig(__DIR__ . '/config/config.neon');
 	$configurator->createRobotLoader()
-		->addDirectory(__DIR__)
+		->addDirectory(__DIR__ . '/data')
+		->addDirectory(__DIR__ . '/Modules')
 		->register();
 
 	return $configurator->createContainer();

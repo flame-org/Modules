@@ -212,10 +212,6 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 
 		$router = $builder->getDefinition('router');
 		foreach (array_keys($builder->findByTag(self::TAG_ROUTER)) as $serviceName) {
-
-			$builder->getDefinition($serviceName)
-				->setAutowired(FALSE);
-
 			$factory = new Nette\DI\Statement(array('@' . $serviceName, 'createRouter'));
 			$router->addSetup('offsetSet', array(NULL, $factory));
 		}
