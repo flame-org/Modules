@@ -1,7 +1,3 @@
-php:
-	date.timezone: Europe/Prague
-	# zlib.output_compression: yes
-
 extensions:
 	- Flame\Modules\DI\ModulesExtension
 	- ErrorPresenterExtension

@@ -6,29 +6,26 @@ namespace Flame\Tests\Modules\Providers;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
-$configurator = new \Nette\Configurator();
-$dir = __DIR__ . '/../../temp/' . \Nette\Utils\Random::generate(5);
-mkdir($dir);
-$configurator->setTempDirectory($dir)
-	->addConfig(__DIR__ . '/../../data/config.neon');
-$configurator->setDebugMode(true);
-$configurator->createContainer();
+
+getContainer(TRUE);
+
 
 use Tester\Assert;
+use Tester\TestCase;
 use Tracy\Debugger;
 
-class TracyPanelsProviderTest extends \Tester\TestCase
+
+class TracyBlueScreenProviderTest extends TestCase
 {
 
 	public function testPanelAvailability()
 	{
 		$reflectionProperty = new \ReflectionProperty(Debugger::getBlueScreen(), 'panels');
-		$reflectionProperty->setAccessible(true);
+		$reflectionProperty->setAccessible(TRUE);
 		$panels = $reflectionProperty->getValue(Debugger::getBlueScreen());
-		$reflectionProperty->setAccessible(false);
 		Assert::contains('BlueScreenPanel::test', $panels);
 	}
 
 }
 
-\run(new TracyPanelsProviderTest);
+\run(new TracyBlueScreenProviderTest);

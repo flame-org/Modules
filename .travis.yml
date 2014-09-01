@@ -10,4 +10,4 @@ before_script:
   - composer self-update
   - composer install --no-interaction --dev
 
-script: "./libs/bin/tester tests/ && ./libs/bin/tester demo/tests/"
+script: "./vendor/bin/tester tests/ && ./vendor/bin/tester demo/tests/"

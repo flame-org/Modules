@@ -67,8 +67,8 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 				if ($extension instanceof ITracyBarPanelsProvider) {
 					foreach ($extension->getTracyBarPanels() as $item) {
 						$initialize->addBody($builder->formatPhp(
-							'Nette\Diagnostics\Debugger::getBar()->addPanel(?);',
-							Nette\DI\Compiler::filterArguments([is_string($item) ? new Nette\DI\Statement($item) : $item])
+							'Tracy\Debugger::getBar()->addPanel(?);',
+							Nette\DI\Compiler::filterArguments(array(is_string($item) ? new Nette\DI\Statement($item) : $item))
 						));
 					}
 				}
@@ -76,8 +76,8 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 				if ($extension instanceof ITracyPanelsProvider) {
 					foreach ($extension->getTracyPanels() as $item) {
 						$initialize->addBody($builder->formatPhp(
-							'Nette\Diagnostics\Debugger::getBlueScreen()->addPanel(?);',
-							Nette\DI\Compiler::filterArguments([$item])
+							'Tracy\Debugger::getBlueScreen()->addPanel(?);',
+							Nette\DI\Compiler::filterArguments(array($item))
 						));
 					}
 				}
@@ -110,7 +110,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 				Validators::assert($macro, 'callable', 'macro');
 			}
 
-			$latteFactory->addSetup($macro . '(?->getCompiler());', ['@self']);
+			$latteFactory->addSetup($macro . '(?->getCompiler());', array('@self'));
 		}
 	}
 
@@ -127,13 +127,13 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 					$provider = $builder->addDefinition($this->prefix('helperProvider.' . $name))
 						->setClass($helper);
 
-					$latteFactory->addSetup('Flame\Modules\Template\Helper::register($service, ?)', [$provider]);
+					$latteFactory->addSetup('Flame\Modules\Template\Helper::register($service, ?)', array($provider));
 
 				} else {
 					Validators::assert($name, 'string', 'name');
 					Validators::assert($helper, 'string|array', 'helper');
 
-					$latteFactory->addSetup('addFilter', [$name, $helper]);
+					$latteFactory->addSetup('addFilter', array($name, $helper));
 				}
 			}
 		}
@@ -146,7 +146,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 
 		if (count($mapping)) {
 			$this->getContainerBuilder()->getDefinition('nette.presenterFactory')
-				->addSetup('setMapping', [$mapping]);
+				->addSetup('setMapping', array($mapping));
 		}
 	}
 
@@ -157,7 +157,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 
 		/** @var Nette\DI\CompilerExtension $extension */
 		$name = $this->addRouteService($extension->getReflection()->name);
-		$router->addSetup('offsetSet', [NULL, $name]);
+		$router->addSetup('offsetSet', array(NULL, $name));
 	}
 
 	/**
@@ -186,7 +186,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 
 		$builder = $this->getContainerBuilder();
 		$builder->getDefinition('application')
-			->addSetup('$errorPresenter', [$presenterName]);
+			->addSetup('$errorPresenter', array($presenterName));
 	}
 
 
@@ -214,8 +214,8 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 			$builder->getDefinition($serviceName)
 				->setAutowired(FALSE);
 
-			$factory = new Nette\DI\Statement(['@' . $serviceName, 'createRouter']);
-			$router->addSetup('offsetSet', [NULL, $factory]);
+			$factory = new Nette\DI\Statement(array('@' . $serviceName, 'createRouter'));
+			$router->addSetup('offsetSet', array(NULL, $factory));
 		}
 	}
 
