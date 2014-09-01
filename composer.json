@@ -24,10 +24,6 @@
 		"flame/tiny-rest": "*"
 	},
 
-	"config": {
-		"vendor-dir": "libs"
-	},
-
 	"autoload": {
 		"psr-0": {
 			"Flame": ""
