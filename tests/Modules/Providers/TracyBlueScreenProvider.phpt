@@ -4,15 +4,13 @@
  */
 namespace Flame\Tests\Modules\Providers;
 
-require_once __DIR__ . '/../../bootstrap.php';
-
-
-getContainer(TRUE);
-
-
 use Tester\Assert;
 use Tester\TestCase;
 use Tracy\Debugger;
+
+require_once __DIR__ . '/../../bootstrap.php';
+
+getContainer(TRUE);
 
 
 class TracyBlueScreenProviderTest extends TestCase
