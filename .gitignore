@@ -1,8 +1,6 @@
 vendor
 composer.lock
 coverage.dat
-temp
 *.expected
 *.actual
 .idea
-libs
