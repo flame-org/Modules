@@ -1,18 +1,6 @@
 <?php
 
-require __DIR__ . '/../libs/autoload.php';
-require __DIR__ . '/data/ErrorPresenterExtension.php';
-require __DIR__ . '/data/PresenterMappingExtension.php';
-require __DIR__ . '/data/RouterProviderExtension.php';
-require __DIR__ . '/data/LatteMacrosProviderExtension.php';
-require __DIR__ . '/data/TemplateHelpersProviderExtension.php';
-require __DIR__ . '/data/TracyBlueScreenProviderExtension.php';
-require __DIR__ . '/data/TracyBarProviderExtension.php';
-require __DIR__ . '/data/TestMacro.php';
-require __DIR__ . '/data/BarPanel.php';
-require __DIR__ . '/data/BlueScreenPanel.php';
-require __DIR__ . '/data/TestHelper.php';
-require __DIR__ . '/data/TestHelper2.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 
 if (!class_exists('Tester\Assert')) {
@@ -20,27 +8,33 @@ if (!class_exists('Tester\Assert')) {
 	exit(1);
 }
 
-\Tester\Environment::setup();
+Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
+
+// create temporary directory
+define('TEMP_DIR', __DIR__ . '/tmp/' . Nette\Utils\Random::generate(5));
+Tester\Helpers::purge(TEMP_DIR);
+Tracy\Debugger::$logDirectory = TEMP_DIR;
 
 if (extension_loaded('xdebug')) {
 	Tester\CodeCoverage\Collector::start(__DIR__ . '/coverage.dat');
 }
 
-/**
- * @param \Tester\TestCase $testCase
- */
-function run(\Tester\TestCase $testCase) {
+
+function run(Tester\TestCase $testCase) {
 	$testCase->run(isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : NULL);
 }
 
-function getContainer() {
 
-	$configurator = new \Nette\Configurator();
-	$dir = __DIR__ . '/temp/' . \Nette\Utils\Random::generate(5);
-	mkdir($dir, 0777, true);
-	$configurator->setTempDirectory($dir)
-		->addConfig(__DIR__ . '/data/config.neon');
-	$container = $configurator->createContainer();
-	return $container;
+function getContainer($debugMode = FALSE) {
+	$configurator = new Nette\Configurator;
+	$configurator->setTempDirectory(TEMP_DIR);
+	$configurator->setDebugMode($debugMode);
+	$configurator->addConfig(__DIR__ . '/config/config.neon');
+	$configurator->createRobotLoader()
+		->addDirectory(__DIR__ . '/data')
+		->addDirectory(__DIR__ . '/Modules')
+		->register();
+
+	return $configurator->createContainer();
 }

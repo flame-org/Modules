@@ -38,16 +38,16 @@ class RouterFactory
 			);
 		}
 
-		if(count($routes)) {
+		if (count($routes)) {
 			$definedRoutes = array_merge($routes, iterator_to_array($router));
 			$router = new RouteList;
 
 			foreach ($definedRoutes as $route) {
-				if($route instanceof Nette\Application\IRouter && !$route instanceof IRouteMock) {
+				if ($route instanceof Nette\Application\IRouter && !$route instanceof IRouteMock) {
 					$router[] = $route;
-				}elseif($route instanceof IRouteMock) {
+				} elseif ($route instanceof IRouteMock) {
 					$router[] = $route->getRouter();
-				}else{
+				} else {
 					throw new InvalidStateException('Route definition must be array or instance of Flame\Modules\Application\Routers\IRouteMock, ' . gettype($route) . ' given');
 				}
 			}

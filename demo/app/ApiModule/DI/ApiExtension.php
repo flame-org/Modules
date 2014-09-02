@@ -4,11 +4,10 @@
  */
 namespace App\ApiModule\DI;
 
-use Flame\Modules\Application\Routers\NetteRouteMock;
-use Flame\Modules\Application\Routers\RouteMock;
 use Flame\Modules\Providers\IPresenterMappingProvider;
 use Flame\Modules\Providers\IRouterProvider;
 use Flame\Rest\Application\Routers\RestRoute;
+use Nette\Application\Routers\Route;
 use Nette\DI\CompilerExtension;
 
 class ApiExtension extends CompilerExtension implements IRouterProvider, IPresenterMappingProvider
@@ -18,16 +17,12 @@ class ApiExtension extends CompilerExtension implements IRouterProvider, IPresen
 	 * Returns array of ServiceDefinition,
 	 * that will be appended to setup of router service
 	 *
-	 * @example return array(new NetteRouteMock('<presenter>/<action>[/<id>]', 'Homepage:default'));
-	 * @return array
+	 * @example https://github.com/nette/sandbox/blob/master/app/router/RouterFactory.php - createRouter()
+	 * @return \Nette\Application\IRouter
 	 */
 	public function getRoutesDefinition()
 	{
-		return array(
-			new RouteMock('Flame\Rest\Application\Routers\RestRoute', array('Api'))
-//			array('Flame\Rest\Application\Routers\RestRoute' => array('Api'))
-//			new RestRoute('Api')
-		);
+		return new Route('Flame\Rest\Application\Routers\RestRoute', array('Api'));
 	}
 
 	/**

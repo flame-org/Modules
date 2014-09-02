@@ -1,9 +1,4 @@
-php:
-	date.timezone: Europe/Prague
-	# zlib.output_compression: yes
-
 extensions:
-	- Flame\Modules\DI\ModulesExtension
 	- ErrorPresenterExtension
 	- PresenterMappingExtension
 	- RouterProviderExtension
@@ -11,3 +6,4 @@ extensions:
 	- TemplateHelpersProviderExtension
 	- TracyBarProviderExtension
 	- TracyBlueScreenProviderExtension
+	- Flame\Modules\DI\ModulesExtension

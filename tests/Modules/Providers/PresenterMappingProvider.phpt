@@ -27,7 +27,6 @@ class PresenterMappingProviderTest extends TestCase
 			'Presenters\*Presenter'
 		);
 		Assert::equal($expected, $mappings['FlameModule']);
-
 	}
 }
 
