@@ -110,7 +110,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 				Validators::assert($macro, 'callable', 'macro');
 			}
 
-			$latteFactory->addSetup($macro . '(?->getCompiler());', array('@self'));
+			$latteFactory->addSetup('?->onCompile[] = function($engine) { ' . $macro . '($engine->getCompiler()); }', array('@self'));
 		}
 	}
 
