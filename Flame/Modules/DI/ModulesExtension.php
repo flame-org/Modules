@@ -166,17 +166,18 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 	 */
 	private function addRouteService($class)
 	{
+		$serviceName = md5($class);
 		$builder = $this->getContainerBuilder();
 
-		$builder->addDefinition($this->prefix('routeService.' . md5($class)))
+		$builder->addDefinition($this->prefix('routeService.' . $serviceName))
 			->setClass($class)
 			->setInject(TRUE);
 
-		$builder->addDefinition('routerServiceFactory.' . md5($class))
-			->setFactory($this->prefix('@routeService.' . md5($class)) . '::getRoutesDefinition')
+		$builder->addDefinition('routerServiceFactory.' . $serviceName)
+			->setFactory($this->prefix('@routeService.' . $serviceName) . '::getRoutesDefinition')
 			->setAutowired(FALSE);
 
-		return '@routerServiceFactory.' . md5($class);
+		return '@routerServiceFactory.' . $serviceName;
 	}
 
 	private function setupErrorPresenter(IErrorPresenterProvider $extension)
