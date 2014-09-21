@@ -29,6 +29,30 @@ class LatteMacrosProviderTest extends TestCase
 
 		Assert::same('<div id="id_test"></div>', trim((string) $template));
 	}
+
+	/**
+	 * Test cases the macro is registered via onCompile event
+	 */
+	public function testRegisteredOnCompileEvent()
+	{
+		$latte = $this->getLatte();
+		Assert::false(empty($latte->onCompile));
+	}
+
+	/**
+	 * @return \Latte\Engine
+	 */
+	private function getLatte()
+	{
+		if($this->getContext()->hasService('nette.latteFactory')) {
+			$latteFactory = $this->getContext()->getService('nette.latteFactory');
+			$latte = $latteFactory->create();
+		}else {
+			$latte = $this->getContext()->getService('nette.latte');
+		}
+
+		return $latte;
+	}
 }
 
 \run(new LatteMacrosProviderTest(getContainer()));
