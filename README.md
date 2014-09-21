@@ -18,14 +18,16 @@ extensions:
 Register extensions very simply
 ```yml
 extensions:
-	- Flame\Modules\DI\ModulesExtension # Do not forget to it!
 	- App\AppModule\DI\AppExtension
 	rest: Flame\Rest\DI\RestExtension
 	events: Kdyby\Events\DI\EventsExtension
 	# ...
+	- Flame\Modules\DI\ModulesExtension # Do not forget to it!
 ```
 
 That's all, nothing more! Simple!
+
+**TIP!** *Make sure the ModulesExtension is registered as the last nette extensions. You will avoid a lot of misunderstanding.*
 
 ##Examples
 ###[IRouterProvider](https://github.com/flame-org/Modules/blob/master/Flame/Modules/Providers/IRouterProvider.php)
@@ -49,6 +51,21 @@ class AppExtension extends CompilerExtension implements Flame\Modules\Providers\
 			'id' => null
 		);
 	}
+}
+```
+
+###NEW!
+**You can you separated service as your router factory**
+```php
+class AppExtension extends CompilerExtension
+{
+	public function loadConfiguration()
+    	{
+    		$builder = $this->getContainerBuilder();
+    		$builder->addDefinition('service.routerFactory')
+    			->setClass('Modules\RouterFactory')
+    			->addTag(Flame\Modules\ModulesExtension::TAG_ROUTER); // DONT FORGET TO ADD THE TAG!
+    	}
 }
 ```
 
