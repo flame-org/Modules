@@ -22,7 +22,7 @@ extensions:
 	rest: Flame\Rest\DI\RestExtension
 	events: Kdyby\Events\DI\EventsExtension
 	# ...
-	- Flame\Modules\DI\ModulesExtension # Do not forget to it!
+	- Flame\Modules\DI\ModulesExtension # Do not forget to add it!
 ```
 
 That's all, nothing more! Simple!
@@ -55,7 +55,7 @@ class AppExtension extends CompilerExtension implements Flame\Modules\Providers\
 ```
 
 ###NEW!
-**You can you separated service as your router factory**
+**You can add your separated service as your router factory**
 ```php
 class AppExtension extends CompilerExtension
 {
@@ -63,7 +63,7 @@ class AppExtension extends CompilerExtension
     	{
     		$builder = $this->getContainerBuilder();
     		$builder->addDefinition('service.routerFactory')
-    			->setClass('Modules\RouterFactory')
+    			->setClass('Modules\RouterFactory') // YOUR ROUTER FACTORY CLASS
     			->addTag(Flame\Modules\ModulesExtension::TAG_ROUTER); // DONT FORGET TO ADD THE TAG!
     	}
 }
