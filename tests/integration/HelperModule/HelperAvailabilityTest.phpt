@@ -9,7 +9,7 @@ use App\HelperModule\presenters\HelperPresenter;
 use Tester\Assert;
 use Tester\TestCase;
 
-$container = require __DIR__ . '/../bootstrap.php';
+require __DIR__ . '/../bootstrap.php';
 
 class HelperAvailabilityTest extends TestCase
 {
@@ -45,5 +45,5 @@ class HelperAvailabilityTest extends TestCase
 
 }
 
-$test = new HelperAvailabilityTest($container);
+$test = new HelperAvailabilityTest(getContainer());
 $test->run();

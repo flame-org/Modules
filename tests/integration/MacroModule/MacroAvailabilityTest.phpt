@@ -10,7 +10,7 @@ use Tester\Assert;
 use Tester\TestCase;
 use Nette;
 
-$container = require __DIR__ . '/../bootstrap.php';
+require __DIR__ . '/../bootstrap.php';
 
 class MacroAvailabilityTest extends TestCase
 {
@@ -46,5 +46,5 @@ class MacroAvailabilityTest extends TestCase
 
 }
 
-$test = new MacroAvailabilityTest($container);
+$test = new MacroAvailabilityTest(getContainer());
 $test->run();
