@@ -2,12 +2,13 @@
 
 namespace Modules;
 
+use Flame\Modules\Application\IRouterFactory;
 use Nette;
 use Nette\Application\Routers\Route;
 use Nette\Application\Routers\RouteList;
 
 
-class RouterFactory
+class RouterFactory implements IRouterFactory
 {
 
 	/**
