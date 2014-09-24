@@ -4,3 +4,4 @@ coverage.dat
 *.expected
 *.actual
 .idea
+nbproject
