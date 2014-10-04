@@ -4,6 +4,8 @@
  */
 namespace App\AppModule\DI;
 
+use Flame\Modules\Configurators\IParametersConfig;
+use Flame\Modules\Configurators\IPresenterMappingConfig;
 use Flame\Modules\Providers\IParametersProvider;
 use Flame\Modules\Providers\IPresenterMappingProvider;
 use Flame\Modules\Providers\IRouterProvider;
@@ -38,31 +40,31 @@ class AppExtension extends CompilerExtension implements IRouterProvider, IParame
 	}
 
 	/**
-	 * Return array of parameters,
-	 * which you want to add into DIC
+	 * Add parameters (possible rewrite) in your app DIC
 	 *
-	 * @example return array('images' => 'path/to/folder/with/images');
-	 * @return array
+	 * @example https://gist.github.com/jsifalda/59cd5a0c6f8a05e49ffa
+	 * @param \Flame\Modules\Configurators\IParametersConfig &$parametersConfig
+	 *
+	 * @return void
 	 */
-	public function getParameters()
+	public function setupParameters(IParametersConfig &$parametersConfig)
 	{
-		return array(
-			//'images' => '%wwwDir%/path/to/folder/with/images',
-			'consoleMode' => true,
-			'appDir' => 'aa'
-		);
+		$parametersConfig
+			->setParameter('consoleMode', true)
+//			->setParameter('images', '%wwwDir%/path/to/folder/with/images')
+			->setParameter('appDir', 'aa');
 	}
 
 	/**
-	 * Returns array of ClassNameMask => PresenterNameMask
+	 * Setup presenter mapping : ClassNameMask => PresenterNameMask
 	 *
-	 * @example return array('*' => 'Booking\*Module\Presenters\*Presenter');
-	 * @return array
+	 * @example https://gist.github.com/jsifalda/50bedd439ab23df57058
+	 * @param IPresenterMappingConfig &$presenterMappingConfig
+	 *
+	 * @return void
 	 */
-	public function getPresenterMapping()
+	public function setupPresenterMapping(IPresenterMappingConfig &$presenterMappingConfig)
 	{
-		return array(
-			'*' => 'App\*Module\Presenters\*Presenter'
-		);
+		$presenterMappingConfig->setMapping('*', 'App\*Module\Presenters\*Presenter');
 	}
 }

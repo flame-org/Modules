@@ -4,6 +4,7 @@
  */
 namespace App\HelperModule\DI;
 
+use Flame\Modules\Configurators\ITemplateHelpersConfig;
 use Flame\Modules\Providers\ITemplateHelpersProvider;
 use Nette\DI\CompilerExtension;
 
@@ -11,14 +12,16 @@ class HelperExtension extends CompilerExtension implements ITemplateHelpersProvi
 {
 
 	/**
-	 * Return list of helpers definitions or providers
+	 * Setup helpers definitions or providers which will add as filters into your app
 	 *
-	 * @return array
+	 * @example https://gist.github.com/jsifalda/7f570f94974b62163117
+	 * @param ITemplateHelpersConfig &$templateHelpersConfig
+	 *
+	 * @return void
 	 */
-	public function getHelpersConfiguration()
+	public function setupHelpers(ITemplateHelpersConfig &$templateHelpersConfig)
 	{
-		return array(
-			'App\HelperModule\Template\HelperProvider'
-		);
+		$templateHelpersConfig->addHelperClass('App\HelperModule\Template\HelperProvider');
 	}
+
 }
