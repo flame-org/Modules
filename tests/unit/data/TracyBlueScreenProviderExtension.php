@@ -9,14 +9,14 @@ class TracyBlueScreenProviderExtension extends \Nette\DI\CompilerExtension imple
 	/**
 	 * Returns array of panel renderer callbacks
 	 *
-	 * @see http://doc.nette.org/en/2.1/configuring#toc-debugger
+	 * @example https://gist.github.com/jsifalda/092e8f83175514feff21
+	 * @param \Flame\Modules\Configurators\ITracyPanelsConfig &$tracyPanelsConfig
 	 * @return array
 	 */
-	function getTracyPanels()
+	function setupTracyPanels(\Flame\Modules\Configurators\ITracyPanelsConfig &$tracyPanelsConfig)
 	{
-
-		return array(
-			'BlueScreenPanel::test'
-		);
+		$tracyPanelsConfig->addTracyPanel('BlueScreenPanel::test');
 	}
+
+
 }

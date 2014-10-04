@@ -7,14 +7,18 @@
  */
 namespace Flame\Modules\Providers;
 
+use Flame\Modules\Configurators\ILatteMacrosConfig;
+
 interface ILatteMacrosProvider
 {
 
 	/**
-	 * Get array with names of latte macros classes
+	 * Setup names of latte macros classes
 	 *
 	 * @example https://gist.github.com/jsifalda/8e781e6fc3a04038f44a
-	 * @return array
+	 *
+	 * @param ILatteMacrosConfig &$macrosConfig
+	 * @return void
 	 */
-	public function getLatteMacros();
+	public function setupMacros(ILatteMacrosConfig &$macrosConfig);
 } 

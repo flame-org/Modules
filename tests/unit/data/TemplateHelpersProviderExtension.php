@@ -15,14 +15,18 @@ class TemplateHelpersProviderExtension extends \Nette\DI\CompilerExtension imple
 	/**
 	 * Return list of helpers definitions or providers
 	 *
-	 * @return array
+	 * @example https://gist.github.com/jsifalda/7f570f94974b62163117
+	 * @param \Flame\Modules\Configurators\ITemplateHelpersConfig &$templateHelpersConfig
+	 * @return void
 	 */
-	public function getHelpersConfiguration()
+	public function setupHelpers(\Flame\Modules\Configurators\ITemplateHelpersConfig &$templateHelpersConfig)
 	{
-		return array(
-			'flamehelper' => array(new TestHelper(), 'process'),
-			'flamehelper2' => array($this->prefix('@testHelper'), 'process'),
-			'TestHelper2'
-		);
+		$templateHelpersConfig
+			->addHelper('flamehelper', array(new TestHelper(), 'process'))
+			->addHelper('flamehelper2', array($this->prefix('@testHelper'), 'process'))
+			->addHelperClass('TestHelper2');
+
 	}
+
+
 }

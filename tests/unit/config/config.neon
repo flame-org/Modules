@@ -6,4 +6,5 @@ extensions:
 	- TemplateHelpersProviderExtension
 	- TracyBarProviderExtension
 	- TracyBlueScreenProviderExtension
+	- ParametersExtension
 	- Flame\Modules\DI\ModulesExtension

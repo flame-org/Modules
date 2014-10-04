@@ -7,14 +7,17 @@
  */
 namespace Flame\Modules\Providers;
 
+use Flame\Modules\Configurators\ITracyBarPanelsConfig;
+
 interface ITracyBarPanelsProvider
 {
 	/**
-	 * Returns array of classes or services that will be configured to bar panels
+	 * Setup classes or services which will be configured to bar panels
 	 *
-	 * @see http://doc.nette.org/en/2.1/configuring#toc-debugger
 	 * @example https://gist.github.com/jsifalda/8e83323136620e1a0886
-	 * @return array
+	 * @param ITracyBarPanelsConfig &$tracyBarPanelsConfig
+	 *
+	 * @return void
 	 */
-	function getTracyBarPanels();
+	function setupTracyBarPanels(ITracyBarPanelsConfig &$tracyBarPanelsConfig);
 }

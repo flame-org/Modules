@@ -7,6 +7,13 @@
  */
 namespace Flame\Modules\DI;
 
+use Flame\Modules\Configurators\ErrorPresenterConfig;
+use Flame\Modules\Configurators\LatteMacrosConfig;
+use Flame\Modules\Configurators\ParametersConfig;
+use Flame\Modules\Configurators\PresenterMappingConfig;
+use Flame\Modules\Configurators\TemplateHelpersConfig;
+use Flame\Modules\Configurators\TracyBarPanelsConfig;
+use Flame\Modules\Configurators\TracyPanelsConfig;
 use Flame\Modules\Providers\IErrorPresenterProvider;
 use Flame\Modules\Providers\ILatteMacrosProvider;
 use Flame\Modules\Providers\IParametersProvider;
@@ -66,38 +73,77 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		}
 	}
 
+	/**
+	 * @param Nette\PhpGenerator\ClassType $class
+	 */
 	public function afterCompile(Nette\PhpGenerator\ClassType $class)
 	{
 		$builder = $this->getContainerBuilder();
 
 		if ($builder->parameters['debugMode']) {
-			$initialize = $class->methods['initialize'];
 
 			foreach ($this->compiler->getExtensions() as $extension) {
 				if ($extension instanceof ITracyBarPanelsProvider) {
-					foreach ($extension->getTracyBarPanels() as $item) {
-						$initialize->addBody($builder->formatPhp(
-							'Tracy\Debugger::getBar()->addPanel(?);',
-							Nette\DI\Compiler::filterArguments(array(is_string($item) ? new Nette\DI\Statement($item) : $item))
-						));
-					}
+					$this->setupTracyBarPanels($extension, $class);
 				}
 
 				if ($extension instanceof ITracyPanelsProvider) {
-					foreach ($extension->getTracyPanels() as $item) {
-						$initialize->addBody($builder->formatPhp(
-							'Tracy\Debugger::getBlueScreen()->addPanel(?);',
-							Nette\DI\Compiler::filterArguments(array($item))
-						));
-					}
+					$this->setupTracyPanels($extension, $class);
 				}
 			}
 		}
 	}
 
+	/**
+	 * @param ITracyBarPanelsProvider $extension
+	 * @param Nette\PhpGenerator\ClassType $class
+	 * @throws Nette\Utils\AssertionException
+	 */
+	private function setupTracyBarPanels(ITracyBarPanelsProvider $extension, Nette\PhpGenerator\ClassType $class)
+	{
+		$config = new TracyBarPanelsConfig();
+		$extension->setupTracyBarPanels($config);
+		$panels = $config->getConfiguration();
+		Validators::assert($panels, 'array');
+
+		$builder = $this->getContainerBuilder();
+		$initialize = $class->methods['initialize'];
+
+		foreach ($panels as $item) {
+			$initialize->addBody($builder->formatPhp(
+				'Tracy\Debugger::getBar()->addPanel(?);',
+				Nette\DI\Compiler::filterArguments(array(is_string($item) ? new Nette\DI\Statement($item) : $item))
+			));
+		}
+
+	}
+
+	private function setupTracyPanels(ITracyPanelsProvider $extension, Nette\PhpGenerator\ClassType $class)
+	{
+		$config = new TracyPanelsConfig();
+		$extension->setupTracyPanels($config);
+		$panels = $config->getConfiguration();
+
+		$builder = $this->getContainerBuilder();
+		$initialize = $class->methods['initialize'];
+
+		foreach ($panels as $item) {
+			$initialize->addBody($builder->formatPhp(
+				'Tracy\Debugger::getBlueScreen()->addPanel(?);',
+				Nette\DI\Compiler::filterArguments(array($item))
+			));
+		}
+	}
+
+	/**
+	 * @param IParametersProvider $extension
+	 * @throws Nette\Utils\AssertionException
+	 */
 	private function setupParameters(IParametersProvider $extension)
 	{
-		$parameters = $extension->getParameters();
+		$config = new ParametersConfig();
+		$extension->setupParameters($config);
+		$parameters = $config->getConfiguration();
 		Validators::assert($parameters, 'array', 'parameters');
 
 		$builder = $this->getContainerBuilder();
@@ -106,9 +152,16 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		}
 	}
 
+	/**
+	 * @param ILatteMacrosProvider $extension
+	 * @throws Nette\Utils\AssertionException
+	 */
 	private function setupMacros(ILatteMacrosProvider $extension)
 	{
-		$macros = $extension->getLatteMacros();
+		$config = new LatteMacrosConfig();
+		$extension->setupMacros($config);
+		$macros = $config->getConfiguration();
+
 		Validators::assert($macros, 'array', 'macros');
 
 		$latteFactory = $this->getLatteFactory();
@@ -124,9 +177,16 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		}
 	}
 
+	/**
+	 * @param ITemplateHelpersProvider $extension
+	 * @throws Nette\Utils\AssertionException
+	 */
 	private function setupHelpers(ITemplateHelpersProvider $extension)
 	{
-		$helpers = $extension->getHelpersConfiguration();
+
+		$config = new TemplateHelpersConfig();
+		$extension->setupHelpers($config);
+		$helpers = $config->getConfiguration();
 		Validators::assert($helpers, 'array', 'helpers');
 
 		$builder = $this->getContainerBuilder();
@@ -149,9 +209,15 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		}
 	}
 
+	/**
+	 * @param IPresenterMappingProvider $extension
+	 * @throws Nette\Utils\AssertionException
+	 */
 	private function setupPresenterMapping(IPresenterMappingProvider $extension)
 	{
-		$mapping = $extension->getPresenterMapping();
+		$config = new PresenterMappingConfig();
+		$extension->setupPresenterMapping($config);
+		$mapping = $config->getConfiguration();
 		Validators::assert($mapping, 'array', 'mapping');
 
 		if (count($mapping)) {
@@ -160,6 +226,9 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		}
 	}
 
+	/**
+	 * @param IRouterProvider $extension
+	 */
 	private function setupRouter(IRouterProvider $extension)
 	{
 		$builder = $this->getContainerBuilder();
@@ -190,9 +259,15 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		return '@routerServiceFactory.' . $serviceName;
 	}
 
+	/**
+	 * @param IErrorPresenterProvider $extension
+	 * @throws Nette\Utils\AssertionException
+	 */
 	private function setupErrorPresenter(IErrorPresenterProvider $extension)
 	{
-		$presenterName = $extension->getErrorPresenterName();
+		$config = new ErrorPresenterConfig();
+		$extension->setupErrorPresenter($config);
+		$presenterName = $config->getConfiguration();
 		Validators::assert($presenterName, 'string', 'presenterName');
 
 		$builder = $this->getContainerBuilder();

@@ -8,15 +8,18 @@
 
 namespace Flame\Modules\Providers;
 
+use Flame\Modules\Configurators\IPresenterMappingConfig;
 
 interface IPresenterMappingProvider
 {
 
 	/**
-	 * Returns array of ClassNameMask => PresenterNameMask
+	 * Setup presenter mapping : ClassNameMask => PresenterNameMask
 	 *
-	 * @example return array('*' => 'Booking\*Module\Presenters\*Presenter');
-	 * @return array
+	 * @example https://gist.github.com/jsifalda/50bedd439ab23df57058
+	 * @param IPresenterMappingConfig &$presenterMappingConfig
+	 *
+	 * @return void
 	 */
-	public function getPresenterMapping();
+	public function setupPresenterMapping(IPresenterMappingConfig &$presenterMappingConfig);
 }

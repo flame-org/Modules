@@ -8,15 +8,18 @@
 
 namespace Flame\Modules\Providers;
 
+use Flame\Modules\Configurators\ITracyPanelsConfig;
+
 interface ITracyPanelsProvider
 {
 
 	/**
-	 * Returns array of panel renderer callbacks
+	 * Setup Tracy (bluescreen) panels
 	 *
-	 * @see http://doc.nette.org/en/2.1/configuring#toc-debugger
 	 * @example https://gist.github.com/jsifalda/092e8f83175514feff21
-	 * @return array
+	 * @param ITracyPanelsConfig &$tracyPanelsConfig
+	 *
+	 * @return void
 	 */
-	function getTracyPanels();
+	function setupTracyPanels(ITracyPanelsConfig &$tracyPanelsConfig);
 }

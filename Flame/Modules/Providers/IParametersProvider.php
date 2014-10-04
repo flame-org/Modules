@@ -4,15 +4,18 @@
  */
 namespace Flame\Modules\Providers;
 
+use Flame\Modules\Configurators\IParametersConfig;
+
 interface IParametersProvider
 {
 
 	/**
-	 * Return array of parameters,
-	 * which you want to add into DIC
+	 * Add parameters (possible rewrite) in your app DIC
 	 *
-	 * @example return array('images' => '%wwwDir%/path/to/folder/with/images');
-	 * @return array
+	 * @example https://gist.github.com/jsifalda/59cd5a0c6f8a05e49ffa
+	 * @param \Flame\Modules\Configurators\IParametersConfig &$parametersConfig
+	 *
+	 * @return void
 	 */
-	public function getParameters();
+	public function setupParameters(IParametersConfig &$parametersConfig);
 } 

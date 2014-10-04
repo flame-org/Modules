@@ -9,10 +9,15 @@ class ErrorPresenterExtension extends \Nette\DI\CompilerExtension implements \Fl
 	/**
 	 * Return name of error presenter
 	 *
-	 * @return string
+	 * @example https://gist.github.com/jsifalda/cd32009e6c5c956b5a10
+	 *
+	 * @param \Flame\Modules\Configurators\IErrorPresenterConfig &$errorPresenterConfig
+	 * @return void
 	 */
-	public function getErrorPresenterName()
+	public function setupErrorPresenter(\Flame\Modules\Configurators\IErrorPresenterConfig &$errorPresenterConfig)
 	{
-		return 'Flame:Module:Error';
+		$errorPresenterConfig->setErrorPresenter('Flame:Module:Error');
 	}
+
+
 }

@@ -9,14 +9,18 @@
 namespace Flame\Modules\Providers;
 
 
+use Flame\Modules\Configurators\ITemplateHelpersConfig;
+
 interface ITemplateHelpersProvider
 {
 
 	/**
-	 * Return list of helpers definitions or providers
+	 * Setup helpers definitions or providers which will add as filters into your app
 	 *
 	 * @example https://gist.github.com/jsifalda/7f570f94974b62163117
-	 * @return array
+	 * @param ITemplateHelpersConfig &$templateHelpersConfig
+	 *
+	 * @return void
 	 */
-	public function getHelpersConfiguration();
+	public function setupHelpers(ITemplateHelpersConfig &$templateHelpersConfig);
 }

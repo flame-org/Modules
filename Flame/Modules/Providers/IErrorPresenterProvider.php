@@ -7,15 +7,19 @@
  */
 namespace Flame\Modules\Providers;
 
+use Flame\Modules\Configurators\IErrorPresenterConfig;
+
 interface IErrorPresenterProvider
 {
 
 	/**
-	 * Return name of error presenter
+	 * Setup error presenter name
 	 *
 	 * @example https://gist.github.com/jsifalda/cd32009e6c5c956b5a10
-	 * @return string
+	 *
+	 * @param IErrorPresenterConfig &$errorPresenterConfig
+	 * @return void
 	 */
-	public function getErrorPresenterName();
+	public function setupErrorPresenter(IErrorPresenterConfig &$errorPresenterConfig);
 
 }
