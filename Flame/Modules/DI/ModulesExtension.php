@@ -296,14 +296,9 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		$router = $builder->getDefinition('router');
 
 		// Init collections
-		$routerFactories = [];
+		$routerFactories = array();
 
-		foreach (array_keys($builder->findByTag(self::TAG_ROUTER)) as $serviceName) {
-			$service = $builder->getDefinition($serviceName);
-
-			// Try to get priority from service tag
-			$priority = $service->getTag(self::TAG_ROUTER);
-
+		foreach ($builder->findByTag(self::TAG_ROUTER) as $serviceName => $priority) {
 			// Priority is not defined...
 			if (is_bool($priority)) {
 				// ...use default value
