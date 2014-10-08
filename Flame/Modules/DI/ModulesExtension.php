@@ -63,14 +63,8 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 
 	public function beforeCompile()
 	{
-		$builder = $this->getContainerBuilder();
-
-		// load all services tagged as router and add them to router service
-		$router = $builder->getDefinition('router');
-		foreach (array_keys($builder->findByTag(self::TAG_ROUTER)) as $serviceName) {
-			$factory = new Nette\DI\Statement(array('@' . $serviceName, 'createRouter'));
-			$router->addSetup('offsetSet', array(NULL, $factory));
-		}
+		// Loads all services tagged as router
+		$this->addRouters();
 	}
 
 	/**
@@ -287,4 +281,50 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 			: $builder->getDefinition('nette.latte');
 	}
 
+	/**
+	 * Loads all services tagged as router
+	 * and adds them to router service
+	 *
+	 * @author: Adam Kadlec <adam.kadlec@gmail.com>
+	 * @date: 08.10.14
+	 */
+	private function addRouters()
+	{
+		$builder = $this->getContainerBuilder();
+
+		// Get application router
+		$router = $builder->getDefinition('router');
+
+		// Init collections
+		$routerFactories = array();
+
+		foreach ($builder->findByTag(self::TAG_ROUTER) as $serviceName => $priority) {
+			// Priority is not defined...
+			if (is_bool($priority)) {
+				// ...use default value
+				$priority = 100;
+			}
+
+			$routerFactories[$priority][$serviceName] = $serviceName;
+		}
+
+		// Sort routes by priority
+		if (!empty($routerFactories)) {
+			krsort($routerFactories, SORT_NUMERIC);
+
+			foreach ($routerFactories as $priority => $items) {
+				ksort($items, SORT_STRING);
+				$routerFactories[$priority] = $items;
+			}
+
+			// Process all routes services by priority...
+			foreach ($routerFactories as $priority => $items) {
+				// ...and by service name...
+				foreach($items as $serviceName) {
+					$factory = new Nette\DI\Statement(array('@' . $serviceName, 'createRouter'));
+					$router->addSetup('offsetSet', array(NULL, $factory));
+				}
+			}
+		}
+	}
 }
