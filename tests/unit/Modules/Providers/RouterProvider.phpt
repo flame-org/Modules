@@ -24,12 +24,6 @@ class RouterProviderTest extends TestCase
 		$routeList = $router[0];
 		$routeList = $routeList->getIterator();
 
-		/** @var NetteRouteMock $route */
-		$route = $routeList[0];
-		Assert::type('Flame\Modules\Application\Routers\NetteRouteMock', $route);
-		Assert::same('test', $route->getRouter()->getMask());
-		Assert::same('FlameTestPresenter', $route->getRouter()->getTargetPresenter());
-
 		/** @var Route $route */
 		$route = $routeList[1];
 		Assert::type('Nette\Application\Routers\Route', $route);
