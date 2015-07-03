@@ -188,7 +188,7 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 		if (count($helpers)) {
 			foreach ($helpers as $name => $helper) {
 				if (is_string($helper) && !is_string($name)) {
-					$provider = $builder->addDefinition($this->prefix('helperProvider.' . $name))
+					$provider = $builder->addDefinition($this->prefix('helperProvider.' . $config->getUniqueId() . '.' . $name))
 						->setClass($helper);
 
 					$latteFactory->addSetup('Flame\Modules\Template\Helper::register($service, ?)', array($provider));
