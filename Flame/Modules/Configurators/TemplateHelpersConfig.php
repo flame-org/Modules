@@ -10,6 +10,22 @@ class TemplateHelpersConfig extends Config implements ITemplateHelpersConfig
 	/** @var array  */
 	private $helpers = array();
 
+	/** @var string|null */
+	private $uniqueId;
+
+	public function __construct()
+	{
+		$this->uniqueId = \Nette\Utils\Random::generate();
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getUniqueId()
+	{
+		return $this->uniqueId;
+	}
+
 	/**
 	 * @return mixed
 	 */
