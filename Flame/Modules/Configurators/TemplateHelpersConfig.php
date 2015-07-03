@@ -36,6 +36,7 @@ class TemplateHelpersConfig extends Config implements ITemplateHelpersConfig
 	public function addHelperClass($name)
 	{
 		$this->helpers[] = (string) $name;
+		return $this;
 	}
 
 
