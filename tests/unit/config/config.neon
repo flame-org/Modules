@@ -4,6 +4,7 @@ extensions:
 	- RouterProviderExtension
 	- LatteMacrosProviderExtension
 	- TemplateHelpersProviderExtension
+	- TemplateHelpersProviderExtension
 	- TracyBarProviderExtension
 	- TracyBlueScreenProviderExtension
 	- ParametersExtension
