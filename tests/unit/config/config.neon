@@ -4,7 +4,7 @@ extensions:
 	- RouterProviderExtension
 	- LatteMacrosProviderExtension
 	- TemplateHelpersProviderExtension
-	- TemplateHelpersProviderExtension
+	- TemplateHelpersProviderExtension # make sure it is working with duplicated services
 	- TracyBarProviderExtension
 	- TracyBlueScreenProviderExtension
 	- ParametersExtension
