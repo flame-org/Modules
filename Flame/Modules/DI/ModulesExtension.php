@@ -313,7 +313,6 @@ class ModulesExtension extends Nette\DI\CompilerExtension
 			krsort($routerFactories, SORT_NUMERIC);
 
 			foreach ($routerFactories as $priority => $items) {
-				ksort($items, SORT_STRING);
 				$routerFactories[$priority] = $items;
 			}
 
